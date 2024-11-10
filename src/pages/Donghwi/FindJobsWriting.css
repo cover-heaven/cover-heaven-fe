@@ -1,0 +1,8 @@
+.FindJobsWriting {
+    display: flex;
+    flex-direction: column;
+    padding-top: 175px;
+    background-color: #F5F5F5;
+    height: 100vh;
+    gap: 30px;
+}
