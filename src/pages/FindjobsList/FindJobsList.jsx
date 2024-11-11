@@ -1,10 +1,10 @@
-import FindJobsItem from "../../components/FindJobsItem";
-import "./FindJobs.css";
-import Filter from "../../components/Filter";
+import FindJobsItem from "../../components/FindjobsList/FindJobsItem";
+import "./FindJobsList.css";
+import Filter from "../../components/common/Filter";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const FindJobs = ({ totalData }) => {
+const FindJobsList = ({ totalData }) => {
   const [searchData, setSearchData] = useState("");
 
   const onChange = (e) => {
@@ -42,12 +42,7 @@ const FindJobs = ({ totalData }) => {
           </div>
           <div>
             {filteredData().map((data) => {
-              return (
-                <FindJobsItem
-                  data={data}
-                  key={data.id}
-                />
-              );
+              return <FindJobsItem data={data} key={data.id} />;
             })}
           </div>
         </div>
@@ -56,4 +51,4 @@ const FindJobs = ({ totalData }) => {
   );
 };
 
-export default FindJobs;
+export default FindJobsList;

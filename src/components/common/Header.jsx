@@ -10,14 +10,14 @@ const Header = () => {
       <div className="NavBar">
         <button
           onClick={() => {
-            nav("/findjobs");
+            nav("/findjobslist");
           }}
         >
           <p>단기알바 찾기</p>
         </button>
         <button
           onClick={() => {
-            nav("/findworkers");
+            nav("/workerslist");
           }}
         >
           <p>구직자 찾기</p>

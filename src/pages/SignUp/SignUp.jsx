@@ -1,10 +1,10 @@
-import { useState } from "react";
-import "./SignUp.css";
+import { useState } from 'react';
+import './SignUp.css';
 
 const SignUp = () => {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
   const [check, setCheck] = useState(false);
 
   const onChangeIdHandler = (e) => {
