@@ -1,4 +1,3 @@
-import './App.css';
 import AppRouter from './Router';
 import styled from 'styled-components';
 
