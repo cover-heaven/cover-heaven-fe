@@ -18,7 +18,7 @@ const mockData = [
   {
     name: '광흥창 투썸 알바 급구',
     address: '서울시 마포구 광흥창역',
-    period: '2024.11.1~2024.11.12',
+    period: '11/2',
     wage: '12,000원',
   },
   {

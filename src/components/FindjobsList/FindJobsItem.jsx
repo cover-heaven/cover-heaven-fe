@@ -1,13 +1,22 @@
-import { useNavigate } from "react-router-dom";
-import "./FindJobsItem.css";
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Layout = styled.div`
+  cursor: pointer;
+  border-radius: 30px;
+  border: 1px solid #e8e8e8;
+  background: #fff;
+  width: 1074px;
+  flex-shrink: 0;
+  align-self: stretch;
+`;
 
 const FindJobsItem = ({ data }) => {
   const nav = useNavigate();
   return (
-    <div
-      className="FindJobsItem"
+    <Layout
       onClick={() => {
-        nav("/findjobsdetail", {
+        nav('/findjobsdetail', {
           state: {
             name: data.name,
             address: data.address,
@@ -18,10 +27,11 @@ const FindJobsItem = ({ data }) => {
       }}
     >
       <h3>{data.name}</h3>
-      <div>주소 | {data.address}</div>
-      <div>기간 | {data.period}</div>
-      <div>시급 | {data.wage}</div>
-    </div>
+      <div>
+        <span>{data.address}</span>
+        <span>{data.wage}</span>
+      </div>
+    </Layout>
   );
 };
 
