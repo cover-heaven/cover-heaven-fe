@@ -1,11 +1,20 @@
-import "./FindJobsDetail.css";
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Layout = styled.div`
+  padding-top: 175px;
+  background-color: #f5f5f5;
+`;
+
+const DetailPage = styled.div`
+  background-color: white;
+  width: 1072px;
+`;
 
 const FindJobsDetail = () => {
   const location = useLocation();
-
   return (
-    <div className="FindJobsDetail">
+    <Layout>
       <>
         <h3>{location.state.name}</h3>
         <p>
@@ -14,7 +23,7 @@ const FindJobsDetail = () => {
         <button>문의하기</button>
         <p>게시일 : 2024.10.28(월)</p>
       </>
-      <div className="DetailPage">
+      <DetailPage>
         <div>
           <p>가게 이름</p>
           <span>투썸 플레이스 광흥창역 점</span>
@@ -37,11 +46,11 @@ const FindJobsDetail = () => {
           <p>상세 내용</p>
           <span>
             안녕하세요! 면접일정과 겹쳐 급하게 대신 근무해주실 분을 구하게
-            되었습니다.{" "}
+            되었습니다.{' '}
           </span>
         </div>
-      </div>
-    </div>
+      </DetailPage>
+    </Layout>
   );
 };
 

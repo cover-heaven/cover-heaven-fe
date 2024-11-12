@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const FindJobsLayout = styled.div`
+const Layout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 31px;
@@ -12,7 +12,7 @@ const FindJobsLayout = styled.div`
   background-color: #f5f5f5;
 `;
 
-const SearchBox = styled.div`
+const SearchContainer = styled.div`
   display: flex;
   align-items: center;
   padding-left: 755px;
@@ -31,39 +31,31 @@ const SearchBox = styled.div`
   }
 `;
 
-const FilterBox = styled.div`
+const FilterContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 31px;
 `;
 
-const FindJobsListBox = styled.div`
+const JobsListContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 28px;
 `;
 
-const FindJobs = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 31px;
-  padding-top: 238px;
-  background-color: #f5f5f5;
-`;
-
-const FilterXFindJobsList = styled.div`
+const FilterAndJobsContainer = styled.div`
   display: flex;
   padding-left: 206px;
   gap: 59px;
 `;
 
-const SearchFindJobsItemInput = styled.input`
+const SearchInput = styled.input`
   &:focus {
     outline: none;
   }
 `;
 
-const SearchFindJobsItemButton = styled.button`
+const SearchButton = styled.button`
   width: 80px;
   height: 58px;
   background-color: #fff;
@@ -90,20 +82,17 @@ const FindJobsList = ({ totalData }) => {
   };
 
   return (
-    <FindJobsLayout>
-      <SearchBox>
-        <SearchFindJobsItemInput
-          onChange={onChange}
-          placeholder="검색어를 입력해주세요"
-        />
-        <SearchFindJobsItemButton>검색</SearchFindJobsItemButton>
-      </SearchBox>
-      <FilterXFindJobsList>
-        <FilterBox>
-          <div>필터</div>
+    <Layout>
+      <SearchContainer>
+        <SearchInput onChange={onChange} placeholder="검색어를 입력해주세요" />
+        <SearchButton>검색</SearchButton>
+      </SearchContainer>
+      <FilterAndJobsContainer>
+        <FilterContainer>
+          <p>필터</p>
           <Filter />
-        </FilterBox>
-        <FindJobsListBox>
+        </FilterContainer>
+        <JobsListContainer>
           <div>
             <button>전체</button>
             <span>|</span>
@@ -114,9 +103,9 @@ const FindJobsList = ({ totalData }) => {
               <FindJobsItem data={data} key={data.id} />
             ))}
           </div>
-        </FindJobsListBox>
-      </FilterXFindJobsList>
-    </FindJobsLayout>
+        </JobsListContainer>
+      </FilterAndJobsContainer>
+    </Layout>
   );
 };
 
