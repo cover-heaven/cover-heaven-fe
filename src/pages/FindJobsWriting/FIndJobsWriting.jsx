@@ -1,3 +1,6 @@
+import styled from "styled-components";
+import { useState } from "react";
+
 const FindJobsWriting = () => {
   const [wage, setWage] = useState();
   const [dateTimeInputs, setDateTimeInputs] = useState([{ id: 1 }]);
