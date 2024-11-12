@@ -20,8 +20,14 @@ const FindJobsWriting = () => {
       <Input placeholder="주소" />
       {dateTimeInputs.map((input, index) => (
         <RowLayout key={input.id}>
-          <Input placeholder="날짜" />
-          <Input placeholder="시간" />
+          <Input placeholder="월" />
+          <p>월</p>
+          <Input placeholder="일" />
+          <p>일</p>
+          <Input placeholder="시" />
+          <p>시</p>
+          <Input placeholder="분" />
+          <p>분</p>
           {index === dateTimeInputs.length - 1 && (
             <Button onClick={addDateTimeInput}>+</Button>
           )}
