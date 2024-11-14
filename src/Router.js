@@ -16,27 +16,41 @@ import DaySelect from './pages/DaySelect/DaySelect';
 
 const mockData = [
   {
-    name: '광흥창 투썸 알바 급구',
+    title: '광흥창 투썸 알바 급구',
+    storeName: '투썸 플레이스',
     address: '서울시 마포구 광흥창역',
-    period: '11/2',
     wage: '12,000원',
+    message: '여러분, 광흥창 투썸 알바 구합니다',
   },
   {
-    name: '신촌 나무카페 알바 급구',
-    address: '서울시 서대문구 연세로',
-    period: '2024.12.1~2024.12.12',
+    title: '신촌 나무카페 알바 급구',
+    storeName: '나무카페',
+    address: '서울특별시 서대문구 연세로',
     wage: '10,000원',
+    message: '여러분, 신촌 나무카페 알바 구합니다',
   },
   {
-    name: '서강대 조교 알바 급구',
-    address: '서울시 마포구 신수동',
-    period: '2024.09.01~2024.12.20',
+    title: '서강대 조교 알바 급구',
+    storeName: '서강대학교',
+    address: '서울특별시 마포구 신수동',
     wage: '13,000원',
+    message: '여러분, 서강대 조교 구합니다',
   },
 ];
 
 const AppRouter = () => {
   const [totalData, setTotalData] = useState(mockData);
+
+  const onCreate = (title, storeName, address, wage, message) => {
+    const newJobData = {
+      title: title,
+      storeName: storeName,
+      address: address,
+      wage: wage,
+      message: message,
+    };
+    setTotalData([newJobData, ...totalData]);
+  };
 
   return (
     <BrowserRouter>
@@ -49,7 +63,10 @@ const AppRouter = () => {
         />
         <Route path="/findjobsdetail" element={<FindJobsDetail />} />
         <Route path="/workerslist" element={<WorkersList />} />
-        <Route path="/findjobswriting" element={<FindJobsWriting />} />
+        <Route
+          path="/findjobswriting"
+          element={<FindJobsWriting onCreate={onCreate} />}
+        />
         <Route path="/workerswriting" element={<WorkersWriting />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/chatlist" element={<ChatList />} />

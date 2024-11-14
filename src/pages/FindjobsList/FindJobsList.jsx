@@ -1,7 +1,6 @@
 import FindJobsItem from '../../components/FindjobsList/FindJobsItem';
 import Filter from '../../components/common/Filter';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Layout = styled.div`
@@ -69,14 +68,12 @@ const FindJobsList = ({ totalData }) => {
     setSearchData(e.target.value);
   };
 
-  const nav = useNavigate();
-
   const filteredData = () => {
     if (searchData === '') {
       return totalData;
     } else {
       return totalData.filter((data) =>
-        data.name.toLowerCase().includes(searchData.toLowerCase()),
+        data.title.toLowerCase().includes(searchData.toLowerCase()),
       );
     }
   };

@@ -18,16 +18,18 @@ const FindJobsItem = ({ data }) => {
       onClick={() => {
         nav('/findjobsdetail', {
           state: {
-            name: data.name,
+            title: data.title,
+            storeName: data.storeName,
             address: data.address,
-            period: data.period,
             wage: data.wage,
+            message: data.message,
           },
         });
       }}
     >
-      <h3>{data.name}</h3>
+      <h3>{data.title}</h3>
       <div>
+        <span>{data.storeName}</span>
         <span>{data.address}</span>
         <span>{data.wage}</span>
       </div>
