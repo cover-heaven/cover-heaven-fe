@@ -66,26 +66,20 @@ const FindJobsWriting = ({ onCreate }) => {
       {dateTimeInputs.map((input, index) => (
         <RowLayout key={input.id}>
           <Input placeholder="월" />
-          <p>월</p>
           <Input placeholder="일" />
-          <p>일</p>
           <Input onChange={onChangeFirstHour} placeholder="시" />
-          <p>시</p>
           <select name="시간대">
             <option value="AM"> AM </option>
             <option value="PM"> PM </option>
           </select>
           <Input placeholder="분" />
-          <p>분</p>
           <p>~</p>
           <Input onChange={onChangeSecondHour} placeholder="시" />
           <select name="시간대" onChange={onChangeTimePeriod}>
             <option value="AM"> AM </option>
             <option value="PM"> PM </option>
           </select>
-          <p>시</p>
           <Input placeholder="분" />
-          <p>분</p>
           {index === dateTimeInputs.length - 1 && (
             <Button
               onClick={() => {
