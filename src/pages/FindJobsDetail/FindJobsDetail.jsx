@@ -2,8 +2,6 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Layout = styled.div`
-  padding-top: 175px;
-  background-color: #f5f5f5;
 `;
 
 const DetailPage = styled.div`
@@ -26,22 +24,25 @@ const FindJobsDetail = () => {
       <DetailPage>
         <div>
           <p>근무처</p>
-          <span>{location.state.name}</span>
+          <span>{location.state.storeName}</span>
 
           <p>주소</p>
           <span>{location.state.address}</span>
 
           <p>작성자</p>
-          <span>김땡땡</span>
+          <span>{location.state.writer}</span>
 
           <p>분류 태그</p>
-          <span>#카페 #요식업</span>
+          <span>{location.state.tag}</span>
+
+          <p>기간</p>
+          <span>{location.state.period}</span>
 
           <p>날짜 및 시간</p>
-          <span>11월 1일(금) 16:00~20:00</span>
+          <span>{location.state.date.map((day) => location.state.date)}</span>
 
-          <p>일급</p>
-          <span>{location.state.wage}</span>
+          <p>총 급여</p>
+          <span>{location.state.grossPay}</span>
 
           <p>상세 내용</p>
           <span>{location.state.message}</span>

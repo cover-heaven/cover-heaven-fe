@@ -3,12 +3,12 @@ import styled from 'styled-components';
 
 const Layout = styled.div`
   cursor: pointer;
+  width: 1082px;
+  flex-shrink: 0;
+  align-self: stretch;
   border-radius: 30px;
   border: 1px solid #e8e8e8;
   background: #fff;
-  width: 1074px;
-  flex-shrink: 0;
-  align-self: stretch;
 `;
 
 const FindJobsItem = ({ data }) => {
@@ -18,20 +18,29 @@ const FindJobsItem = ({ data }) => {
       onClick={() => {
         nav('/findjobsdetail', {
           state: {
+            image: data.image,
             title: data.title,
             storeName: data.storeName,
+            writer: data.writer,
+            tag: data.tag,
+            period: data.period,
+            date: data.date,
             address: data.address,
-            wage: data.wage,
+            grossPay: data.grossPay,
             message: data.message,
           },
         });
       }}
     >
-      <h3>{data.title}</h3>
       <div>
-        <span>{data.storeName}</span>
+        <img src={data.image}></img>
+        <div>{data.title}</div>
+      </div>
+      <div>
         <span>{data.address}</span>
         <span>{data.wage}</span>
+        <span>{data.grossPay}</span>
+        <span>D-{data.dayCount}</span>
       </div>
     </Layout>
   );
