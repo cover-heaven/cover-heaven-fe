@@ -40,7 +40,7 @@ const FindJobsItem = ({ data }) => {
         <span>{data.address}</span>
         <span>{data.wage}</span>
         <span>{data.grossPay}</span>
-        <span>D-{data.dayCount}</span>
+        <span>{data.dayCount}</span>
       </div>
     </Layout>
   );

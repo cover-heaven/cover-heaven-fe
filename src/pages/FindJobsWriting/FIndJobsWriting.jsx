@@ -153,7 +153,6 @@ const DetailInput = styled.input`
 `;
 
 const Layout = styled.div`
-  padding-top: 175px;
   display: flex;
   flex-direction: column;
   gap: 10px;

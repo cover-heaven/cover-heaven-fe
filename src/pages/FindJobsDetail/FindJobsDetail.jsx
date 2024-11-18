@@ -39,7 +39,7 @@ const FindJobsDetail = () => {
           <span>{location.state.period}</span>
 
           <p>날짜 및 시간</p>
-          <span>{location.state.date.map((day) => location.state.date)}</span>
+          <span>10/2</span>
 
           <p>총 급여</p>
           <span>{location.state.grossPay}</span>
