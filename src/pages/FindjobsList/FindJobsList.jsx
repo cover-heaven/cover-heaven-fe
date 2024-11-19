@@ -199,7 +199,7 @@ const FindJobsList = ({ totalData }) => {
           ? data.title.toLowerCase().includes(searchData.toLowerCase())
           : true,
       )
-      .filter((data) => (selectedJob ? data.tag === selectedJob : true));
+      .filter((data) => (selectedJob ? data.job_tag === selectedJob : true));
   };
 
   return (

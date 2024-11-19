@@ -4,9 +4,6 @@ import styled from 'styled-components';
 const FindJobsWriting = ({ onCreate }) => {
   const [wage, setWage] = useState();
   const [dateTimeInputs, setDateTimeInputs] = useState([{ id: 1 }]);
-  const [firstHour, setFirstHour] = useState(0);
-  const [secondHour, setSecondHour] = useState(0);
-  const [timeSave, setTimeSave] = useState([]);
   const [title, setTitle] = useState();
   const [storeName, setStoreName] = useState();
   const [address, setAddress] = useState();
@@ -16,19 +13,6 @@ const FindJobsWriting = ({ onCreate }) => {
   const [isChecked3, setIsChecked3] = useState(false);
   const [isChecked4, setIsChecked4] = useState(false);
   const [isChecked5, setIsChecked5] = useState(false);
-
-  const onChangeFirstHour = (e) => {
-    setFirstHour(e.target.value);
-  };
-
-  const onChangeSecondHour = (e) => {
-    setSecondHour(e.target.value);
-  };
-
-  const onChangeTimeMinus = () => {
-    const timeMinus = secondHour - firstHour;
-    setTimeSave([...timeSave, timeMinus]);
-  };
 
   const addDateTimeInput = () => {
     setDateTimeInputs([...dateTimeInputs, { id: dateTimeInputs.length + 1 }]);
@@ -117,7 +101,6 @@ const FindJobsWriting = ({ onCreate }) => {
             <button
               onClick={() => {
                 addDateTimeInput();
-                onChangeTimeMinus();
               }}
             >
               +

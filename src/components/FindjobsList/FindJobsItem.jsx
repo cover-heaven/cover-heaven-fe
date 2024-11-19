@@ -18,29 +18,23 @@ const FindJobsItem = ({ data }) => {
       onClick={() => {
         nav('/findjobsdetail', {
           state: {
-            image: data.image,
             title: data.title,
-            storeName: data.storeName,
-            writer: data.writer,
-            tag: data.tag,
-            period: data.period,
-            date: data.date,
+            storeName: data.store_name,
+            tag: data.job_tag,
             address: data.address,
             grossPay: data.grossPay,
-            message: data.message,
+            message: data.context,
           },
         });
       }}
     >
       <div>
-        <img src={data.image}></img>
         <div>{data.title}</div>
       </div>
       <div>
         <span>{data.address}</span>
-        <span>{data.wage}</span>
-        <span>{data.grossPay}</span>
-        <span>{data.dayCount}</span>
+        <span>{data.work_detail.hourly_wage}</span>
+        <span>{data.work_detail.hourly_wage * data.work_detail.work_hour}</span>
       </div>
     </Layout>
   );
