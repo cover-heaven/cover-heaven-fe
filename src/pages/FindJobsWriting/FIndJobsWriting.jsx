@@ -108,17 +108,9 @@ const FindJobsWriting = ({ onCreate }) => {
           <input placeholder="월" />
           <input placeholder="일" />
           <input placeholder="시" />
-          <select name="시간대">
-            <option value="AM"> AM </option>
-            <option value="PM"> PM </option>
-          </select>
           <input placeholder="분" />
           <p>~</p>
           <input placeholder="시" />
-          <select name="시간대">
-            <option value="AM"> AM </option>
-            <option value="PM"> PM </option>
-          </select>
           <input placeholder="분" />
           <input placeholder="시급" onChange={onChangeWage} />
           {index === dateTimeInputs.length - 1 && (

@@ -22,7 +22,7 @@ const mockData = [
     storeName: '투썸 플레이스',
     address: '서울시 마포구 광흥창역',
     writer: '김동휘',
-    tag: '#요식업 #카페',
+    tag: '과외',
     period: '2024.11.1 - 2024.11.5',
     date: {
       firstDay: '11/1 16:00 - 20:00',
@@ -42,7 +42,7 @@ const mockData = [
     storeName: '나무 카페',
     address: '서울특별시 서대문구 연세로',
     writer: '유민우',
-    tag: '#요식업 #카페',
+    tag: '카페',
     period: '2024.12.1 - 2024.12.5',
     date: {
       firstDay: '12/1 16:00 - 20:00',
@@ -93,7 +93,7 @@ const AppRouter = () => {
         <Route path="/dayselect" element={<DaySelect />} />
         <Route path="/myprofile" element={<MyProfile />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login onLogin={(token) => console.log('Logged in:', token)} />} />
       </Routes>
     </BrowserRouter>
   );
