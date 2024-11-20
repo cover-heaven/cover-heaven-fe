@@ -44,14 +44,14 @@ const mockData = [
 const AppRouter = () => {
   const [totalData, setTotalData] = useState(mockData);
 
-  const onCreate = (title, storeName, address, wage, message) => {
+  const onCreate = (title, storeName, address, workTime, wage, message) => {
     const newJobData = {
       title: title,
       store_name: storeName,
       address: address,
       work_detail: {
         work_date: '2024.11.02',
-        work_hour: '4',
+        work_hour: workTime,
         hourly_wage: wage,
       },
       context: message,

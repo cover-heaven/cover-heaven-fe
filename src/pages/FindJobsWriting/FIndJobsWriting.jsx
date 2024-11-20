@@ -13,6 +13,34 @@ const FindJobsWriting = ({ onCreate }) => {
   const [isChecked3, setIsChecked3] = useState(false);
   const [isChecked4, setIsChecked4] = useState(false);
   const [isChecked5, setIsChecked5] = useState(false);
+  const [startHour, setStartHour] = useState();
+  const [startMinute, setStartMinute] = useState();
+  const [endHour, setEndHour] = useState();
+  const [endMinute, setEndMinute] = useState();
+  const [workTime, setWorkTime] = useState();
+
+  const TimeDiffernceCalculator = () => {
+    const startHourNum = parseInt(startHour, 10);
+    const startMinuteNum = parseInt(startMinute, 10);
+    const endHourNum = parseInt(endHour, 10);
+    const endMinuteNum = parseInt(endMinute, 10);
+
+    const startTime = new Date();
+    startTime.setHours(startHourNum, startMinuteNum, 0, 0);
+
+    const endTime = new Date();
+    endTime.setHours(endHourNum, endMinuteNum, 0, 0);
+
+    const timeDifference = endTime - startTime;
+
+    const hours = Math.floor(timeDifference / (1000 * 60 * 60)); // 밀리초를 시간으로 변환
+    const minutes = Math.floor(
+      (timeDifference % (1000 * 60 * 60)) / (1000 * 60),
+    ); // 나머지 -> 분
+
+    const workTime = hours + minutes / 60;
+    setWorkTime(workTime);
+  };
 
   const addDateTimeInput = () => {
     setDateTimeInputs([...dateTimeInputs, { id: dateTimeInputs.length + 1 }]);
@@ -38,9 +66,25 @@ const FindJobsWriting = ({ onCreate }) => {
     setMessage(e.target.value);
   };
 
-  const onSubmit = () => {
-    onCreate(title, storeName, address, wage, message);
+  const onChangeStartHour = () => {
+    setStartHour(e.target.value);
   };
+  const onChangeStartMinute = () => {
+    setStartMinute(e.target.value);
+  };
+  const onChangeEndHour = () => {
+    setEndHour(e.target.value);
+  };
+  const onChangeEndMinute = () => {
+    setEndMinute(e.target.value);
+  };
+
+  const onSubmit = () => {
+    onCreate(title, storeName, address, workTime, wage, message);
+  };
+
+  // writing에서 onSubmit를 누르면 Router에서 props받은 onCreate함수가 실행되어 newJobData가 생성되고,
+  // 이는 totalData에 저장된다. (totalData는 공고 list페이지로 props된다.)
 
   return (
     <Layout>
@@ -91,11 +135,11 @@ const FindJobsWriting = ({ onCreate }) => {
         <RowLayout key={input.id}>
           <input placeholder="월" />
           <input placeholder="일" />
-          <input placeholder="시" />
-          <input placeholder="분" />
+          <input placeholder="시" onChange={onChangeStartHour} />
+          <input placeholder="분" onChange={onChangeStartMinute} />
           <p>~</p>
-          <input placeholder="시" />
-          <input placeholder="분" />
+          <input placeholder="시" onChange={onChangeEndHour} />
+          <input placeholder="분" onChange={onChangeEndMinute} />
           <input placeholder="시급" onChange={onChangeWage} />
           {index === dateTimeInputs.length - 1 && (
             <button

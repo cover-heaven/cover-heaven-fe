@@ -34,7 +34,7 @@ const FindJobsItem = ({ data }) => {
       <div>
         <span>{data.address}</span>
         <span>{data.work_detail.hourly_wage}</span>
-        <span>{data.work_detail.hourly_wage * data.work_detail.work_hour}</span>
+        <span>{data.work_detail.work_hour * data.work_detail.hourly_wage}</span>
       </div>
     </Layout>
   );
