@@ -10,8 +10,8 @@ function App() {
 }
 
 const AppContainer = styled.div`
-  width: 1512px;
-  height: 982px;
+  width: 100vw;
+  height: 100vh;
 `;
 
 export default App;

@@ -38,8 +38,8 @@ const FindJobsWriting = ({ onCreate }) => {
       (timeDifference % (1000 * 60 * 60)) / (1000 * 60),
     ); // 나머지 -> 분
 
-    const workTime = hours + minutes / 60;
-    setWorkTime(workTime);
+    const totalWorkTime = hours + minutes / 60;
+    setWorkTime(totalWorkTime);
   };
 
   const addDateTimeInput = () => {
@@ -66,20 +66,21 @@ const FindJobsWriting = ({ onCreate }) => {
     setMessage(e.target.value);
   };
 
-  const onChangeStartHour = () => {
+  const onChangeStartHour = (e) => {
     setStartHour(e.target.value);
   };
-  const onChangeStartMinute = () => {
+  const onChangeStartMinute = (e) => {
     setStartMinute(e.target.value);
   };
-  const onChangeEndHour = () => {
+  const onChangeEndHour = (e) => {
     setEndHour(e.target.value);
   };
-  const onChangeEndMinute = () => {
+  const onChangeEndMinute = (e) => {
     setEndMinute(e.target.value);
   };
 
   const onSubmit = () => {
+    TimeDiffernceCalculator();
     onCreate(title, storeName, address, workTime, wage, message);
   };
 

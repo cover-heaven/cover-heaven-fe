@@ -8,7 +8,8 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 74px;
-  padding-left: 215px;
+  padding-left: 14.2%;
+  padding-right: 14.2%;
   gap: 84px;
 `;
 
@@ -16,7 +17,6 @@ const JobsListContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 41px;
-  padding-right: 215px;
 `;
 
 const ListArray = styled.div`
@@ -166,7 +166,6 @@ const SearchInput = styled.input`
   border-radius: 15px;
   border: 1px solid #ede6e6;
   background: #fff;
-  margin-right: 215px;
 `;
 
 const FindJobsList = ({ totalData }) => {

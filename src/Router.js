@@ -34,8 +34,8 @@ const mockData = [
     address: '서울시 서대구문구 연세로',
     work_detail: {
       work_date: '2024.11.02',
-      work_hour: '4',
-      hourly_wage: '3',
+      work_hour: '7',
+      hourly_wage: '4',
     },
     context: '여러분, 광흥창 투썸 알바 구합니다',
   },
