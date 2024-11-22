@@ -147,7 +147,7 @@ const AppRouter = () => {
           element={<FindJobsList totalData={totalData} />}
         />
         <Route path="/findjobsdetail" element={<FindJobsDetail />} />
-        <Route path="/workerslist" mockData1={mockData1} element={<WorkersList />} />
+        <Route path="/workerslist" element={<WorkersList mockData1={mockData1}/>} />
         <Route
           path="/findjobswriting"
           element={<FindJobsWriting onCreate={onCreate} />}
