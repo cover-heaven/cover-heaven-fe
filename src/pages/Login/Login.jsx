@@ -6,28 +6,28 @@ const Login = ({ onLogin }) => {
   const [password, setPassword] = useState(''); // password 입력 필드
   const [error, setError] = useState(''); // 에러 메시지 상태
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const body = {
-    user_id: id,
-    password: password,
+    const body = {
+      user_id: id,
+      password: password,
+    };
+
+    try {
+      const response = await axios.post('/users/login', body);
+
+      const { accessToken, refreshToken } = response.data;
+
+      // 로컬 스토리지에 직접 저장
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+
+      console.log('Login successful!');
+    } catch (err) {
+      setError('Invalid ID or password');
+    }
   };
-
-  try {
-    const response = await axios.post('/users/login', body);
-
-    const { accessToken, refreshToken } = response.data;
-
-    // 로컬 스토리지에 직접 저장
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-
-    console.log('Login successful!');
-  } catch (err) {
-    setError('Invalid ID or password');
-  }
-};
 
   return (
     <div>

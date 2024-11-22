@@ -1,8 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Layout = styled.div`
-`;
+const Layout = styled.div``;
 
 const DetailPage = styled.div`
   background-color: white;
@@ -42,10 +41,10 @@ const FindJobsDetail = () => {
           <span>10/2</span>
 
           <p>총 급여</p>
-          <span>{location.state.grossPay}</span>
+          <span>{location.state.totalWage}</span>
 
           <p>상세 내용</p>
-          <span>{location.state.message}</span>
+          <span>{location.state.context}</span>
         </div>
       </DetailPage>
     </Layout>

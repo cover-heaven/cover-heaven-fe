@@ -39,7 +39,7 @@ const SubTitle = styled.div`
 `;
 
 const ToggleJobs = styled.select`
-  width: 150px;
+  width: 40%;
   height: 52px;
   flex-shrink: 0;
   border-radius: 15px;
@@ -49,7 +49,7 @@ const ToggleJobs = styled.select`
 
 const ToggleDate = styled.div`
   position: relative;
-  width: 259px;
+  width: 80%;
   height: 52px;
   flex-shrink: 0;
   border-radius: 15px;
@@ -160,7 +160,7 @@ const TitleContainter = styled.div`
 `;
 
 const SearchInput = styled.input`
-  width: 440px;
+  width: 29%;
   height: 52px;
   flex-shrink: 0;
   border-radius: 15px;

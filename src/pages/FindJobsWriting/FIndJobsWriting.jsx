@@ -2,175 +2,128 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 const FindJobsWriting = ({ onCreate }) => {
-  const [wage, setWage] = useState();
+  const [month, setMonth] = useState('');
+  const [day, setDay] = useState('');
+  const [wage, setWage] = useState('');
   const [dateTimeInputs, setDateTimeInputs] = useState([{ id: 1 }]);
-  const [title, setTitle] = useState();
-  const [storeName, setStoreName] = useState();
-  const [address, setAddress] = useState();
-  const [message, setMessage] = useState();
-  const [isChecked1, setIsChecked1] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
-  const [isChecked3, setIsChecked3] = useState(false);
-  const [isChecked4, setIsChecked4] = useState(false);
-  const [isChecked5, setIsChecked5] = useState(false);
-  const [startHour, setStartHour] = useState();
-  const [startMinute, setStartMinute] = useState();
-  const [endHour, setEndHour] = useState();
-  const [endMinute, setEndMinute] = useState();
-  const [workTime, setWorkTime] = useState();
+  const [title, setTitle] = useState('');
+  const [storeName, setStoreName] = useState('');
+  const [address, setAddress] = useState('');
+  const [message, setMessage] = useState('');
+  const [selectedTag, setSelectedTag] = useState(''); // 단일 선택 상태
+  const [startHour, setStartHour] = useState('');
+  const [startMinute, setStartMinute] = useState('');
+  const [endHour, setEndHour] = useState('');
+  const [endMinute, setEndMinute] = useState('');
+  const [workTime, setWorkTime] = useState(0);
 
-  const TimeDiffernceCalculator = () => {
-    const startHourNum = parseInt(startHour, 10);
-    const startMinuteNum = parseInt(startMinute, 10);
-    const endHourNum = parseInt(endHour, 10);
-    const endMinuteNum = parseInt(endMinute, 10);
+  const tags = ['학원', '과외', '주점', '식당', '카페'];
 
-    const startTime = new Date();
-    startTime.setHours(startHourNum, startMinuteNum, 0, 0);
+  const handleTagChange = (tag) => {
+    setSelectedTag(tag); // 단일 선택
+  };
 
-    const endTime = new Date();
-    endTime.setHours(endHourNum, endMinuteNum, 0, 0);
+  const calculateWorkTime = () => {
+    const start = parseInt(startHour, 10) * 60 + parseInt(startMinute, 10);
+    const end = parseInt(endHour, 10) * 60 + parseInt(endMinute, 10);
+    const totalMinutes = end - start;
 
-    const timeDifference = endTime - startTime;
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
 
-    const hours = Math.floor(timeDifference / (1000 * 60 * 60)); // 밀리초를 시간으로 변환
-    const minutes = Math.floor(
-      (timeDifference % (1000 * 60 * 60)) / (1000 * 60),
-    ); // 나머지 -> 분
+    return hours + minutes / 60;
+  };
 
-    const totalWorkTime = hours + minutes / 60;
-    setWorkTime(totalWorkTime);
+  const onSubmit = () => {
+    const calculatedWorkTime = calculateWorkTime(); // 동기적 계산
+    setWorkTime(calculatedWorkTime);
+
+    onCreate(title, storeName, address, workTime, wage, message, selectedTag);
   };
 
   const addDateTimeInput = () => {
     setDateTimeInputs([...dateTimeInputs, { id: dateTimeInputs.length + 1 }]);
   };
 
-  const onChangeWage = (e) => {
-    setWage(e.target.value);
-  };
-
-  const onChangeTitle = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const onChangeStoreName = (e) => {
-    setStoreName(e.target.value);
-  };
-
-  const onChangeAddress = (e) => {
-    setAddress(e.target.value);
-  };
-
-  const onChangeMessage = (e) => {
-    setMessage(e.target.value);
-  };
-
-  const onChangeStartHour = (e) => {
-    setStartHour(e.target.value);
-  };
-  const onChangeStartMinute = (e) => {
-    setStartMinute(e.target.value);
-  };
-  const onChangeEndHour = (e) => {
-    setEndHour(e.target.value);
-  };
-  const onChangeEndMinute = (e) => {
-    setEndMinute(e.target.value);
-  };
-
-  const onSubmit = () => {
-    TimeDiffernceCalculator();
-    onCreate(title, storeName, address, workTime, wage, message);
-  };
-
-  // writing에서 onSubmit를 누르면 Router에서 props받은 onCreate함수가 실행되어 newJobData가 생성되고,
-  // 이는 totalData에 저장된다. (totalData는 공고 list페이지로 props된다.)
-
   return (
     <Layout>
       <p>공고 제목</p>
-      <Input placeholder="공고 제목을 입력해주세요" onChange={onChangeTitle} />
+      <Input
+        placeholder="공고 제목을 입력해주세요"
+        onChange={(e) => setTitle(e.target.value)}
+      />
+
       <p>가게 이름</p>
       <Input
         placeholder="가게 이름을 입력해주세요"
-        onChange={onChangeStoreName}
+        onChange={(e) => setStoreName(e.target.value)}
       />
+
       <p>직종</p>
-      <label>
-        <input
-          type="checkbox"
-          checked={isChecked1}
-          onChange={(e) => setIsChecked1(e.target.checked)}
-        ></input>
-        학원
-        <input
-          type="checkbox"
-          checked={isChecked2}
-          onChange={(e) => setIsChecked2(e.target.checked)}
-        ></input>
-        과외
-        <input
-          type="checkbox"
-          checked={isChecked3}
-          onChange={(e) => setIsChecked3(e.target.checked)}
-        ></input>
-        주점
-        <input
-          type="checkbox"
-          checked={isChecked4}
-          onChange={(e) => setIsChecked4(e.target.checked)}
-        ></input>
-        식당
-        <input
-          type="checkbox"
-          checked={isChecked5}
-          onChange={(e) => setIsChecked5(e.target.checked)}
-        ></input>
-        카페
-      </label>
+      {tags.map((tag) => (
+        <label key={tag}>
+          <input
+            type="radio"
+            onChange={() => handleTagChange(tag)}
+            checked={selectedTag === tag}
+          />
+          {tag}
+        </label>
+      ))}
+
       <p>주소</p>
-      <Input placeholder="주소" onChange={onChangeAddress} />
-      <p>급여계산기</p>
+      <Input
+        placeholder="주소를 입력해주세요"
+        onChange={(e) => setAddress(e.target.value)}
+      />
+
+      <p>근무 시간 및 급여</p>
       {dateTimeInputs.map((input, index) => (
         <RowLayout key={input.id}>
-          <input placeholder="월" />
-          <input placeholder="일" />
-          <input placeholder="시" onChange={onChangeStartHour} />
-          <input placeholder="분" onChange={onChangeStartMinute} />
+          <input
+            placeholder="월"
+            value={month}
+            onChange={(e) => setMonth(e.target.value)}
+          />
+          <input
+            placeholder="일"
+            value={day}
+            onChange={(e) => setDay(e.target.value)}
+          />
+          <input
+            placeholder="시"
+            onChange={(e) => setStartHour(e.target.value)}
+          />
+          <input
+            placeholder="분"
+            onChange={(e) => setStartMinute(e.target.value)}
+          />
           <p>~</p>
-          <input placeholder="시" onChange={onChangeEndHour} />
-          <input placeholder="분" onChange={onChangeEndMinute} />
-          <input placeholder="시급" onChange={onChangeWage} />
+          <input
+            placeholder="시"
+            onChange={(e) => setEndHour(e.target.value)}
+          />
+          <input
+            placeholder="분"
+            onChange={(e) => setEndMinute(e.target.value)}
+          />
+          <input placeholder="시급" onChange={(e) => setWage(e.target.value)} />
           {index === dateTimeInputs.length - 1 && (
-            <button
-              onClick={() => {
-                addDateTimeInput();
-              }}
-            >
-              +
-            </button>
+            <button onClick={addDateTimeInput}>+</button>
           )}
         </RowLayout>
       ))}
+
       <p>상세 정보</p>
       <DetailInput
-        placeholder="많은 사람들이 보고 지원할 수 있도록, 공고에 대한 상세 정보를 작성해주세요.
-        예) 00 직군 경험자 우대합니다. 인근 거주자 우대합니다."
-        onChange={onChangeMessage}
-      ></DetailInput>
-      <Button onClick={() => onSubmit()}>작성 완료</Button>
+        placeholder="상세 정보를 작성해주세요."
+        onChange={(e) => setMessage(e.target.value)}
+      />
+
+      <Button onClick={onSubmit}>작성 완료</Button>
     </Layout>
   );
 };
-
-const DetailInput = styled.input`
-  width: 691px;
-  height: 202px;
-  border-radius: 15px;
-  border: 1px solid #e8e8e8;
-  background: #fff;
-`;
 
 const Layout = styled.div`
   display: flex;
@@ -188,20 +141,28 @@ const RowLayout = styled.div`
   }
 `;
 
-const Button = styled.button`
-  width: 398px;
-  height: 49px;
-  border-radius: 15px;
-  background: var(--surface-surface-primary, #ff5238);
-  color: white;
-`;
-
 const Input = styled.input`
   width: 691px;
   height: 49px;
   border-radius: 15px;
   border: 1px solid #e8e8e8;
   background: #fff;
+`;
+
+const DetailInput = styled.textarea`
+  width: 691px;
+  height: 202px;
+  border-radius: 15px;
+  border: 1px solid #e8e8e8;
+  background: #fff;
+`;
+
+const Button = styled.button`
+  width: 398px;
+  height: 49px;
+  border-radius: 15px;
+  background: var(--surface-surface-primary, #ff5238);
+  color: white;
 `;
 
 export default FindJobsWriting;

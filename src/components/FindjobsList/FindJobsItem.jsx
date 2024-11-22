@@ -11,6 +11,32 @@ const Layout = styled.div`
   background: #fff;
 `;
 
+const TitleContainer = styled.div`
+  padding-left: 1%;
+  width: 33%;
+`;
+
+const AddressContainer = styled.div`
+  padding-top: 0.8%;
+  width: 25%;
+`;
+const HourlyWageContainer = styled.div`
+  padding-top: 0.8%;
+  width: 15%;
+`;
+const TotalWageContainer = styled.div`
+  padding-top: 0.8%;
+  width: 15%;
+`;
+const DdayContainer = styled.div`
+  padding-top: 0.8%;
+`;
+
+const Img = styled.img`
+  width: 50px;
+  height: 50px;
+`;
+
 const FindJobsItem = ({ data }) => {
   const nav = useNavigate();
   const totalWage = data.work_detail.work_hour * data.work_detail.hourly_wage;
@@ -23,30 +49,31 @@ const FindJobsItem = ({ data }) => {
             storeName: data.store_name,
             tag: data.job_tag,
             address: data.address,
-            grossPay: data.grossPay,
-            message: data.context,
+            totalWage: totalWage,
+            context: data.context,
           },
         });
       }}
     >
-      <TitleBox>
+      <Img src="icon"></Img>
+      <TitleContainer>
         <div>{data.title}</div>
         <div>Date</div>
-      </TitleBox>
-      <InfoBox>
+      </TitleContainer>
+      <AddressContainer>
         <div>{data.address}</div>
+      </AddressContainer>
+      <HourlyWageContainer>
         <div>{data.work_detail.hourly_wage}원</div>
+      </HourlyWageContainer>
+      <TotalWageContainer>
         <div>{totalWage}원</div>
+      </TotalWageContainer>
+      <DdayContainer>
         <div>D-Day</div>
-      </InfoBox>
+      </DdayContainer>
     </Layout>
   );
 };
-
-const TitleBox = styled.div``;
-
-const InfoBox = styled.div`
-  display: flex;
-`;
 
 export default FindJobsItem;
