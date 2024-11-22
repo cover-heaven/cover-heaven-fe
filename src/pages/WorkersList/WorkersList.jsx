@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
+import WorkersItem from '../../components/WorkersList/WorkersItem';
 
-const WorkersList = ({mockData1}) => {
+const WorkersList = ({ mockData1 }) => {
   return (
     <Container>
       <TitleBox>
@@ -29,9 +30,9 @@ const WorkersList = ({mockData1}) => {
         </ToggleBox>
       </ToggleContainer>
       <WorkersContainer>
-        {mockData1.map((lhb)=> )}
-
-
+        {mockData1.map((data) => {
+          return <WorkersItem data={data}></WorkersItem>;
+        })}
       </WorkersContainer>
     </Container>
   );
@@ -54,5 +55,11 @@ const ToggleContainer = styled.div`
 
 const Container = styled.div`
   padding-top: 175px;
+`;
+
+const WorkersContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
 `;
 export default WorkersList;
