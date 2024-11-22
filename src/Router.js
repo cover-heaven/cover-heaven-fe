@@ -14,7 +14,70 @@ import MyProfile from './pages/MyProfile/MyProfile';
 import FindJobsDetail from './pages/FindJobsDetail/FindJobsDetail';
 import DaySelect from './pages/DaySelect/DaySelect';
 
-const mockData = [
+const mockData1 = [
+  {
+    job_search_id: '1',
+    profile: '컴퓨터공학과 24',
+    gender: '여자',
+    uer_name: '김서강',
+    department: '컴퓨터공학과',
+    student_id: '24학번',
+    manner_temperature: '39도',
+    job_tag: ['학원', '과외', '카페'],
+  },
+  {
+    job_search_id: '2',
+    profile: '경영학과 24',
+    gender: '남자',
+    uer_name: '박서강',
+    department: '경영학과',
+    student_id: '24학번',
+    manner_temperature: '40도',
+    job_tag: ['음식점', '주점', '카페'],
+  },
+  {
+    job_search_id: '3',
+    profile: '화공생명공학과 24',
+    gender: '남자',
+    uer_name: '이서강',
+    department: '심리학과',
+    student_id: '24학번',
+    manner_temperature: '41도',
+    job_tag: ['음식점', '주점', '편의점'],
+  },
+  {
+    job_search_id: '4',
+    profile: '경제학과 24',
+    gender: '여자',
+    uer_name: '남궁서강',
+    department: '미국문화학과',
+    student_id: '24학번',
+    manner_temperature: '42도',
+    job_tag: ['음식점', '편의점', '카페'],
+  },
+  {
+    job_search_id: '5',
+    profile: '사진',
+    gender: '남자',
+    uer_name: '유서강',
+    department: '유럽문화학과',
+    student_id: '24학번',
+    manner_temperature: '43도',
+    job_tag: ['음식점', '주점', '카페'],
+  },
+  {
+    job_search_id: '6',
+    profile: '사진',
+    gender: '여자',
+    uer_name: '서서강',
+    department: '',
+    student_id: 'string',
+    manner_temperature: 'double',
+    job_tag: ['string'],
+  },
+];
+
+const mockData2 = [
   {
     title: '광흥창 투썸 알바 급구',
     storeName: '투썸 플레이스',
@@ -39,7 +102,7 @@ const mockData = [
 ];
 
 const AppRouter = () => {
-  const [totalData, setTotalData] = useState(mockData);
+  const [totalData, setTotalData] = useState(mockData2);
 
   const onCreate = (title, storeName, address, wage, message) => {
     const newJobData = {
@@ -62,7 +125,7 @@ const AppRouter = () => {
           element={<FindJobsList totalData={totalData} />}
         />
         <Route path="/findjobsdetail" element={<FindJobsDetail />} />
-        <Route path="/workerslist" element={<WorkersList />} />
+        <Route path="/workerslist" mockData1={mockData1} element={<WorkersList />} />
         <Route
           path="/findjobswriting"
           element={<FindJobsWriting onCreate={onCreate} />}
