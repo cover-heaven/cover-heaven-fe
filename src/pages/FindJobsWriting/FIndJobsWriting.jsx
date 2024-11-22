@@ -1,6 +1,27 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
+const TitleBox = styled.div`
+  display: flex;
+  gap: 15%;
+`;
+const StoreNameBox = styled.div`
+  display: flex;
+  gap: 15%;
+`;
+const JobTypeBox = styled.div`
+  display: flex;
+`;
+const AddressBox = styled.div`
+  display: flex;
+  gap: 15%;
+`;
+const WorkConditionBox = styled.div`
+  display: flex;
+  gap: 15%;
+`;
+const DetailBox = styled.div``;
+
 const FindJobsWriting = ({ onCreate }) => {
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
@@ -47,88 +68,105 @@ const FindJobsWriting = ({ onCreate }) => {
 
   return (
     <Layout>
-      <p>공고 제목</p>
-      <Input
-        placeholder="공고 제목을 입력해주세요"
-        onChange={(e) => setTitle(e.target.value)}
-      />
-
-      <p>가게 이름</p>
-      <Input
-        placeholder="가게 이름을 입력해주세요"
-        onChange={(e) => setStoreName(e.target.value)}
-      />
-
-      <p>직종</p>
-      {tags.map((tag) => (
-        <label key={tag}>
-          <input
-            type="radio"
-            onChange={() => handleTagChange(tag)}
-            checked={selectedTag === tag}
-          />
-          {tag}
-        </label>
-      ))}
-
-      <p>주소</p>
-      <Input
-        placeholder="주소를 입력해주세요"
-        onChange={(e) => setAddress(e.target.value)}
-      />
-
-      <p>근무 시간 및 급여</p>
-      {dateTimeInputs.map((input, index) => (
-        <RowLayout key={input.id}>
-          <input
-            placeholder="월"
-            value={month}
-            onChange={(e) => setMonth(e.target.value)}
-          />
-          <input
-            placeholder="일"
-            value={day}
-            onChange={(e) => setDay(e.target.value)}
-          />
-          <input
-            placeholder="시"
-            onChange={(e) => setStartHour(e.target.value)}
-          />
-          <input
-            placeholder="분"
-            onChange={(e) => setStartMinute(e.target.value)}
-          />
-          <p>~</p>
-          <input
-            placeholder="시"
-            onChange={(e) => setEndHour(e.target.value)}
-          />
-          <input
-            placeholder="분"
-            onChange={(e) => setEndMinute(e.target.value)}
-          />
-          <input placeholder="시급" onChange={(e) => setWage(e.target.value)} />
-          {index === dateTimeInputs.length - 1 && (
-            <button onClick={addDateTimeInput}>+</button>
-          )}
-        </RowLayout>
-      ))}
-
-      <p>상세 정보</p>
-      <DetailInput
-        placeholder="상세 정보를 작성해주세요."
-        onChange={(e) => setMessage(e.target.value)}
-      />
-
-      <Button onClick={onSubmit}>작성 완료</Button>
+      <TitleBox>
+        <p>공고 제목</p>
+        <Input
+          placeholder="공고 제목을 입력해주세요"
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </TitleBox>
+      <StoreNameBox>
+        <p>가게 이름</p>
+        <Input
+          placeholder="가게 이름을 입력해주세요"
+          onChange={(e) => setStoreName(e.target.value)}
+        />
+      </StoreNameBox>
+      <JobTypeBox>
+        <p>직종</p>
+        {tags.map((tag) => (
+          <label key={tag}>
+            <input
+              type="radio"
+              onChange={() => handleTagChange(tag)}
+              checked={selectedTag === tag}
+            />
+            {tag}
+          </label>
+        ))}
+      </JobTypeBox>
+      <AddressBox>
+        <p>주소</p>
+        <Input
+          placeholder="주소를 입력해주세요"
+          onChange={(e) => setAddress(e.target.value)}
+        />
+      </AddressBox>
+      <WorkConditionBox>
+        <p>근무 조건</p>
+        {dateTimeInputs.map((input, index) => (
+          <RowLayout key={input.id}>
+            <input
+              placeholder="월"
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+            />
+            <input
+              placeholder="일"
+              value={day}
+              onChange={(e) => setDay(e.target.value)}
+            />
+            <input
+              placeholder="시"
+              onChange={(e) => setStartHour(e.target.value)}
+            />
+            <input
+              placeholder="분"
+              onChange={(e) => setStartMinute(e.target.value)}
+            />
+            <p>~</p>
+            <input
+              placeholder="시"
+              onChange={(e) => setEndHour(e.target.value)}
+            />
+            <input
+              placeholder="분"
+              onChange={(e) => setEndMinute(e.target.value)}
+            />
+            <input
+              placeholder="시급"
+              onChange={(e) => setWage(e.target.value)}
+            />
+            {index === dateTimeInputs.length - 1 && (
+              <button onClick={addDateTimeInput}>+</button>
+            )}
+          </RowLayout>
+        ))}
+      </WorkConditionBox>
+      <DetailBox>
+        <p>상세 정보</p>
+        <DetailInput
+          placeholder="상세 정보를 작성해주세요."
+          onChange={(e) => setMessage(e.target.value)}
+        />
+      </DetailBox>
+      <ButtonLayout>
+        <Button onClick={onSubmit}>작성 완료</Button>
+      </ButtonLayout>
     </Layout>
   );
 };
+const ButtonLayout = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding-left: 20%;
+  padding-right: 20%;
 `;
 
 const RowLayout = styled.div`
