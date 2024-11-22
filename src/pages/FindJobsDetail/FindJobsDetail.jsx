@@ -67,20 +67,27 @@ const DateBox = styled.div`
 `;
 const Date = styled.div`
   color: var(--surface-surface-primary, #ff5238);
-  font-family: Pretendard;
   font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
   border-radius: 5px;
   border: 1px solid var(--surface-surface-primary, #ff5238);
   padding: 1px 11px;
 `;
-const BackButton = styled.button``;
-const RightBox = styled.div``;
-const ParentContainer = styled.div`
+const BackButton = styled.button`
+  padding-bottom: 15px;
+  padding-left: 0;
+`;
+const RightContainer = styled.div`
+  padding-top: 6%;
+`;
+const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
+`;
+const ParentContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-top: 30px;
+  padding-bottom: 25px;
 `;
 
 const FindJobsDetail = () => {
@@ -89,27 +96,30 @@ const FindJobsDetail = () => {
   return (
     <Layout>
       <ParentContainer>
-        <BackButton onClick={() => nav('/findjobslist')}>
-          {' '}
-          {'<'} 목록으로 돌아가기
-        </BackButton>
-        <TitleBox>
-          <Img src="icon"></Img>
-          <SubTitleBox>
-            <div>{location.state.title}</div>
-            <div>#{location.state.tag}</div>
-          </SubTitleBox>
-        </TitleBox>
-        <DateBox>
-          <Date>11/2</Date>
-          <Date>11/2</Date>
-          <Date>11/2</Date>
-          <Date>11/2</Date>
-        </DateBox>
-        <RightBox>
+        {' '}
+        <LeftContainer>
+          <BackButton onClick={() => nav('/findjobslist')}>
+            {' '}
+            {'<'} 목록으로 돌아가기
+          </BackButton>
+          <TitleBox>
+            <Img src="icon"></Img>
+            <SubTitleBox>
+              <div>{location.state.title}</div>
+              <div>#{location.state.tag}</div>
+            </SubTitleBox>
+          </TitleBox>
+          <DateBox>
+            <Date>11/2</Date>
+            <Date>11/2</Date>
+            <Date>11/2</Date>
+            <Date>11/2</Date>
+          </DateBox>
+        </LeftContainer>
+        <RightContainer>
           <div>첫 근무까지 D-7</div>
           <button>구직글 작성하기</button>
-        </RightBox>
+        </RightContainer>
       </ParentContainer>
       <DetailPage>
         <WorkingPlace>
