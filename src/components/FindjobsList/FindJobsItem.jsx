@@ -40,6 +40,7 @@ const Img = styled.img`
 const FindJobsItem = ({ data }) => {
   const nav = useNavigate();
   const totalWage = data.work_detail.work_hour * data.work_detail.hourly_wage;
+  const hourlyWage = data.work_detail.hourly_wage;
   return (
     <Layout
       onClick={() => {
@@ -64,10 +65,10 @@ const FindJobsItem = ({ data }) => {
         <div>{data.address}</div>
       </AddressContainer>
       <HourlyWageContainer>
-        <div>{data.work_detail.hourly_wage}원</div>
+        <div>{Number(hourlyWage).toLocaleString()}원</div>
       </HourlyWageContainer>
       <TotalWageContainer>
-        <div>{totalWage}원</div>
+        <div>{totalWage.toLocaleString()}원</div>
       </TotalWageContainer>
       <DdayContainer>
         <div>D-Day</div>
@@ -77,3 +78,5 @@ const FindJobsItem = ({ data }) => {
 };
 
 export default FindJobsItem;
+
+// toLocaleSting()은 숫자에만 적용가능. 문자열X. 그래서 Number(문자열).toLocaleString() 이렇게 해야함
