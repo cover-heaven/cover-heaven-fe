@@ -3,28 +3,118 @@ import styled from 'styled-components';
 
 const TitleBox = styled.div`
   display: flex;
-  gap: 15%;
 `;
 const StoreNameBox = styled.div`
   display: flex;
-  gap: 15%;
 `;
 const JobTypeBox = styled.div`
   display: flex;
 `;
 const AddressBox = styled.div`
   display: flex;
-  gap: 15%;
 `;
 const WorkConditionBox = styled.div`
   display: flex;
-  gap: 15%;
 `;
-const DetailBox = styled.div``;
+const DetailBox = styled.div`
+  display: flex;
+`;
+
+const AddressInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+`;
+const P = styled.div`
+  min-width: 108px;
+  padding-right: 15%;
+  margin: 0;
+`;
+const ButtonLayout = styled.div`
+  display: flex;
+  justify-content: right;
+`;
+
+const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-left: 20%;
+  padding-right: 20%;
+`;
+
+const RowLayout = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+`;
+
+const InputBox = styled.input`
+  width: 100%;
+  height: 49px;
+  border-radius: 15px;
+  border: 1px solid #e8e8e8;
+  background: #fff;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  height: 49px;
+  border-radius: 15px;
+  border: 1px solid #e8e8e8;
+  background: #fff;
+`;
+
+const DetailInput = styled.textarea`
+  width: 100%;
+  height: 202px;
+  border-radius: 15px;
+  border: 1px solid #e8e8e8;
+  background: #fff;
+`;
+
+const Button = styled.button`
+  width: 212px;
+  height: 49px;
+  border-radius: 15px;
+  background: var(--surface-surface-primary, #ff5238);
+  color: white;
+`;
+const ColumnLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+`;
+const AddButton = styled.button`
+  width: 100%;
+  height: 49px;
+  padding: 15px 168px;
+  border-radius: 15px;
+  border: 1px solid var(--surface-surface-primary, #ff5238);
+  background: #fff;
+  color: #ff5238;
+`;
+const MainTitle = styled.div`
+  font-size: 40px;
+`;
+const SubTitle = styled.div`
+  font-size: 15px;
+`;
+const TitleContainter = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 5% 0;
+`;
+const AddButtonLayout = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const FindJobsWriting = ({ onCreate }) => {
   const [month, setMonth] = useState('');
-  const [day, setDay] = useState('');
   const [wage, setWage] = useState('');
   const [dateTimeInputs, setDateTimeInputs] = useState([{ id: 1 }]);
   const [title, setTitle] = useState('');
@@ -61,90 +151,105 @@ const FindJobsWriting = ({ onCreate }) => {
 
     onCreate(title, storeName, address, workTime, wage, message, selectedTag);
   };
-
-  const addDateTimeInput = () => {
-    setDateTimeInputs([...dateTimeInputs, { id: dateTimeInputs.length + 1 }]);
+  const onClickAddButton = () => {
+    setDateTimeInputs((prev) => [
+      ...prev,
+      { id: prev.length + 1 }, // 새로운 아이템 추가
+    ]);
   };
 
   return (
     <Layout>
+      <TitleContainter>
+        <MainTitle>대타 공고 작성하기</MainTitle>
+        <SubTitle>
+          단기로 일할 수 있는 아르바이트 공고를 한 눈에 확인해보세요
+        </SubTitle>
+      </TitleContainter>
       <TitleBox>
-        <p>공고 제목</p>
+        <P>공고 제목</P>
         <Input
           placeholder="공고 제목을 입력해주세요"
           onChange={(e) => setTitle(e.target.value)}
         />
       </TitleBox>
       <StoreNameBox>
-        <p>가게 이름</p>
+        <P>근무지명</P>
         <Input
           placeholder="가게 이름을 입력해주세요"
           onChange={(e) => setStoreName(e.target.value)}
         />
       </StoreNameBox>
       <JobTypeBox>
-        <p>직종</p>
-        {tags.map((tag) => (
-          <label key={tag}>
-            <input
-              type="radio"
-              onChange={() => handleTagChange(tag)}
-              checked={selectedTag === tag}
-            />
-            {tag}
-          </label>
-        ))}
+        <P>직종</P>
+        <div>
+          {tags.map((tag) => (
+            <label key={tag}>
+              <input
+                type="radio"
+                onChange={() => handleTagChange(tag)}
+                checked={selectedTag === tag}
+              />
+              {tag}
+            </label>
+          ))}
+        </div>
       </JobTypeBox>
       <AddressBox>
-        <p>주소</p>
-        <Input
-          placeholder="주소를 입력해주세요"
-          onChange={(e) => setAddress(e.target.value)}
-        />
+        <P>주소</P>
+        <AddressInput>
+          <Input
+            placeholder="상호명으로 주소를 검색하세요."
+            onChange={(e) => setAddress(e.target.value)}
+          />
+          <Input placeholder="상세 주소를 작성해주세요." />
+        </AddressInput>
       </AddressBox>
       <WorkConditionBox>
-        <p>근무 조건</p>
-        {dateTimeInputs.map((input, index) => (
-          <RowLayout key={input.id}>
-            <input
-              placeholder="월"
-              value={month}
-              onChange={(e) => setMonth(e.target.value)}
-            />
-            <input
-              placeholder="일"
-              value={day}
-              onChange={(e) => setDay(e.target.value)}
-            />
-            <input
-              placeholder="시"
-              onChange={(e) => setStartHour(e.target.value)}
-            />
-            <input
-              placeholder="분"
-              onChange={(e) => setStartMinute(e.target.value)}
-            />
-            <p>~</p>
-            <input
-              placeholder="시"
-              onChange={(e) => setEndHour(e.target.value)}
-            />
-            <input
-              placeholder="분"
-              onChange={(e) => setEndMinute(e.target.value)}
-            />
-            <input
-              placeholder="시급"
-              onChange={(e) => setWage(e.target.value)}
-            />
-            {index === dateTimeInputs.length - 1 && (
-              <button onClick={addDateTimeInput}>+</button>
-            )}
-          </RowLayout>
-        ))}
+        <P>근무 조건</P>
+        <ColumnLayout>
+            {dateTimeInputs.map((input, index) => (
+              <RowLayout key={input.id}>
+                <InputBox
+                  placeholder="2024년 11월 23일 (토)"
+                  value={month}
+                  onChange={(e) =>
+                    setMonth((prev) => ({
+                      ...prev,
+                      [index]: e.target.value,
+                    }))
+                  }
+                />
+                <InputBox
+                  placeholder="00시 00분 - 00시 00분"
+                  onChange={(e) =>
+                    setStartHour((prev) => ({
+                      ...prev,
+                      [index]: e.target.value,
+                    }))
+                  }
+                />
+                <InputBox
+                  placeholder="시급 00,000원"
+                  onChange={(e) =>
+                    setWage((prev) => ({
+                      ...prev,
+                      [index]: e.target.value,
+                    }))
+                  }
+                />
+              </RowLayout>
+            ))}
+          <AddButtonLayout>
+            <AddButton onClick={onClickAddButton}>
+              + 근무일자 추가하기
+            </AddButton>
+          </AddButtonLayout>
+        </ColumnLayout>
       </WorkConditionBox>
+
       <DetailBox>
-        <p>상세 정보</p>
+        <P>상세 정보</P>
         <DetailInput
           placeholder="상세 정보를 작성해주세요."
           onChange={(e) => setMessage(e.target.value)}
@@ -156,51 +261,5 @@ const FindJobsWriting = ({ onCreate }) => {
     </Layout>
   );
 };
-const ButtonLayout = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const Layout = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-left: 20%;
-  padding-right: 20%;
-`;
-
-const RowLayout = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  & > input {
-    width: 100px;
-  }
-`;
-
-const Input = styled.input`
-  width: 691px;
-  height: 49px;
-  border-radius: 15px;
-  border: 1px solid #e8e8e8;
-  background: #fff;
-`;
-
-const DetailInput = styled.textarea`
-  width: 691px;
-  height: 202px;
-  border-radius: 15px;
-  border: 1px solid #e8e8e8;
-  background: #fff;
-`;
-
-const Button = styled.button`
-  width: 398px;
-  height: 49px;
-  border-radius: 15px;
-  background: var(--surface-surface-primary, #ff5238);
-  color: white;
-`;
 
 export default FindJobsWriting;
