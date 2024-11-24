@@ -51,6 +51,8 @@ const DateContainer = styled.div`
 `;
 const TitleBox = styled.div`
   display: flex;
+  gap: 13px;
+  padding-left: 15%;
 `;
 const Img = styled.img`
   width: 57.113px;
@@ -60,10 +62,13 @@ const Img = styled.img`
 const SubTitleBox = styled.div`
   display: flex;
   flex-direction: column;
+  width: 200px;
+  padding-top: 3%;
 `;
 const DateBox = styled.div`
   display: flex;
   gap: 5px;
+  padding-left: 15%;
 `;
 const Date = styled.div`
   color: var(--surface-surface-primary, #ff5238);
@@ -73,21 +78,36 @@ const Date = styled.div`
   padding: 1px 11px;
 `;
 const BackButton = styled.button`
-  padding-bottom: 15px;
-  padding-left: 0;
+  margin-bottom: 15px;
+  width: 140px;
 `;
 const RightContainer = styled.div`
-  padding-top: 6%;
+  padding-top: 9%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 10px;
 `;
 const ParentContainer = styled.div`
   display: flex;
   justify-content: space-between;
   padding-top: 30px;
   padding-bottom: 25px;
+`;
+const Button = styled.button`
+  width: 201px;
+  height: 43px;
+  flex-shrink: 0;
+  border-radius: 30px;
+  background: var(--surface-surface-primary, #ff5238);
+  color: white;
+`;
+const DdayBox = styled.div`
+  padding-left: 20%;
 `;
 
 const FindJobsDetail = () => {
@@ -117,8 +137,8 @@ const FindJobsDetail = () => {
           </DateBox>
         </LeftContainer>
         <RightContainer>
-          <div>첫 근무까지 D-7</div>
-          <button>구직글 작성하기</button>
+          <DdayBox>첫 근무까지 D-7</DdayBox>
+          <Button>알바 지원하기</Button>
         </RightContainer>
       </ParentContainer>
       <DetailPage>
