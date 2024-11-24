@@ -82,7 +82,7 @@ const BackButton = styled.button`
   width: 140px;
 `;
 const RightContainer = styled.div`
-  padding-top: 9%;
+  padding-top: 6.5%;
   display: flex;
   flex-direction: column;
   gap: 10px;
