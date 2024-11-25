@@ -19,7 +19,6 @@ const WorkConditionBox = styled.div`
 const DetailBox = styled.div`
   display: flex;
 `;
-
 const AddressInput = styled.div`
   display: flex;
   flex-direction: column;
@@ -35,7 +34,6 @@ const ButtonLayout = styled.div`
   display: flex;
   justify-content: right;
 `;
-
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
@@ -43,13 +41,11 @@ const Layout = styled.div`
   padding-left: 20%;
   padding-right: 20%;
 `;
-
 const RowLayout = styled.div`
   display: flex;
   gap: 10px;
   width: 100%;
 `;
-
 const InputBox = styled.input`
   width: 100%;
   height: 49px;
@@ -57,7 +53,6 @@ const InputBox = styled.input`
   border: 1px solid #e8e8e8;
   background: #fff;
 `;
-
 const Input = styled.input`
   width: 100%;
   height: 49px;
@@ -65,7 +60,6 @@ const Input = styled.input`
   border: 1px solid #e8e8e8;
   background: #fff;
 `;
-
 const DetailInput = styled.textarea`
   width: 100%;
   height: 202px;
@@ -73,7 +67,6 @@ const DetailInput = styled.textarea`
   border: 1px solid #e8e8e8;
   background: #fff;
 `;
-
 const Button = styled.button`
   width: 212px;
   height: 49px;
@@ -111,6 +104,13 @@ const TitleContainter = styled.div`
 const AddButtonLayout = styled.div`
   display: flex;
   justify-content: center;
+`;
+const Tag = styled.div`
+  width: 100%;
+  display: flex;
+`;
+const Label = styled.label`
+  flex: 1;
 `;
 
 const FindJobsWriting = ({ onCreate }) => {
@@ -182,18 +182,18 @@ const FindJobsWriting = ({ onCreate }) => {
       </StoreNameBox>
       <JobTypeBox>
         <P>직종</P>
-        <div>
+        <Tag>
           {tags.map((tag) => (
-            <label key={tag}>
+            <Label key={tag}>
               <input
                 type="radio"
                 onChange={() => handleTagChange(tag)}
                 checked={selectedTag === tag}
               />
               {tag}
-            </label>
+            </Label>
           ))}
-        </div>
+        </Tag>
       </JobTypeBox>
       <AddressBox>
         <P>주소</P>
@@ -208,38 +208,38 @@ const FindJobsWriting = ({ onCreate }) => {
       <WorkConditionBox>
         <P>근무 조건</P>
         <ColumnLayout>
-            {dateTimeInputs.map((input, index) => (
-              <RowLayout key={input.id}>
-                <InputBox
-                  placeholder="2024년 11월 23일 (토)"
-                  value={month}
-                  onChange={(e) =>
-                    setMonth((prev) => ({
-                      ...prev,
-                      [index]: e.target.value,
-                    }))
-                  }
-                />
-                <InputBox
-                  placeholder="00시 00분 - 00시 00분"
-                  onChange={(e) =>
-                    setStartHour((prev) => ({
-                      ...prev,
-                      [index]: e.target.value,
-                    }))
-                  }
-                />
-                <InputBox
-                  placeholder="시급 00,000원"
-                  onChange={(e) =>
-                    setWage((prev) => ({
-                      ...prev,
-                      [index]: e.target.value,
-                    }))
-                  }
-                />
-              </RowLayout>
-            ))}
+          {dateTimeInputs.map((input, index) => (
+            <RowLayout key={input.id}>
+              <InputBox
+                placeholder="2024년 11월 23일 (토)"
+                value={month}
+                onChange={(e) =>
+                  setMonth((prev) => ({
+                    ...prev,
+                    [index]: e.target.value,
+                  }))
+                }
+              />
+              <InputBox
+                placeholder="00시 00분 - 00시 00분"
+                onChange={(e) =>
+                  setStartHour((prev) => ({
+                    ...prev,
+                    [index]: e.target.value,
+                  }))
+                }
+              />
+              <InputBox
+                placeholder="시급 00,000원"
+                onChange={(e) =>
+                  setWage((prev) => ({
+                    ...prev,
+                    [index]: e.target.value,
+                  }))
+                }
+              />
+            </RowLayout>
+          ))}
           <AddButtonLayout>
             <AddButton onClick={onClickAddButton}>
               + 근무일자 추가하기
