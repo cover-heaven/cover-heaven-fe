@@ -1,8 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import WorkingTime from '../../components/FindJobsWriting/WorkingTime';
 import axios from 'axios';
 
+// Styled Components
 const TitleBox = styled.div`
   display: flex;
 `;
@@ -127,56 +128,103 @@ const DeleteBox = styled.button`
   background: var(--border-border-secondary, #c3c3c3);
 `;
 
+// Main Component
 const FindJobsWriting = () => {
-  const [wage, setWage] = useState('');
-  const [dateTimeInputs, setDateTimeInputs] = useState([{ id: 1 }]);
+  const [dateTimeInputs, setDateTimeInputs] = useState([
+    { id: 1, time: '', timeString: '', wage: '', content: false },
+  ]);
   const [title, setTitle] = useState('');
   const [storeName, setStoreName] = useState('');
   const [address, setAddress] = useState('');
   const [message, setMessage] = useState('');
-  const [selectedTag, setSelectedTag] = useState(''); // 단일 선택 상태
-  const [content, setContent] = useState(false);
+  const [selectedTag, setSelectedTag] = useState('');
   const [error, setError] = useState();
-  const [time, setTime] = useState();
-  const [timeString, setTimeString] = useState();
-
-  const timeWage = time * wage;
 
   const tags = ['학원', '과외', '주점', '식당', '카페'];
 
-  const onClickWorkingTime = () => {
-    setContent(true);
+  // 근무일자 추가
+  const onClickAddButton = () => {
+    setDateTimeInputs((prev) => [
+      ...prev,
+      {
+        id: prev.length + 1,
+        time: '',
+        timeString: '',
+        wage: '',
+        content: false,
+      },
+    ]);
   };
 
+  // 근무일자 삭제
+  const onDelete = (id) => {
+    setDateTimeInputs((prev) => prev.filter((input) => input.id !== id));
+  };
+
+  // 특정 입력 항목 업데이트
+  const updateInput = (id, field, value) => {
+    setDateTimeInputs((prev) =>
+      prev.map((input) =>
+        input.id === id ? { ...input, [field]: value } : input,
+      ),
+    );
+  };
+
+  // WorkingTime 열기
+  const onClickWorkingTime = (id) => {
+    setDateTimeInputs((prev) =>
+      prev.map((input) =>
+        input.id === id ? { ...input, content: true } : input,
+      ),
+    );
+  };
+
+  // WorkingTime 닫기
+  const closeWorkingTime = (id) => {
+    setDateTimeInputs((prev) =>
+      prev.map((input) =>
+        input.id === id ? { ...input, content: false } : input,
+      ),
+    );
+  };
+
+  // 근무 시간 계산
+  const calculateWorkTime = (startHour, startMinute, endHour, endMinute) => {
+    const startTimeInMinutes = startHour * 60 + startMinute;
+    const endTimeInMinutes = endHour * 60 + endMinute;
+    const totalMinutes =
+      endTimeInMinutes >= startTimeInMinutes
+        ? endTimeInMinutes - startTimeInMinutes
+        : 24 * 60 - startTimeInMinutes + endTimeInMinutes;
+
+    return totalMinutes / 60;
+  };
+
+  // WorkingTime 데이터를 업데이트
+  const onDataMove = (id, startHour, startMinute, endHour, endMinute) => {
+    const timeStr = `${startHour}시 ${startMinute}분 - ${endHour}시 ${endMinute}분`;
+    updateInput(id, 'timeString', timeStr);
+
+    const totalHours = calculateWorkTime(
+      startHour,
+      startMinute,
+      endHour,
+      endMinute,
+    );
+    updateInput(id, 'time', totalHours);
+  };
+
+  // 태그 변경
   const handleTagChange = (tag) => {
     setSelectedTag(tag);
   };
 
-  const onClickAddButton = () => {
-    setDateTimeInputs((prev) => [...prev, { id: prev.length + 1 }]);
-    setTimeString('');
-  };
-
-  const onDelete = (id) => {
-    const updateItem = dateTimeInputs.filter((data) => data.id !== id);
-    setDateTimeInputs(updateItem);
-  };
-
-  const onMove = (workTime) => {
-    setTime(workTime);
-  };
-
-  const onDataMove = (startHour, startMinute, endHour, endMinute) => {
-    setTimeString(
-      `${startHour}시 ${startMinute}분 - ${endHour}시 ${endMinute}분`,
-    );
-  };
-
+  // 서버 전송
   const onSubmit = async () => {
     try {
       await axios.post('/job-offers', {
         title,
-        wage,
+        wage: dateTimeInputs.map((input) => input.wage),
         store_name: storeName,
         address,
         context: message,
@@ -237,32 +285,52 @@ const FindJobsWriting = () => {
       <WorkConditionBox>
         <P>근무 조건</P>
         <ColumnLayout>
-          {dateTimeInputs.map((input, index) => (
-            <ColumnLayout>
-              <RowLayout key={input.id}>
+          {dateTimeInputs.map((input) => (
+            <ColumnLayout key={input.id}>
+              <RowLayout>
                 <Input placeholder="2024년 11월 23일 (토)" />
                 <TimeBox>
                   <Input
-                    onClick={onClickWorkingTime}
+                    onClick={() => onClickWorkingTime(input.id)}
                     placeholder="00시 00분 - 00시 00분"
-                    value={timeString}
+                    value={input.timeString}
                   />
-                  {content && (
+                  {input.content && (
                     <WorkingTime
-                      onDataMove={onDataMove}
-                      setContent={setContent}
-                      onMove={onMove}
-                    ></WorkingTime>
+                      onDataMove={(
+                        startHour,
+                        startMinute,
+                        endHour,
+                        endMinute,
+                      ) =>
+                        onDataMove(
+                          input.id,
+                          startHour,
+                          startMinute,
+                          endHour,
+                          endMinute,
+                        )
+                      }
+                      setContent={() => closeWorkingTime(input.id)}
+                      onMove={(workTime) =>
+                        updateInput(input.id, 'time', workTime)
+                      }
+                    />
                   )}
                 </TimeBox>
                 <InputBox
-                  onChange={(e) => setWage(e.target.value)}
+                  onChange={(e) =>
+                    updateInput(input.id, 'wage', e.target.value)
+                  }
                   placeholder="시급 00,000원"
+                  value={input.wage}
                 />
                 <DeleteBox onClick={() => onDelete(input.id)}>X</DeleteBox>
               </RowLayout>
               <div>
-                <TotalWage>일급 {timeWage.toLocaleString()}원</TotalWage>
+                <TotalWage>
+                  일급 {(input.time * input.wage || 0).toLocaleString()}원
+                </TotalWage>
               </div>
             </ColumnLayout>
           ))}
@@ -284,7 +352,7 @@ const FindJobsWriting = () => {
         <Button onClick={() => onSubmit()}>작성 완료</Button>
       </ButtonLayout>
     </Layout>
-  ); // 버튼 클릭시 onSubmit 함수가 실행되면서 서버로 데이터 전송
+  );
 };
 
 export default FindJobsWriting;
