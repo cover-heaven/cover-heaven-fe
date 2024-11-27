@@ -70,49 +70,18 @@ const mockData = [
 ];
 
 const AppRouter = () => {
-  const [totalData, setTotalData] = useState(mockData);
-  const idRef = useRef(4);
-  const onCreate = (
-    title,
-    storeName,
-    address,
-    calculatedWorkTime,
-    wage,
-    message,
-    selectedTag,
-  ) => {
-    const newJobData = {
-      id: idRef.current,
-      title: title,
-      store_name: storeName,
-      job_tag: selectedTag,
-      address: address,
-      work_detail: {
-        work_date: '2024.11.02',
-        work_hour: calculatedWorkTime,
-        hourly_wage: wage,
-      },
-      context: message,
-    };
-    setTotalData([newJobData, ...totalData]);
-    idRef.current++;
-  };
-
   return (
     <BrowserRouter>
-      <Header/>
+      <Header />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route
           path="/findjobslist"
-          element={<FindJobsList totalData={totalData} />}
+          element={<FindJobsList mockData={mockData} />}
         />
         <Route path="/findjobsdetail" element={<FindJobsDetail />} />
         <Route path="/workerslist" element={<WorkersList />} />
-        <Route
-          path="/findjobswriting"
-          element={<FindJobsWriting onCreate={onCreate} />}
-        />
+        <Route path="/findjobswriting" element={<FindJobsWriting />} />
         <Route path="/workerswriting" element={<WorkersWriting />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/chatlist" element={<ChatList />} />

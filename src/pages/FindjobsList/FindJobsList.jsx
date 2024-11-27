@@ -1,8 +1,9 @@
 import FindJobsItem from '../../components/FindjobsList/FindJobsItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Calendar from 'react-calendar'; // 캘린더 라이브러리 (npm install react-calendar)
 import 'react-calendar/dist/Calendar.css'; // 캘린더 스타일 적용
+import axios from 'axios';
 
 const Layout = styled.div`
   display: flex;
@@ -168,11 +169,25 @@ const SearchInput = styled.input`
   background: #fff;
 `;
 
-const FindJobsList = ({ totalData }) => {
+const FindJobsList = ({ mockData }) => {
   const [searchData, setSearchData] = useState('');
   const [selectedJob, setSelectedJob] = useState('');
-  const [showCalendar, setShowCalendar] = useState(false); // 캘린더 표시 여부
-  const [selectedDate, setSelectedDate] = useState(null); // 선택된 날짜
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [serverData, setServerData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/job-offers');
+        setServerData(response.data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    fetchData();
+  }, []);
 
   const onChangeSearch = (e) => {
     setSearchData(e.target.value);
@@ -192,7 +207,7 @@ const FindJobsList = ({ totalData }) => {
   };
 
   const filteredData = () => {
-    return totalData
+    return mockData // 서버랑 연결되면 mockData -> serverData로 교체
       .filter((data) =>
         searchData
           ? data.title.toLowerCase().includes(searchData.toLowerCase())

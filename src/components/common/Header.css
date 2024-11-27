@@ -6,7 +6,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 175px;
+  height: 105px;
   background-color: white;
 }
 
@@ -20,7 +20,7 @@
 
 .NavBar {
   display: flex;
-  gap: 40px;
+  gap: 80px;
 }
 
 .Icon {
@@ -36,7 +36,7 @@ button {
 }
 
 .NavBar > button > p {
-  font-size: 22px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
