@@ -38,28 +38,14 @@ const Img = styled.img`
 `;
 
 const FindJobsItem = ({ data }) => {
-	const nav = useNavigate();
 	const totalWage = data.work_detail.work_hour * data.work_detail.hourly_wage;
 	const hourlyWage = data.work_detail.hourly_wage;
 	return (
-		<Layout
-			onClick={() => {
-				nav('/findjobsdetail', {
-					state: {
-						title: data.title,
-						storeName: data.store_name,
-						tag: data.job_tag,
-						address: data.address,
-						totalWage: totalWage,
-						context: data.context
-					}
-				});
-			}}
-		>
+		<Layout>
 			<Img src="icon"></Img>
 			<TitleContainer>
 				<div>{data.title}</div>
-				<div>Date</div>
+				<div>{data.work_date}</div>
 			</TitleContainer>
 			<AddressContainer>
 				<div>{data.address}</div>
@@ -71,7 +57,7 @@ const FindJobsItem = ({ data }) => {
 				<div>{totalWage.toLocaleString()}원</div>
 			</TotalWageContainer>
 			<DdayContainer>
-				<div>D-Day</div>
+				<div>{data.work_date[0]}</div>
 			</DdayContainer>
 		</Layout>
 	);

@@ -33,7 +33,7 @@ export default [
 			...pluginReact.configs.flat.recommended.rules,
 			...eslintConfigPrettier.rules,
 			// ...eslintConfigAirbnbBase.rules,
-			'prettier/prettier': 'warn',
+			'prettier/prettier': ['warn', { endOfLine: 'auto' }],
 			'react/prop-types': 'off',
 			'no-unused-vars': 'warn',
 			'import/no-unresolved': 'off',

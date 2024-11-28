@@ -168,8 +168,62 @@ const SearchInput = styled.input`
 	border: 1px solid #ede6e6;
 	background: #fff;
 `;
+const mockData = [
+	{
+		job_offer_id: 3,
+		title: '광흥창 투썸 알바 급구',
+		store_name: '투썸 플레이스',
+		job_tag: '카페',
+		address: '서울시 마포구 광흥창역',
+		work_detail: {
+			work_date: '2024.11.01',
+			work_hour: '4',
+			hourly_wage: '10000'
+		},
+		work_date: ['11/1', '11/2']
+	},
+	{
+		job_offer_id: 2,
+		title: '수학 과외 알바 급구합니다',
+		store_name: '수학과외',
+		job_tag: '과외',
+		address: '서울시 서대구문구 연세로',
+		work_detail: {
+			work_date: '2024.11.02',
+			work_hour: '2',
+			hourly_wage: '30000'
+		},
+		work_date: ['11/4', '11/6']
+	},
+	{
+		job_offer_id: 1,
+		title: '고밥 알바 급구합니다',
+		store_name: '고기마니밥마니',
+		job_tag: '식당',
+		address: '서울시 마포구 백범로',
+		work_detail: {
+			work_date: '2024.11.02',
+			work_hour: '7',
+			hourly_wage: '11000'
+		},
+		work_date: ['11/9', '11/12']
+	},
+	{
+		job_offer_id: 0,
+		title: '신촌역 나무카페 알바 급구합니다',
+		store_name: '나무카페',
+		job_tag: '카페',
+		address: '서울시 서대구문구 연세로',
+		work_detail: {
+			work_date: '2024.11.02',
+			work_hour: '7',
+			hourly_wage: '9000'
+		},
+		work_date: ['12/1', '12/2']
+	}
+];
 
-const FindJobsList = ({ mockData }) => {
+const FindJobsList = () => {
 	const [searchData, setSearchData] = useState('');
 	const [selectedJob, setSelectedJob] = useState('');
 	const [showCalendar, setShowCalendar] = useState(false);
