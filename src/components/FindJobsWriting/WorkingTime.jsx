@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const WorkingTime = ({ onMove, setContent, onDataMove }) => {
+const WorkingTime = ({ onMove, setContent, upDateWorkingTime }) => {
 	const [startHour, setStartHour] = useState('');
 	const [startMinute, setStartMinute] = useState('');
 	const [endHour, setEndHour] = useState('');
@@ -78,9 +78,8 @@ const WorkingTime = ({ onMove, setContent, onDataMove }) => {
 	};
 
 	const onCreate = () => {
-		onMove(workTime);
 		setContent(false);
-		onDataMove(startHour, startMinute, endHour, endMinute);
+		upDateWorkingTime(startHour, startMinute, endHour, endMinute);
 	};
 
 	return (
