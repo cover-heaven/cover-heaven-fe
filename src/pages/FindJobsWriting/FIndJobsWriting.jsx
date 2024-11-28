@@ -3,26 +3,31 @@ import styled from 'styled-components';
 import WorkingTime from '../../components/FindJobsWriting/WorkingTime';
 import axios from 'axios';
 import Calendar from 'react-calendar';
-import { useStyleSheetContext } from 'styled-components/dist/models/StyleSheetManager';
 
 // Styled Components
 const TitleBox = styled.div`
 	display: flex;
+	gap: 3%;
 `;
 const StoreNameBox = styled.div`
 	display: flex;
+  gap: 3%;
 `;
 const JobTypeBox = styled.div`
 	display: flex;
+	gap: 3%;
 `;
 const AddressBox = styled.div`
 	display: flex;
+	gap: 3%;
 `;
 const WorkConditionBox = styled.div`
 	display: flex;
+	gap: 3%;
 `;
 const DetailBox = styled.div`
 	display: flex;
+	gap: 3%;
 `;
 const AddressInput = styled.div`
 	display: flex;
@@ -31,8 +36,8 @@ const AddressInput = styled.div`
 	width: 100%;
 `;
 const P = styled.div`
-	min-width: 108px;
-	padding-right: 15%;
+	width: 120px;
+	padding-right: 1%;
 	margin: 0;
 `;
 const ButtonLayout = styled.div`
@@ -86,10 +91,10 @@ const ColumnLayout = styled.div`
 	gap: 10px;
 `;
 const ItemLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 10px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 10px;
 `;
 const AddButton = styled.button`
 	width: 100%;
@@ -124,7 +129,7 @@ const Label = styled.label`
 	flex: 1;
 `;
 const DateBox = styled.div`
-  width: 100%;
+	width: 100%;
 `;
 const TimeBox = styled.div`
 	width: 100%;
@@ -141,74 +146,75 @@ const DeleteBox = styled.button`
 
 // Main Component
 const FindJobsWriting = () => {
-  const [dateTimeInputs, setDateTimeInputs] = useState([
-    {
-      id: 1,
-      time: '',
-      timeString: '',
-      wage: '',
-      content: false,
-      isOpen: false,
-      date: '',
-    },
-  ]);
+	const [dateTimeInputs, setDateTimeInputs] = useState([
+		{
+			id: 1,
+			time: '',
+			timeString: '',
+			wage: '',
+			content: false,
+			isOpen: false,
+			date: ''
+		}
+	]);
 
-  const [title, setTitle] = useState('');
-  const [storeName, setStoreName] = useState('');
-  const [address, setAddress] = useState('');
-  const [message, setMessage] = useState('');
-  const [selectedTag, setSelectedTag] = useState('');
-  const [error, setError] = useState();
-  const [selectedDate, setSelectedDate] = useState();
-  const [workDetail, setWorkDetail] = useState([]);
+	const [title, setTitle] = useState('');
+	const [storeName, setStoreName] = useState('');
+	const [address, setAddress] = useState('');
+	const [message, setMessage] = useState('');
+	const [selectedTag, setSelectedTag] = useState('');
+	const [error, setError] = useState();
+	const [selectedDate, setSelectedDate] = useState();
+	const [workDetail, setWorkDetail] = useState([]);
 
-  const makeWorkDetail = () => {
-    setWorkDetail(
-      dateTimeInputs.map((input) => ({
-        work_date: input.date,
-        work_hour: input.time,
-        hourly_wage: input.time * input.wage,
-      })),
-    );
-  };
+	const makeWorkDetail = () => {
+		setWorkDetail(
+			dateTimeInputs.map((input) => ({
+				work_date: input.date,
+				work_hour: input.time,
+				hourly_wage: input.time * input.wage
+			}))
+		);
+	};
 
-  // 서버 전송
-  const onSubmit = async () => {
-    try {
-      makeWorkDetail();
-      await axios.post('/job-offers', {
-        title: title,
-        store_name: storeName,
-        job_tag: selectedTag,
-        address: address,
-        work_detail: workDetail,
-        context: message,
-      });
-    } catch (err) {
-      setError(err);
-    }
-  };
+	// 서버 전송
+	const onSubmit = async () => {
+		try {
+			makeWorkDetail();
+			await axios.post('/job-offers', {
+				title: title,
+				store_name: storeName,
+				job_tag: selectedTag,
+				address: address,
+				work_detail: workDetail,
+				context: message
+			});
+		} catch (err) {
+			setError(err);
+		}
+	};
 
-  const tags = ['학원', '과외', '주점', '식당', '카페'];
+	const tags = ['학원', '과외', '주점', '식당', '카페'];
+	// 근무일자 추가
+	const onClickAddButton = () => {
+		setDateTimeInputs((prev) => [
+			...prev,
+			{
+				id: prev.length + 1,
+				time: '',
+				timeString: '',
+				wage: '',
+				content: false,
+				isOpen: false,
+				date: ''
+			}
+		]);
+	};
 
-  // 근무일자 추가
-  const onClickAddButton = () => {
-    setDateTimeInputs((prev) => [
-      ...prev,
-      {
-        id: prev.length + 1,
-        time: '',
-        timeString: '',
-        wage: '',
-        content: false,
-      },
-    ]);
-  };
-
-  // 근무일자 삭제
-  const onDelete = (id) => {
-    setDateTimeInputs((prev) => prev.filter((input) => input.id !== id));
-  };
+	// 근무일자 삭제: ID값이 일치하지 않는 것들만 렌더링 (일치하는 걸 삭제하는 게 아니라 렌더링하지 않음)
+	const onDelete = (id) => {
+		setDateTimeInputs((prev) => prev.filter((input) => input.id !== id));
+	};
 
 	// 특정 입력 항목 업데이트
 	const updateInput = (id, field, value) => {
@@ -219,23 +225,51 @@ const FindJobsWriting = () => {
 		);
 	};
 
-  // WorkingTime 열기
-  const onClickWorkingTime = (id) => {
-    setDateTimeInputs((prev) =>
-      prev.map((input) =>
-        input.id === id ? { ...input, content: true } : input,
-      ),
-    );
-  };
+	// WorkingTime 열기
+	const openWorkingTime = (id) => {
+		setDateTimeInputs((prev) =>
+			prev.map((input) =>
+				input.id === id ? { ...input, content: true } : input
+			)
+		);
+	};
 
-  // WorkingTime 닫기
-  const closeWorkingTime = (id) => {
-    setDateTimeInputs((prev) =>
-      prev.map((input) =>
-        input.id === id ? { ...input, content: false } : input,
-      ),
-    );
-  };
+	// WorkingTime 닫기
+	const closeWorkingTime = (id) => {
+		setDateTimeInputs((prev) =>
+			prev.map((input) =>
+				input.id === id ? { ...input, content: false } : input
+			)
+		);
+	};
+
+	// Calendar 열기
+	const openCalendar = (id) => {
+		setDateTimeInputs((prev) =>
+			prev.map((input) =>
+				input.id === id ? { ...input, isOpen: true } : input
+			)
+		);
+	};
+
+	// Calendar 닫기
+	const closeCalendar = (id) => {
+		setDateTimeInputs((prev) =>
+			prev.map((input) =>
+				input.id === id ? { ...input, isOpen: false } : input
+			)
+		);
+	};
+
+	// date 추가
+	const handleDateChange = (date) => {
+		const formattedDate = date.toISOString().split('T')[0];
+		setDateTimeInputs((inputs) =>
+			inputs.map((input) =>
+				input.isOpen ? { ...input, date: formattedDate, isOpen: false } : input
+			)
+		);
+	};
 
 	// 근무 시간 계산
 	const calculateWorkTime = (startHour, startMinute, endHour, endMinute) => {
@@ -249,10 +283,16 @@ const FindJobsWriting = () => {
 		return totalMinutes / 60;
 	};
 
-  // WorkingTime 데이터를 업데이트
-  const onDataMove = (id, startHour, startMinute, endHour, endMinute) => {
-    const timeStr = `${startHour}시 ${startMinute}분 - ${endHour}시 ${endMinute}분`;
-    updateInput(id, 'timeString', timeStr);
+	// WorkingTime 데이터를 업데이트
+	const upDateWorkingTime = (
+		id,
+		startHour,
+		startMinute,
+		endHour,
+		endMinute
+	) => {
+		const timeStr = `${startHour}시 ${startMinute}분 - ${endHour}시 ${endMinute}분`;
+		updateInput(id, 'timeString', timeStr);
 
 		const totalHours = calculateWorkTime(
 			startHour,
@@ -263,145 +303,138 @@ const FindJobsWriting = () => {
 		updateInput(id, 'time', totalHours);
 	};
 
-  // 태그 변경
-  const handleTagChange = (tag) => {
-    setSelectedTag(tag);
-  };
+	// 태그 변경
+	const handleTagChange = (tag) => {
+		setSelectedTag(tag);
+	};
 
-  // 서버 전송
-  const onSubmit = async () => {
-    try {
-      await axios.post('/job-offers', {
-        title,
-        wage: dateTimeInputs.map((input) => input.wage),
-        store_name: storeName,
-        address,
-        context: message,
-        job_tag: selectedTag,
-      });
-    } catch (err) {
-      setError(err);
-    }
-  };
-
-  return (
-    <Layout>
-      <TitleContainter>
-        <MainTitle>대타 공고 작성하기</MainTitle>
-        <SubTitle>
-          단기로 일할 수 있는 아르바이트 공고를 한 눈에 확인해보세요
-        </SubTitle>
-      </TitleContainter>
-      <TitleBox>
-        <P>공고 제목</P>
-        <Input
-          placeholder="공고 제목을 입력해주세요"
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </TitleBox>
-      <StoreNameBox>
-        <P>근무지명</P>
-        <Input
-          placeholder="가게 이름을 입력해주세요"
-          onChange={(e) => setStoreName(e.target.value)}
-        />
-      </StoreNameBox>
-      <JobTypeBox>
-        <P>직종</P>
-        <Tag>
-          {tags.map((tag) => (
-            <Label key={tag}>
-              <input
-                type="radio"
-                onChange={() => handleTagChange(tag)}
-                checked={selectedTag === tag}
-              />
-              {tag}
-            </Label>
-          ))}
-        </Tag>
-      </JobTypeBox>
-      <AddressBox>
-        <P>주소</P>
-        <AddressInput>
-          <Input
-            placeholder="상호명으로 주소를 검색하세요."
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <Input placeholder="상세 주소를 작성해주세요." />
-        </AddressInput>
-      </AddressBox>
-      <WorkConditionBox>
-        <P>근무 조건</P>
-        <ColumnLayout>
-          {dateTimeInputs.map((input) => (
-            <ColumnLayout key={input.id}>
-              <RowLayout>
-                <Input placeholder="2024년 11월 23일 (토)" />
-                <TimeBox>
-                  <Input
-                    onClick={() => onClickWorkingTime(input.id)}
-                    placeholder="00시 00분 - 00시 00분"
-                    value={input.timeString}
-                  />
-                  {input.content && (
-                    <WorkingTime
-                      onDataMove={(
-                        startHour,
-                        startMinute,
-                        endHour,
-                        endMinute,
-                      ) =>
-                        onDataMove(
-                          input.id,
-                          startHour,
-                          startMinute,
-                          endHour,
-                          endMinute,
-                        )
-                      }
-                      setContent={() => closeWorkingTime(input.id)}
-                      onMove={(workTime) =>
-                        updateInput(input.id, 'time', workTime)
-                      }
-                    />
-                  )}
-                </TimeBox>
-                <InputBox
-                  onChange={(e) =>
-                    updateInput(input.id, 'wage', e.target.value)
-                  }
-                  placeholder="시급 00,000원"
-                  value={input.wage}
-                />
-                <DeleteBox onClick={() => onDelete(input.id)}>X</DeleteBox>
-              </RowLayout>
-              <div>
-                <TotalWage>
-                  일급 {(input.time * input.wage || 0).toLocaleString()}원
-                </TotalWage>
-              </div>
-            </ColumnLayout>
-          ))}
-          <AddButtonLayout>
-            <AddButton onClick={onClickAddButton}>
-              + 근무일자 추가하기
-            </AddButton>
-          </AddButtonLayout>
-        </ColumnLayout>
-      </WorkConditionBox>
-      <DetailBox>
-        <P>상세 정보</P>
-        <DetailInput
-          placeholder="상세 정보를 작성해주세요."
-          onChange={(e) => setMessage(e.target.value)}
-        />
-      </DetailBox>
-      <ButtonLayout>
-        <Button onClick={() => onSubmit()}>작성 완료</Button>
-      </ButtonLayout>
-    </Layout>
-  );
+	return (
+		<Layout>
+			<TitleContainter>
+				<MainTitle>대타 공고 작성하기</MainTitle>
+				<SubTitle>
+					단기로 일할 수 있는 아르바이트 공고를 한 눈에 확인해보세요
+				</SubTitle>
+			</TitleContainter>
+			<TitleBox>
+				<P>공고 제목</P>
+				<Input
+					placeholder="공고 제목을 입력해주세요"
+					onChange={(e) => setTitle(e.target.value)}
+				/>
+			</TitleBox>
+			<StoreNameBox>
+				<P>근무지명</P>
+				<Input
+					placeholder="가게 이름을 입력해주세요"
+					onChange={(e) => setStoreName(e.target.value)}
+				/>
+			</StoreNameBox>
+			<JobTypeBox>
+				<P>직종</P>
+				<Tag>
+					{tags.map((tag) => (
+						<Label key={tag}>
+							<input
+								type="radio"
+								onChange={() => handleTagChange(tag)}
+								checked={selectedTag === tag}
+							/>
+							{tag}
+						</Label>
+					))}
+				</Tag>
+			</JobTypeBox>
+			<AddressBox>
+				<P>주소</P>
+				<AddressInput>
+					<Input
+						placeholder="상호명으로 주소를 검색하세요."
+						onChange={(e) => setAddress(e.target.value)}
+					/>
+					<Input placeholder="상세 주소를 작성해주세요." />
+				</AddressInput>
+			</AddressBox>
+			<WorkConditionBox>
+				<P>근무 조건</P>
+				<ColumnLayout>
+					{dateTimeInputs.map((input) => (
+						<ItemLayout key={input.id}>
+							<RowLayout>
+								<DateBox>
+									<Input
+										onClick={() => openCalendar(input.id)}
+										placeholder="2024년 11월 23일 (토)"
+										value={input.date}
+									/>
+									{input.isOpen && (
+										<Calendar onChange={handleDateChange}></Calendar>
+									)}
+								</DateBox>
+								<TimeBox>
+									<Input
+										onClick={() => openWorkingTime(input.id)}
+										placeholder="00시 00분 - 00시 00분"
+										value={input.timeString}
+									/>
+									{input.content && (
+										<WorkingTime
+											upDateWorkingTime={(
+												startHour,
+												startMinute,
+												endHour,
+												endMinute
+											) =>
+												upDateWorkingTime(
+													input.id,
+													startHour,
+													startMinute,
+													endHour,
+													endMinute
+												)
+											}
+											setContent={() => closeWorkingTime(input.id)}
+											onMove={(workTime) =>
+												updateInput(input.id, 'time', workTime)
+											}
+										/>
+									)}
+								</TimeBox>
+								<InputBox
+									onChange={(e) =>
+										updateInput(input.id, 'wage', e.target.value)
+									}
+									placeholder="시급 00,000원"
+									value={input.wage}
+								/>
+								<DeleteBox onClick={() => onDelete(input.id)}>X</DeleteBox>
+							</RowLayout>
+							<div>
+								<TotalWage>
+									일급 {(input.time * input.wage || 0).toLocaleString()}원
+								</TotalWage>
+							</div>
+						</ItemLayout>
+					))}
+					<AddButtonLayout>
+						<AddButton onClick={onClickAddButton}>
+							+ 근무일자 추가하기
+						</AddButton>
+					</AddButtonLayout>
+				</ColumnLayout>
+			</WorkConditionBox>
+			<DetailBox>
+				<P>상세 정보</P>
+				<DetailInput
+					placeholder="상세 정보를 작성해주세요."
+					onChange={(e) => setMessage(e.target.value)}
+				/>
+			</DetailBox>
+			<ButtonLayout>
+				<Button onClick={() => onSubmit()}>작성 완료</Button>
+			</ButtonLayout>
+		</Layout>
+	);
 };
 
 export default FindJobsWriting;
