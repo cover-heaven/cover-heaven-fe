@@ -1,5 +1,5 @@
 const DaySelect = () => {
-  return <div>DaySelect</div>;
+	return <div>DaySelect</div>;
 };
 
 export default DaySelect;

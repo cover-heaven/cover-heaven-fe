@@ -4,7 +4,6 @@ about: feature issue template
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ## Description
