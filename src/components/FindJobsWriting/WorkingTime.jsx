@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const WorkingTime = ({ onMove, setContent, onDataMove }) => {
+const WorkingTime = ({ onMove, setContent, upDateWorkingTime }) => {
   const [startHour, setStartHour] = useState('');
   const [startMinute, setStartMinute] = useState('');
   const [endHour, setEndHour] = useState('');
@@ -10,47 +10,48 @@ const WorkingTime = ({ onMove, setContent, onDataMove }) => {
   const [minute, setMinute] = useState(0);
   const [workTime, setWorkTime] = useState(0);
 
-const calculateWorkTime = (
-  newStartHour,
-  newStartMinute,
-  newEndHour,
-  newEndMinute,
-) => {
-  // 1. 입력 값 검증
-  const isInvalidInput = [
+  const calculateWorkTime = (
     newStartHour,
     newStartMinute,
     newEndHour,
     newEndMinute,
-  ].some((value) => value === '' || isNaN(parseInt(value, 10)));
+  ) => {
+    // 1. 입력 값 검증
+    const isInvalidInput = [
+      newStartHour,
+      newStartMinute,
+      newEndHour,
+      newEndMinute,
+    ].some((value) => value === '' || isNaN(parseInt(value, 10)));
 
-  if (isInvalidInput) {
-    setHour(0);
-    setMinute(0);
-    setWorkTime(0);
-    console.log('올바른 시간을 입력해주세요.');
-    return;
-  }
+    if (isInvalidInput) {
+      setHour(0);
+      setMinute(0);
+      setWorkTime(0);
+      console.log('올바른 시간을 입력해주세요.');
+      return;
+    }
 
-  // 2. 시작 시간과 종료 시간 계산
-  const start = parseInt(newStartHour, 10) * 60 + parseInt(newStartMinute, 10);
-  const end = parseInt(newEndHour, 10) * 60 + parseInt(newEndMinute, 10);
+    // 2. 시작 시간과 종료 시간 계산
+    const start =
+      parseInt(newStartHour, 10) * 60 + parseInt(newStartMinute, 10);
+    const end = parseInt(newEndHour, 10) * 60 + parseInt(newEndMinute, 10);
 
-  // 3. 하루를 넘기는 경우 처리
-  const totalMinutes =
-    end >= start
-      ? end - start // 같은 날
-      : 1440 - start + end; // 다음 날
+    // 3. 하루를 넘기는 경우 처리
+    const totalMinutes =
+      end >= start
+        ? end - start // 같은 날
+        : 1440 - start + end; // 다음 날
 
-  // 4. 시간 및 분 계산
-  const calculatedHours = Math.floor(totalMinutes / 60); // 시간
-  const calculatedMinutes = totalMinutes % 60; // 분
+    // 4. 시간 및 분 계산
+    const calculatedHours = Math.floor(totalMinutes / 60); // 시간
+    const calculatedMinutes = totalMinutes % 60; // 분
 
-  // 5. 상태 업데이트
-  setHour(calculatedHours);
-  setMinute(calculatedMinutes);
-  setWorkTime(calculatedHours + calculatedMinutes / 60); // 소수점 포함 시간
-};
+    // 5. 상태 업데이트
+    setHour(calculatedHours);
+    setMinute(calculatedMinutes);
+    setWorkTime(calculatedHours + calculatedMinutes / 60); // 소수점 포함 시간
+  };
 
   const handleStartHourChange = (e) => {
     const value = e.target.value;
@@ -77,9 +78,8 @@ const calculateWorkTime = (
   };
 
   const onCreate = () => {
-    onMove(workTime);
     setContent(false);
-    onDataMove(startHour, startMinute, endHour, endMinute);
+    upDateWorkingTime(startHour, startMinute, endHour, endMinute);
   };
 
   return (
