@@ -3,7 +3,7 @@ import { reset } from 'styled-reset';
 export const GlobalStyle = createGlobalStyle`
   ${reset}
   html {
-    font-size:10px;
+    font-size:14px;
   }
   *{
     margin: 0;

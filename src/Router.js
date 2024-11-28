@@ -12,7 +12,6 @@ import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import MyProfile from './pages/MyProfile/MyProfile';
 import FindJobsDetail from './pages/FindJobsDetail/FindJobsDetail';
-import DaySelect from './pages/DaySelect/DaySelect';
 
 const mockData = [
 	{
@@ -86,7 +85,6 @@ const AppRouter = () => {
 				<Route path="/workerswriting" element={<WorkersWriting />} />
 				<Route path="/chat" element={<Chat />} />
 				<Route path="/chatlist" element={<ChatList />} />
-				<Route path="/dayselect" element={<DaySelect />} />
 				<Route path="/myprofile" element={<MyProfile />} />
 				<Route path="/signup" element={<SignUp />} />
 				<Route
