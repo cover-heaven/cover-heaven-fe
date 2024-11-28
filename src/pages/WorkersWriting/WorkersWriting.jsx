@@ -1,5 +1,5 @@
 const WorkersWriting = () => {
-  return <div>WorkersWriting</div>;
+	return <div>WorkersWriting</div>;
 };
 
 export default WorkersWriting;
