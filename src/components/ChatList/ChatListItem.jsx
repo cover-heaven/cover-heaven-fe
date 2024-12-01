@@ -9,23 +9,36 @@ import {
 import IconMan from '../../assets/icon/icon_man.svg';
 import IconWoman from '../../assets/icon/icon_woman.svg';
 
-const ChatListItem = () => {
+const ChatListItem = ({
+	gender,
+	user_name,
+	department,
+	student_id,
+	last_message,
+	unread_messages
+}) => {
 	return (
 		<>
 			<ItemWrapper>
 				<InfoWrapper>
-					<ProfileImg src={IconMan}></ProfileImg>
+					<ProfileImg
+						src={gender === 'male' ? IconMan : IconWoman}
+					></ProfileImg>
 					<ProfileTextWrapper>
 						<NameWrapper>
-							<Name>김서강</Name>
-							<SubInfo>(컴퓨터공학과 24학번)</SubInfo>
+							<Name>{user_name}</Name>
+							<SubInfo>{`(${department} ${student_id}학번)`}</SubInfo>
 						</NameWrapper>
-						<MessageText>안녕하세요. 대화 가능할까요?</MessageText>
+						<MessageText>{last_message}</MessageText>
 					</ProfileTextWrapper>
 				</InfoWrapper>
-				<UnreadWrapper>
-					<UnreadNum>2</UnreadNum>
-				</UnreadWrapper>
+				{Number(unread_messages) === 0 ? (
+					<></>
+				) : (
+					<UnreadWrapper>
+						<UnreadNum>{Number(unread_messages)}</UnreadNum>
+					</UnreadWrapper>
+				)}
 			</ItemWrapper>
 		</>
 	);
@@ -44,7 +57,7 @@ const ItemWrapper = styled.div`
 	border: 1px solid ${Border_Primary};
 	background-color: #fff;
 	cursor: pointer;
-	transition: all 0.15 s ease-in-out;
+	transition: all 0.2s ease-in-out;
 	&:hover {
 		border: 1px solid ${Surface_Primary};
 		scale: 1.01;

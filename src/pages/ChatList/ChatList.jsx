@@ -7,8 +7,70 @@ import {
 	Text_Secondary
 } from '../../styles/color';
 import ChatListItem from '../../components/ChatList/ChatListItem';
+import { useEffect, useState } from 'react';
+import { instance } from '../../api/instance';
+
+const dummyData = [
+	{
+		chatting_id: '1',
+		search_user_id: 'id1',
+		offer_user_id: 'id2',
+		job_offer_id: '1',
+		user_name: '김서강',
+		department: '컴퓨터공학과',
+		student_id: '20190000',
+		last_message: '안녕하세요 대화 가능할까요?',
+		last_message_send_date: 'date',
+		unread_messages: '3',
+		gender: 'male'
+	},
+	{
+		chatting_id: '2',
+		search_user_id: 'id1',
+		offer_user_id: 'id2',
+		job_offer_id: '1',
+		user_name: '김강강',
+		department: '미국문화학과',
+		student_id: '20190000',
+		last_message: '안녕하세요 안녕하세요?',
+		last_message_send_date: 'date',
+		unread_messages: '1',
+		gender: 'female'
+	},
+	{
+		chatting_id: '3',
+		search_user_id: 'id1',
+		offer_user_id: 'id2',
+		job_offer_id: '1',
+		user_name: '김공공',
+		department: '미국문화학과',
+		student_id: '20190000',
+		last_message: '굿굿입니다',
+		last_message_send_date: 'date',
+		unread_messages: '0',
+		gender: 'male'
+	}
+];
 
 const ChatList = () => {
+	const [listData, setListData] = useState(dummyData);
+	// useEffect(() => {
+	// 	const fetchListData = async () => {
+	// 		const headers = {
+	// 			Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+	// 		};
+	// 		try {
+	// 			const response = await instance.get('/chatting/list', { headers });
+	// 			if (response.status === 200) {
+	// 				setListData(response.data);
+	// 			}
+	// 		} catch (err) {
+	// 			alert(err);
+	// 		}
+	// 	};
+	// 	fetchListData();
+	// }, []);
+
 	return (
 		<>
 			<HeadSection>
@@ -22,9 +84,9 @@ const ChatList = () => {
 			<MainSection>
 				<ListWrapper>
 					<ListText>나의 채팅 목록 </ListText>
-					<ChatListItem></ChatListItem>
-					<ChatListItem></ChatListItem>
-					<ChatListItem></ChatListItem>
+					{listData.map((data) => (
+						<ChatListItem key={data.chatting_id} {...data}></ChatListItem>
+					))}
 				</ListWrapper>
 			</MainSection>
 		</>
