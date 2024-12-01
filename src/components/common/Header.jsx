@@ -33,7 +33,7 @@ const Header = () => {
 			<div className="Icon">
 				<button
 					onClick={() => {
-						nav('/chat');
+						nav('/chatlist');
 					}}
 				>
 					채팅
