@@ -164,7 +164,6 @@ const FindJobsWriting = () => {
 	const [message, setMessage] = useState('');
 	const [selectedTag, setSelectedTag] = useState('');
 	const [error, setError] = useState();
-	const [selectedDate, setSelectedDate] = useState();
 	const [workDetail, setWorkDetail] = useState([]);
 
 	const makeWorkDetail = () => {

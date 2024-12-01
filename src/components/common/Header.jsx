@@ -5,7 +5,7 @@ const Header = () => {
 	return (
 		<div className="Header">
 			<div className="Title">
-				<p>동문서잡</p>
+				<div>동문서잡</div>
 			</div>
 			<div className="NavBar">
 				<button
@@ -33,17 +33,17 @@ const Header = () => {
 			<div className="Icon">
 				<button
 					onClick={() => {
-						nav('/chat');
+						nav('/login');
 					}}
 				>
-					채팅
+					로그인
 				</button>
 				<button
 					onClick={() => {
-						nav('/myprofile');
+						nav('/signup');
 					}}
 				>
-					프로필
+					회원가입
 				</button>
 			</div>
 		</div>

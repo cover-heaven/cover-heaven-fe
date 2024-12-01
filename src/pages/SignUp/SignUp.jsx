@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 const SignUp = () => {
-	const [formData, setFormData] = useState({
+	const initialFormData = {
 		user_id: '',
 		name: '',
 		gender: '',
@@ -11,138 +13,338 @@ const SignUp = () => {
 		school: '',
 		department: '',
 		student_id: '',
-		password: ''
-	});
-
-	const [studentCard, setStudentCard] = useState(null); // 학생증 파일 상태
-	const [error, setError] = useState(''); // 에러 메시지
-	const [success, setSuccess] = useState(''); // 성공 메시지
-
-	const handleInputChange = (e) => {
-		const { name, value } = e.target;
-		setFormData((prev) => ({ ...prev, [name]: value }));
+		profile: '',
+		password: '',
+		student_card: ''
 	};
+	const [formData, setFormData] = useState(initialFormData);
+	const [isPendingRequest, setIsPedingRequest] = useState(false);
+	const nav = useNavigate();
 
-	const handleFileChange = (e) => {
-		setStudentCard(e.target.files[0]); // 파일 상태 업데이트
-	};
-
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-
+	const postSignUpData = async () => {
+		if (isPendingRequest) return;
 		try {
-			// FormData 객체 생성
-			const data = new FormData();
-			Object.entries(formData).forEach(([key, value]) => {
-				data.append(key, value); // 텍스트 데이터 추가
-			});
-			data.append('student_card', studentCard); // 파일 추가
-
-			// 회원가입 요청 전송
-			const response = await axios.post('/users/register', data, {
-				headers: {
-					'Content-Type': 'multipart/form-data' // 파일 업로드 설정
-				}
-			});
-
-			setSuccess('Registration successful!');
-			setError('');
-			console.log('Response:', response.data);
+			setIsPedingRequest(true);
+			await axios.post('/users/register', formData);
+			alert('회원가입 성공');
+			setFormData(initialFormData);
+			nav('/login');
 		} catch (err) {
-			setError('Registration failed. Please check your inputs.');
-			setSuccess('');
-			console.error(err.response?.data || err.message);
+			alert('회원가입 실패');
+		} finally {
+			setIsPedingRequest(false);
 		}
 	};
 
+	const fileUpload = (e) => {
+		setFormData({ ...formData, student_card: e.target.files[0] });
+	};
+
 	return (
-		<div>
-			<h2>Register</h2>
-			{error && <p style={{ color: 'red' }}>{error}</p>}
-			{success && <p style={{ color: 'green' }}>{success}</p>}
-			<form onSubmit={handleSubmit}>
-				<input
-					type="text"
-					name="user_id"
-					placeholder="User ID"
-					value={formData.user_id}
-					onChange={handleInputChange}
-					required
-				/>
-				<input
-					type="text"
-					name="name"
-					placeholder="Name"
-					value={formData.name}
-					onChange={handleInputChange}
-					required
-				/>
-				<input
-					type="text"
-					name="gender"
-					placeholder="Gender"
-					value={formData.gender}
-					onChange={handleInputChange}
-					required
-				/>
-				<input
-					type="text"
-					name="phone"
-					placeholder="Phone"
-					value={formData.phone}
-					onChange={handleInputChange}
-					required
-				/>
-				<input
-					type="date"
-					name="birth_date"
-					placeholder="Birth Date"
-					value={formData.birth_date}
-					onChange={handleInputChange}
-					required
-				/>
-				<input
-					type="text"
-					name="school"
-					placeholder="School"
-					value={formData.school}
-					onChange={handleInputChange}
-					required
-				/>
-				<input
-					type="text"
-					name="department"
-					placeholder="Department"
-					value={formData.department}
-					onChange={handleInputChange}
-					required
-				/>
-				<input
-					type="text"
-					name="student_id"
-					placeholder="Student ID"
-					value={formData.student_id}
-					onChange={handleInputChange}
-					required
-				/>
-				<input
-					type="password"
-					name="password"
-					placeholder="Password"
-					value={formData.password}
-					onChange={handleInputChange}
-					required
-				/>
-				<input
-					type="file"
-					name="student_card"
-					onChange={handleFileChange}
-					required
-				/>
-				<button type="submit">Register</button>
-			</form>
-		</div>
+		<Layout>
+			<LeftLayout>
+				<TitleBox>
+					<ServiceTitle>동문서잡</ServiceTitle>
+					<Explanation>
+						<SubTitle>
+							학생증 인증 가입 후 수많은 동문 알바생들을 만나보세요.
+						</SubTitle>
+						<SubTitle>
+							3단계 안심 가입 절차를 통해 학적이 확인된 동문들만 가입할 수
+							있어요.
+						</SubTitle>
+					</Explanation>
+				</TitleBox>
+				<ContentBox>
+					<LineContainer>
+						<Dot></Dot>
+						<Line></Line>
+						<Dot></Dot>
+						<Line></Line>
+						<Dot></Dot>
+						<Line></Line>
+						<Dot></Dot>
+					</LineContainer>
+					<ExplanationBox>
+						<P>1. 기본 인적사항을 입력해주세요.</P>
+						<P>2. 학교 정보 입력 후 학생증을 인증해주세요.</P>
+						<P>3. 아이디와 비밀번호를 입력해주세요.</P>
+						<P>4. 가입 완료!</P>
+					</ExplanationBox>
+				</ContentBox>
+			</LeftLayout>
+			<RightLayout>
+				<InputContainer>
+					<div>
+						<Title>01. 기본 인적사항을 입력해주세요.</Title>
+						<div>
+							<div>이름</div>
+							<Input
+								name="name"
+								placeholder="ex) 홍길동"
+								value={formData.name}
+								onChange={(e) =>
+									setFormData({
+										...formData,
+										name: e.target.value
+									})
+								}
+							/>
+						</div>
+						<div>
+							<div>전화번호</div>
+							<Input
+								name="phone"
+								placeholder="번호만 입력해주세요 ex) 01012345678"
+								value={formData.phone}
+								onChange={(e) =>
+									setFormData({
+										...formData,
+										phone: e.target.value
+									})
+								}
+							/>
+						</div>
+						<RowLayout>
+							<div>
+								<div>성별</div>
+								<div>
+									<input
+										type="radio"
+										onChange={() =>
+											setFormData({
+												...formData,
+												gender: '남자'
+											})
+										}
+									></input>
+									남자
+									<input
+										type="radio"
+										onChange={() =>
+											setFormData({
+												...formData,
+												gender: '여자'
+											})
+										}
+									></input>
+									여자
+								</div>
+							</div>
+							<div>
+								<div>생년월일</div>
+								<BirthInput
+									name="birth_date"
+									placeholder="YYYY/MM/DD"
+									value={formData.birth_date}
+									onChange={(e) =>
+										setFormData({
+											...formData,
+											birth_date: e.target.value
+										})
+									}
+								/>
+							</div>
+						</RowLayout>
+					</div>
+					<div>
+						<Title>02. 학교 정보 입력 후 학생증을 인증해주세요.</Title>
+						<div>
+							<div>학교</div>
+							<Input
+								name="school"
+								value={formData.school}
+								onChange={(e) =>
+									setFormData({
+										...formData,
+										school: e.target.value
+									})
+								}
+							/>
+						</div>
+						<div>
+							<div>학과</div>
+							<Input
+								name="department"
+								placeholder="ex) 융합소프트웨어"
+								value={formData.department}
+								onChange={(e) =>
+									setFormData({
+										...formData,
+										department: e.target.value
+									})
+								}
+							/>
+						</div>
+						<div>
+							<div>학번</div>
+							<Input
+								name="student_id"
+								placeholder="ex) 20240000"
+								value={formData.student_id}
+								onChange={(e) =>
+									setFormData({
+										...formData,
+										student_id: e.target.value
+									})
+								}
+							/>
+						</div>
+						<div>
+							<div>학생증 인증</div>
+							<input type="file" onChange={fileUpload}></input>
+						</div>
+					</div>
+					<div>
+						<Title>03. 아이디와 비밀번호를 입력해주세요.</Title>
+						<div>
+							<div>아이디</div>
+							<Input
+								name="id"
+								placeholder="아이디를 입력해주세요"
+								value={formData.user_id}
+								onChange={(e) =>
+									setFormData({
+										...formData,
+										user_id: e.target.value
+									})
+								}
+							/>
+						</div>
+						<div>
+							<div>비밀번호</div>
+							<Input
+								name="password"
+								placeholder="8자~20자 사이의 비밀번호를 입력해주세요."
+								value={formData.password}
+								onChange={(e) =>
+									setFormData({
+										...formData,
+										password: e.target.value
+									})
+								}
+							/>
+						</div>
+						<div>
+							<div>비밀번호 확인</div>
+							<Input placeholder="8자~20자 사이의 비밀번호를 다시 입력해주세요." />
+						</div>
+					</div>
+				</InputContainer>
+				<Button onClick={postSignUpData}>동문서잡 가입하기</Button>
+			</RightLayout>
+		</Layout>
 	);
 };
+
+const Layout = styled.div`
+	display: flex;
+	width: 1512px;
+	height: auto;
+	padding-left: 18%;
+	padding-top: 5%;
+	gap: 10%;
+`;
+const LeftLayout = styled.div`
+	width: 45%;
+	height: 52%;
+	border-radius: 30px;
+	background: linear-gradient(
+		202deg,
+		rgba(255, 82, 56, 0.6) 5.5%,
+		#ff5238 37.69%
+	);
+`;
+const RightLayout = styled.div`
+	width: 40%;
+`;
+const RowLayout = styled.div`
+	display: flex;
+`;
+const SubTitle = styled.div`
+	color: #fff;
+	font-family: Pretendard;
+	font-size: 32px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: 150%;
+`;
+const P = styled.div`
+	color: #fff;
+	font-family: Pretendard;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 150%;
+`;
+const ServiceTitle = styled.div`
+	color: #fff;
+	font-family: Pretendard;
+	font-size: 32px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: normal;
+`;
+const ExplanationBox = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 50px;
+`;
+const TitleBox = styled.div``;
+const ContentBox = styled.div`
+	display: flex;
+`;
+const LineContainer = styled.div`
+	display: flex;
+	flex-direction: column; /* 세로 방향 정렬 */
+	align-items: center; /* 수평 중앙 정렬 */
+	gap: 0; /* 간격 없이 선과 원을 연결 */
+`;
+const Dot = styled.div`
+	width: 15px; /* 원의 너비 */
+	height: 15px; /* 원의 높이 */
+	background-color: white; /* 원의 색상 */
+	border-radius: 50%; /* 원으로 만들기 */
+	border: none; /* 원 테두리 */
+`;
+const Line = styled.div`
+	width: 2px; /* 선의 너비 */
+	height: 50px; /* 선의 높이 */
+	background-color: white; /* 선의 색상 */
+`;
+const Title = styled.div`
+	color: var(--text-text-primary, #464646);
+	font-family: Pretendard;
+	font-size: 33px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: normal;
+`;
+const InputContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+const Input = styled.input`
+	border-radius: 15px;
+	border: 1px solid #e8e8e8;
+	background: #fff;
+	width: 464px;
+	height: 49px;
+`;
+const BirthInput = styled.input`
+	width: 232px;
+	height: 49px;
+	border-radius: 15px;
+	border: 1px solid #e8e8e8;
+	background: #fff;
+`;
+const Button = styled.button`
+	width: 464px;
+	height: 49px;
+	border-radius: 15px;
+	background: #ff5238;
+	color: white;
+`;
+const Explanation = styled.div``;
 
 export default SignUp;

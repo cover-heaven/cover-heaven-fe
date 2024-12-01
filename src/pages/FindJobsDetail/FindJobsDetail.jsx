@@ -1,5 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Layout = styled.div`
 	padding-right: 24%;
@@ -111,8 +113,22 @@ const DdayBox = styled.div`
 `;
 
 const FindJobsDetail = () => {
+	const [serverData, setServerData] = useState(null);
+	const [error, setError] = useState(null);
 	const location = useLocation();
 	const nav = useNavigate();
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get('/job-offers');
+				setServerData(response.data);
+			} catch (err) {
+				setError(err.message);
+			}
+		};
+		fetchData();
+	}, []);
+
 	return (
 		<Layout>
 			<ParentContainer>
@@ -125,8 +141,8 @@ const FindJobsDetail = () => {
 					<TitleBox>
 						<Img src="icon"></Img>
 						<SubTitleBox>
-							<div>{location.state.title}</div>
-							<div>#{location.state.tag}</div>
+							<div>Title</div>
+							<div>태그</div>
 						</SubTitleBox>
 					</TitleBox>
 					<DateBox>
@@ -144,11 +160,11 @@ const FindJobsDetail = () => {
 			<DetailPage>
 				<WorkingPlace>
 					<InfoBox>근무처</InfoBox>
-					<div>{location.state.storeName}</div>
+					<div>가게이름</div>
 				</WorkingPlace>
 				<Address>
 					<InfoBox>주소</InfoBox>
-					<div>{location.state.address}</div>
+					<div>상세주소</div>
 				</Address>
 				<Writer>
 					<InfoBox>작성자</InfoBox>
@@ -156,7 +172,7 @@ const FindJobsDetail = () => {
 				</Writer>
 				<Tag>
 					<InfoBox>분류 태그</InfoBox>
-					<div>{location.state.tag}</div>
+					<div>학원</div>
 				</Tag>
 				<WorkingPeriod>
 					<InfoBox>기간</InfoBox>
@@ -174,11 +190,11 @@ const FindJobsDetail = () => {
 				</WorkingDate>
 				<TotalWage>
 					<InfoBox>총 급여</InfoBox>
-					<div>{Number(location.state.totalWage).toLocaleString()}원</div>
+					<div>1000원</div>
 				</TotalWage>
 				<Detail>
 					<InfoBox>상세 내용</InfoBox>
-					<div>{location.state.context}</div>
+					<div>상세 정보</div>
 				</Detail>
 			</DetailPage>
 		</Layout>

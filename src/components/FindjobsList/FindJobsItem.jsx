@@ -40,12 +40,13 @@ const Img = styled.img`
 const FindJobsItem = ({ data }) => {
 	const totalWage = data.work_detail.work_hour * data.work_detail.hourly_wage;
 	const hourlyWage = data.work_detail.hourly_wage;
+	const nav = useNavigate();
 	return (
-		<Layout>
+		<Layout onClick={() => nav('/findjobsdetail')}>
 			<Img src="icon"></Img>
 			<TitleContainer>
 				<div>{data.title}</div>
-				<div>{data.work_date}</div>
+				<div>{data.work_date[1]}</div>
 			</TitleContainer>
 			<AddressContainer>
 				<div>{data.address}</div>
@@ -57,7 +58,7 @@ const FindJobsItem = ({ data }) => {
 				<div>{totalWage.toLocaleString()}원</div>
 			</TotalWageContainer>
 			<DdayContainer>
-				<div>{data.work_date[0]}</div>
+				<div>{}</div>
 			</DdayContainer>
 		</Layout>
 	);

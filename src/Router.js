@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/common/Header';
 import Main from './pages/Main/Main';
 import FindJobsList from './pages/FindjobsList/FindJobsList';
@@ -13,17 +13,15 @@ import SignUp from './pages/SignUp/SignUp';
 import MyProfile from './pages/MyProfile/MyProfile';
 import FindJobsDetail from './pages/FindJobsDetail/FindJobsDetail';
 
-const AppRouter = () => {
+const Router = () => {
+	const location = useLocation();
+	const hideHeaderRoutes = ['/login', '/signup'];
 	return (
-		<BrowserRouter>
-			{/* <GlobalStyle> */}
-			<Header />
+		<>
+			{!hideHeaderRoutes.includes(location.pathname) && <Header />}
 			<Routes>
 				<Route path="/" element={<Main />} />
-				<Route
-					path="/findjobslist"
-					element={<FindJobsList />}
-				/>
+				<Route path="/findjobslist" element={<FindJobsList />} />
 				<Route path="/findjobsdetail" element={<FindJobsDetail />} />
 				<Route path="/workerslist" element={<WorkersList />} />
 				<Route path="/findjobswriting" element={<FindJobsWriting />} />
@@ -32,16 +30,10 @@ const AppRouter = () => {
 				<Route path="/chatlist" element={<ChatList />} />
 				<Route path="/myprofile" element={<MyProfile />} />
 				<Route path="/signup" element={<SignUp />} />
-				<Route
-					path="/login"
-					element={
-						<Login onLogin={(token) => console.log('Logged in:', token)} />
-					}
-				/>
+				<Route path="/login" element={<Login />} />
 			</Routes>
-			{/* </GlobalStyle> */}
-		</BrowserRouter>
+		</>
 	);
 };
 
-export default AppRouter;
+export default Router;
