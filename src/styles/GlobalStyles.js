@@ -3,7 +3,7 @@ import { reset } from 'styled-reset';
 export const GlobalStyle = createGlobalStyle`
   ${reset}
   html {
-    font-size:10px;
+    font-size:14px;
   }
   *{
     margin: 0;
@@ -12,19 +12,16 @@ export const GlobalStyle = createGlobalStyle`
   }
   body {
     font-family:"Pretendard";
-    background-color: black;
+    font-weight: 800;
   }
-  ::-webkit-scrollbar {
+  /* ::-webkit-scrollbar {
     display: none;
-  }
+  } */
   input {
-   border: none;
+    border: none;
     outline: none;  
   }
   button {
-    width: auto;
-    background: none;
-    border: none;
     cursor: pointer;
     &:focus {
       outline: none;

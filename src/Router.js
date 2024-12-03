@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/common/Header';
 import Main from './pages/Main/Main';
@@ -12,7 +12,6 @@ import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import MyProfile from './pages/MyProfile/MyProfile';
 import FindJobsDetail from './pages/FindJobsDetail/FindJobsDetail';
-import DaySelect from './pages/DaySelect/DaySelect';
 
 const mockData1 = [
   {

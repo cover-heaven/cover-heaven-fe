@@ -1,0 +1,43 @@
+.Header {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	border-bottom: 1px solid #c3c3c3;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 86px;
+	background-color: white;
+}
+
+.Header > .Title {
+	color: #ff5238;
+	font-size: 26px;
+	font-style: normal;
+	font-weight: 900;
+	line-height: normal;
+}
+
+.NavBar {
+	display: flex;
+	gap: 80px;
+}
+
+.Icon {
+	display: flex;
+	gap: 15px;
+}
+
+button {
+	font-weight: bolder;
+	cursor: pointer;
+	background-color: transparent;
+	border-color: transparent;
+}
+
+.NavBar > button > p {
+	font-size: 15px;
+	font-style: normal;
+	font-weight: 900;
+	line-height: normal;
+}
