@@ -72,14 +72,14 @@ const Login = () => {
 			</InputContainer>
 			<Bottom>
 				<div>아직 계정이 없다면?</div>
-				<button>학생증 인증 가입하기</button>
+				<button onClick={() => nav('/signup')}>학생증 인증 가입하기</button>
 			</Bottom>
 		</Layout>
 	);
 };
 
 const Layout = styled.div`
-	padding-top: 130px;
+	padding-top: 160px;
 `;
 const TitleContainer = styled.div`
 	display: flex;
