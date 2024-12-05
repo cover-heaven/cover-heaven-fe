@@ -24,7 +24,10 @@ const FindJobsDetail = () => {
 						<Title>광흥창 투썸 알바 급구</Title>
 						<JobTag>카페</JobTag>
 					</TitleBox>
-					<SubTitle>첫 근무까지 D-7</SubTitle>
+					<DdayContainer>
+						<SubTitle>첫 근무까지</SubTitle>
+						<Dday>D-7</Dday>
+					</DdayContainer>
 				</TitleContainer>
 				<SubTitleContainer>
 					<WriitenDate>2024.11.25 12시 49분에 작성된 글입니다</WriitenDate>
@@ -35,30 +38,30 @@ const FindJobsDetail = () => {
 				<WorkingPlaceInfo>
 					<div>근무지 정보</div>
 					<InfoBox>
-						<div>
-							<span>근무지명</span>
-							<span>투썸플레이스 광흥창역점</span>
-						</div>
-						<div>
-							<span>상세주소</span>
-							<span>서울 마포구 신수로 8길 16</span>
-						</div>
+						<InnerInfoBox>
+							<InfoTitle>근무지명</InfoTitle>
+							<Place>투썸플레이스 광흥창역점</Place>
+						</InnerInfoBox>
+						<InnerInfoBox>
+							<InfoTitle>상세주소</InfoTitle>
+							<Place>서울 마포구 신수로 8길 16</Place>
+						</InnerInfoBox>
 					</InfoBox>
 				</WorkingPlaceInfo>
 				<WorkingDateWage>
 					<div>근무일자 및 급여</div>
 					<InfoBox2>
-						<InfoTitle>
-							<Menu>근무일자</Menu>
-							<Menu>근무시간</Menu>
-							<Menu>시급</Menu>
-							<Menu>일급</Menu>
-						</InfoTitle>
+						<MenuTitle>
+							<Menu1>근무일자</Menu1>
+							<Menu1>근무시간</Menu1>
+							<Menu1>시급</Menu1>
+							<Menu1>일급</Menu1>
+						</MenuTitle>
 						<WorkingDetail>
-							<Menu>2024년 11월 25일 (화)</Menu>
-							<Menu>00:00 ~ 00:00</Menu>
-							<Menu>00,000원</Menu>
-							<Menu>00,000원</Menu>
+							<Menu2>2024년 11월 25일 (화)</Menu2>
+							<Menu2>00:00 ~ 00:00</Menu2>
+							<Menu2>00,000원</Menu2>
+							<Menu2>00,000원</Menu2>
 						</WorkingDetail>
 						<TotalWage>
 							<div>총 급여 00,000원</div>
@@ -83,7 +86,7 @@ const Layout = styled.div`
 	width: 100vw;
 `;
 const Header = styled.div`
-	padding: 4% 20% 3% 20%;
+	padding: 4% 18% 3% 18%;
 	display: flex;
 	flex-direction: column;
 	gap: 30px;
@@ -97,22 +100,57 @@ const Title = styled.div`
 	font-weight: 800;
 	line-height: normal;
 `;
+const Place = styled.div`
+	color: var(--text-text-primary, #464646);
+	font-family: Pretendard;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+`;
+const InnerInfoBox = styled.div`
+	display: flex;
+	gap: 25px;
+`;
 const TitleContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
-const Menu = styled.div`
-	width: 180px;
+const InfoTitle = styled.div`
+	color: var(--text-text-secondary, #787777);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+`;
+const Menu1 = styled.div`
+	width: 250px;
+	color: var(--text-text-secondary, #787777);
+	text-align: center;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+`;
+const Menu2 = styled.div`
+	width: 250px;
+	color: var(--text-text-primary, #464646);
+	text-align: center;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
 `;
 const TitleBox = styled.div`
 	display: flex;
 	align-items: center;
+	gap: 10px;
 `;
 const SubTitleContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 `;
-const InfoTitle = styled.div`
+const MenuTitle = styled.div`
 	display: flex;
 `;
 const JobTag = styled.div`
@@ -132,7 +170,27 @@ const JobTag = styled.div`
 		),
 		var(--icon-, #a5e09c);
 `;
-const SubTitle = styled.div``;
+const SubTitle = styled.div`
+	color: #787777;
+	font-family: Inter;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+`;
+const Dday = styled.div`
+	color: #ff5238;
+	font-family: Inter;
+	font-size: 32px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+`;
+const DdayContainer = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 9px;
+`;
 const WorkingDetail = styled.div`
 	display: flex;
 	padding-bottom: 13px;
@@ -160,8 +218,23 @@ const TotalWage = styled.div`
 	display: flex;
 	justify-content: right;
 	padding: 5px;
+	color: var(--surface-surface-primary, #ff5238);
+	text-align: right;
+	font-family: Pretendard;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
 `;
-const WriitenDate = styled.div``;
+const WriitenDate = styled.div`
+	color: var(--text-text-tertiary, #989898);
+	text-align: center;
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+`;
 const Inquiry = styled.button`
 	width: 200px;
 	padding: 10px;
@@ -178,7 +251,7 @@ const Detail = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 30px;
-	padding: 1.5% 20%;
+	padding: 1.5% 18%;
 `;
 const WorkingPlaceInfo = styled.div`
 	display: flex;
