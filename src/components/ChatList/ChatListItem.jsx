@@ -10,10 +10,11 @@ import IconMan from '../../assets/icon/icon_man.svg';
 import IconWoman from '../../assets/icon/icon_woman.svg';
 
 const ChatListItem = ({
-	gender,
-	user_name,
-	department,
-	student_id,
+	opponent_user_gender,
+	opponent_user_name,
+	oppenent_department,
+	opponent_user_student_id,
+	opponent_profile,
 	last_message,
 	unread_messages
 }) => {
@@ -22,12 +23,18 @@ const ChatListItem = ({
 			<ItemWrapper>
 				<InfoWrapper>
 					<ProfileImg
-						src={gender === 'male' ? IconMan : IconWoman}
+						src={
+							opponent_profile
+								? opponent_profile
+								: opponent_user_gender === 'male'
+									? IconMan
+									: IconWoman
+						}
 					></ProfileImg>
 					<ProfileTextWrapper>
 						<NameWrapper>
-							<Name>{user_name}</Name>
-							<SubInfo>{`(${department} ${student_id}학번)`}</SubInfo>
+							<Name>{opponent_user_name}</Name>
+							<SubInfo>{`(${oppenent_department} ${opponent_user_student_id}학번)`}</SubInfo>
 						</NameWrapper>
 						<MessageText>{last_message}</MessageText>
 					</ProfileTextWrapper>
@@ -74,6 +81,7 @@ const InfoWrapper = styled.div`
 const ProfileImg = styled.img`
 	/* height: calc(56 / 91 * 100%); */
 	height: 56px;
+	border-radius: 50%;
 `;
 
 const ProfileTextWrapper = styled.div`
