@@ -42,11 +42,15 @@ const FindJobsItem = ({ data }) => {
 	const hourlyWage = data.work_detail.hourly_wage;
 	const nav = useNavigate();
 	return (
-		<Layout onClick={() => nav('/findjobsdetail')}>
+		<Layout key={data.job_offer_id} onClick={() => nav('/findjobsdetail')}>
 			<Img src="icon"></Img>
 			<TitleContainer>
 				<div>{data.title}</div>
-				<div>{data.work_date[1]}</div>
+				<div>
+					{data.work_date.map((date) => (
+						<span key={data.job_offer_id}>{date}&nbsp;</span>
+					))}
+				</div>
 			</TitleContainer>
 			<AddressContainer>
 				<div>{data.address}</div>

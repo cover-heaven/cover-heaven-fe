@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import WorkingTime from '../../components/FindJobsWriting/WorkingTime';
 import axios from 'axios';
-import Calendar from 'react-calendar';
+import MyCalendar from '../../components/common/MyCalendar';
 
 // Styled Components
 const TitleBox = styled.div`
@@ -11,7 +11,7 @@ const TitleBox = styled.div`
 `;
 const StoreNameBox = styled.div`
 	display: flex;
-  gap: 3%;
+	gap: 3%;
 `;
 const JobTypeBox = styled.div`
 	display: flex;
@@ -153,7 +153,6 @@ const FindJobsWriting = () => {
 			timeString: '',
 			wage: '',
 			content: false,
-			isOpen: false,
 			date: ''
 		}
 	]);
@@ -165,6 +164,7 @@ const FindJobsWriting = () => {
 	const [selectedTag, setSelectedTag] = useState('');
 	const [error, setError] = useState();
 	const [workDetail, setWorkDetail] = useState([]);
+	const [isVisible, setIsVisible] = useState(false);
 
 	const makeWorkDetail = () => {
 		setWorkDetail(
@@ -204,7 +204,6 @@ const FindJobsWriting = () => {
 				timeString: '',
 				wage: '',
 				content: false,
-				isOpen: false,
 				date: ''
 			}
 		]);
@@ -242,43 +241,14 @@ const FindJobsWriting = () => {
 		);
 	};
 
-	// Calendar 열기
-	const openCalendar = (id) => {
-		setDateTimeInputs((prev) =>
-			prev.map((input) =>
-				input.id === id ? { ...input, isOpen: true } : input
-			)
-		);
-	};
-
-	// Calendar 닫기
-	const closeCalendar = (id) => {
-		setDateTimeInputs((prev) =>
-			prev.map((input) =>
-				input.id === id ? { ...input, isOpen: false } : input
-			)
-		);
-	};
-
-	// date 추가
-	const handleDateChange = (date) => {
-		const formattedDate = date.toISOString().split('T')[0];
-		setDateTimeInputs((inputs) =>
-			inputs.map((input) =>
-				input.isOpen ? { ...input, date: formattedDate, isOpen: false } : input
-			)
-		);
-	};
-
 	// 근무 시간 계산
 	const calculateWorkTime = (startHour, startMinute, endHour, endMinute) => {
-		const startTimeInMinutes = startHour * 60 + startMinute;
-		const endTimeInMinutes = endHour * 60 + endMinute;
+		const startTimeInMinutes = Number(startHour) * 60 + Number(startMinute);
+		const endTimeInMinutes = Number(endHour) * 60 + Number(endMinute);
 		const totalMinutes =
 			endTimeInMinutes >= startTimeInMinutes
 				? endTimeInMinutes - startTimeInMinutes
 				: 24 * 60 - startTimeInMinutes + endTimeInMinutes;
-
 		return totalMinutes / 60;
 	};
 
@@ -305,6 +275,10 @@ const FindJobsWriting = () => {
 	// 태그 변경
 	const handleTagChange = (tag) => {
 		setSelectedTag(tag);
+	};
+
+	const toggleCalendar = () => {
+		setIsVisible((prev) => !prev);
 	};
 
 	return (
@@ -362,12 +336,12 @@ const FindJobsWriting = () => {
 							<RowLayout>
 								<DateBox>
 									<Input
-										onClick={() => openCalendar(input.id)}
+										onClick={() => toggleCalendar(input.id)}
 										placeholder="2024년 11월 23일 (토)"
 										value={input.date}
 									/>
-									{input.isOpen && (
-										<Calendar onChange={handleDateChange}></Calendar>
+									{isVisible && (
+										<MyCalendar></MyCalendar>
 									)}
 								</DateBox>
 								<TimeBox>

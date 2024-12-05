@@ -285,7 +285,6 @@ const ThirdLayout = styled.div`
 	flex-direction: column;
 	gap: 20px;
 `;
-
 const RowLayout = styled.div`
 	display: flex;
 	gap: 10%;
@@ -409,6 +408,7 @@ const Button = styled.button`
 	border-radius: 15px;
 	background: #ff5238;
 	color: white;
+	margin-bottom: 8%;
 `;
 const Explanation = styled.div`
 	display: flex;

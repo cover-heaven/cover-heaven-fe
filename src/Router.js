@@ -7,7 +7,7 @@ import WorkersList from './pages/WorkersList/WorkersList';
 import Chat from './pages/Chat/Chat';
 import ChatList from './pages/ChatList/ChatList';
 import WorkersWriting from './pages/WorkersWriting/WorkersWriting';
-import FindJobsWriting from './pages/FindJobsWriting/FIndJobsWriting';
+import FindJobsWriting from './pages/FindJobsWriting/FindJobsWriting';
 import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import MyProfile from './pages/MyProfile/MyProfile';

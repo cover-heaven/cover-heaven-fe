@@ -1,7 +1,7 @@
 import FindJobsItem from '../../components/FindjobsList/FindJobsItem';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Calendar from 'react-calendar'; // 캘린더 라이브러리 (npm install react-calendar)
+import MyCalendar from '../../components/common/MyCalendar'; // 캘린더 라이브러리 (npm install react-calendar)
 import 'react-calendar/dist/Calendar.css'; // 캘린더 스타일 적용
 import axios from 'axios';
 
@@ -287,10 +287,7 @@ const FindJobsList = () => {
 								: '원하는 근무 일자를 선택하세요'}
 							{showCalendar && (
 								<CalendarWrapper>
-									<Calendar
-										onChange={onDateChange}
-										formatDay={(locale, date) => date.getDate()} // 날짜를 숫자로만 표시
-									/>
+									<MyCalendar />
 								</CalendarWrapper>
 							)}
 						</ToggleDate>

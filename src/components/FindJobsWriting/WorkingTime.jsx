@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const WorkingTime = ({ onMove, setContent, upDateWorkingTime }) => {
+const WorkingTime = ({ setContent, upDateWorkingTime }) => {
 	const [startHour, setStartHour] = useState('');
 	const [startMinute, setStartMinute] = useState('');
 	const [endHour, setEndHour] = useState('');
