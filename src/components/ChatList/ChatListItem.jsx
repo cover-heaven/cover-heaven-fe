@@ -1,44 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-	Border_Primary,
-	Surface_Primary,
-	Text_Primary,
-	Text_Secondary
-} from '../../styles/color';
-import IconMan from '../../assets/icon/icon_man.svg';
-import IconWoman from '../../assets/icon/icon_woman.svg';
+import { Border_Primary, Surface_Primary } from '../../styles/color';
+import ChatProfile from '../common/ChatProfile';
 
-const ChatListItem = ({
-	opponent_user_gender,
-	opponent_user_name,
-	oppenent_department,
-	opponent_user_student_id,
-	opponent_profile,
-	last_message,
-	unread_messages
-}) => {
+const ChatListItem = ({ unread_messages, ...data }) => {
 	return (
 		<>
 			<ItemWrapper>
-				<InfoWrapper>
-					<ProfileImg
-						src={
-							opponent_profile
-								? opponent_profile
-								: opponent_user_gender === 'male'
-									? IconMan
-									: IconWoman
-						}
-					></ProfileImg>
-					<ProfileTextWrapper>
-						<NameWrapper>
-							<Name>{opponent_user_name}</Name>
-							<SubInfo>{`(${oppenent_department} ${opponent_user_student_id}학번)`}</SubInfo>
-						</NameWrapper>
-						<MessageText>{last_message}</MessageText>
-					</ProfileTextWrapper>
-				</InfoWrapper>
+				<ChatProfile {...data}></ChatProfile>
 				{Number(unread_messages) === 0 ? (
 					<></>
 				) : (
@@ -70,58 +39,6 @@ const ItemWrapper = styled.div`
 		scale: 1.01;
 		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
-`;
-
-const InfoWrapper = styled.div`
-	display: flex;
-	align-items: center;
-	gap: 16px;
-`;
-
-const ProfileImg = styled.img`
-	/* height: calc(56 / 91 * 100%); */
-	height: 56px;
-	border-radius: 50%;
-`;
-
-const ProfileTextWrapper = styled.div`
-	display: flex;
-	/* width: 236px; */
-	flex-direction: column;
-	justify-content: center;
-	align-items: flex-start;
-	gap: 7px;
-`;
-
-const NameWrapper = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 5px;
-`;
-
-const Name = styled.p`
-	color: ${Text_Primary};
-	font-size: 20px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: normal;
-`;
-
-const SubInfo = styled.p`
-	color: ${Text_Secondary};
-	font-size: 14px;
-	font-style: normal;
-	font-weight: 500;
-	line-height: normal;
-`;
-
-const MessageText = styled.p`
-	color: ${Text_Secondary};
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 600;
-	line-height: normal;
 `;
 
 const UnreadWrapper = styled.div`
