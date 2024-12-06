@@ -88,33 +88,17 @@ const WorkingTime = ({ setContent, upDateWorkingTime }) => {
 			<FirstContainer>
 				<div>출근</div>
 				<div>
-					<InputBox
-						placeholder="시"
-						value={startHour}
-						onChange={handleStartHourChange}
-					/>
+					<InputBox value={startHour} onChange={handleStartHourChange} />
 					<span> : </span>
-					<InputBox
-						placeholder="분"
-						value={startMinute}
-						onChange={handleStartMinuteChange}
-					/>
+					<InputBox value={startMinute} onChange={handleStartMinuteChange} />
 				</div>
 			</FirstContainer>
 			<SecondContainer>
 				<div>퇴근</div>
 				<div>
-					<InputBox
-						placeholder="시"
-						value={endHour}
-						onChange={handleEndHourChange}
-					/>
+					<InputBox value={endHour} onChange={handleEndHourChange} />
 					<span> : </span>
-					<InputBox
-						placeholder="분"
-						value={endMinute}
-						onChange={handleEndMinuteChange}
-					/>
+					<InputBox value={endMinute} onChange={handleEndMinuteChange} />
 				</div>
 			</SecondContainer>
 			<div>
@@ -127,9 +111,13 @@ const WorkingTime = ({ setContent, upDateWorkingTime }) => {
 
 const FirstContainer = styled.div`
 	display: flex;
+	align-items: center;
+	gap: 5%;
 `;
 const SecondContainer = styled.div`
 	display: flex;
+	align-items: center;
+	gap: 5%;
 `;
 const Layout = styled.div`
 	width: 100%;
@@ -137,6 +125,10 @@ const Layout = styled.div`
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
+	padding: 5%;
+	display: flex;
+	flex-direction: column;
+	gap: 10%;
 `;
 const InputBox = styled.input`
 	width: 40px;
@@ -145,10 +137,11 @@ const InputBox = styled.input`
 	background: #d9d9d9;
 `;
 const Button = styled.button`
-	width: 152px;
+	width: 170px;
 	height: 30px;
 	padding: 0px 51px;
 	border-radius: 10px;
+	color: white;
 	background: var(--surface-surface-primary, #ff5238);
 `;
 

@@ -10,15 +10,15 @@ const Layout = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding-top: 74px;
-	padding-left: 14.2%;
-	padding-right: 14.2%;
-	gap: 84px;
+	gap: 45px;
 `;
 
 const JobsListContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 41px;
+	padding-left: 14.2%;
+	padding-right: 14.2%;
 `;
 
 const ListArray = styled.div`
@@ -63,8 +63,12 @@ const Toggle = styled.div`
 
 const SubHeader = styled.div`
 	display: flex;
+	padding-left: 14.2%;
+	padding-right: 14.2%;
 	flex-direction: column;
 	gap: 39px;
+	border-bottom: 1px solid #c3c3c3;
+	padding-bottom: 1.5%;
 `;
 
 const TitleContainter = styled.div`
@@ -126,7 +130,7 @@ const mockData = [
 		job_tag: '카페',
 		address: '서울시 마포구 광흥창역',
 		work_detail: {
-			work_date: '20241101',
+			work_date: '20241211',
 			work_hour: '4',
 			hourly_wage: '10000'
 		},
@@ -139,7 +143,7 @@ const mockData = [
 		job_tag: '과외',
 		address: '서울시 서대구문구 연세로',
 		work_detail: {
-			work_date: '20241102',
+			work_date: '20241212',
 			work_hour: '2',
 			hourly_wage: '30000'
 		},
@@ -152,7 +156,7 @@ const mockData = [
 		job_tag: '식당',
 		address: '서울시 마포구 백범로',
 		work_detail: {
-			work_date: '20241102',
+			work_date: '20241213',
 			work_hour: '7',
 			hourly_wage: '11000'
 		},
@@ -165,7 +169,7 @@ const mockData = [
 		job_tag: '카페',
 		address: '서울시 서대구문구 연세로',
 		work_detail: {
-			work_date: '20241102',
+			work_date: '20241214',
 			work_hour: '7',
 			hourly_wage: '9000'
 		},
@@ -177,6 +181,9 @@ const FindJobsList = () => {
 	const [searchData, setSearchData] = useState('');
 	const [selectedJob, setSelectedJob] = useState('');
 	const [serverData, setServerData] = useState(null);
+	const [selectedDate, setSelectedDate] = useState(null);
+	const [searchDate, setSearchDate] = useState(null);
+	console.log(searchDate);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -206,10 +213,10 @@ const FindJobsList = () => {
 					: true
 			)
 			.filter((data) => (selectedJob ? data.job_tag === selectedJob : true))
+			.filter((data) =>
+				searchDate ? data.work_detail.work_date === searchDate : true
+			);
 	};
-	const [selectedDate, setSelectedDate] = useState(null);
-	const [searchDate, setSearchDate] = useState(null);
-	console.log(searchDate);
 
 	return (
 		<Layout>

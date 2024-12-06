@@ -114,8 +114,8 @@ const SubTitle = styled.div`
 const TitleContainter = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
-	padding: 5% 0;
+	gap: 25px;
+	padding: 9% 0 3% 0;
 `;
 const AddButtonLayout = styled.div`
 	display: flex;
@@ -178,6 +178,10 @@ const StyledDatePicker = styled(DatePicker)`
 	}
 `;
 
+const Highlight = styled.div`
+	border: 3px solid red;
+`;
+
 // Main Component
 const FindJobsWriting = () => {
 	const [dateTimeInputs, setDateTimeInputs] = useState([
@@ -201,7 +205,7 @@ const FindJobsWriting = () => {
 		setWorkDetail(
 			dateTimeInputs.map((input) => ({
 				work_date: input.date,
-				work_hour: input.time,
+				work_hour: input.timeData,
 				hourly_wage: input.hourlyWage
 			}))
 		);
@@ -293,6 +297,7 @@ const FindJobsWriting = () => {
 		endMinute
 	) => {
 		const timeStr = `${startHour}시 ${startMinute}분 - ${endHour}시 ${endMinute}분`;
+		const timeData = `${startHour}:${startMinute}-${endHour}:${endMinute}`;
 		updateInput(id, 'timeString', timeStr);
 
 		const totalHours = calculateWorkTime(
@@ -313,8 +318,9 @@ const FindJobsWriting = () => {
 		<Layout>
 			<TitleContainter>
 				<MainTitle>대타 공고 작성하기</MainTitle>
+				<Highlight></Highlight>
 				<SubTitle>
-					단기로 일할 수 있는 아르바이트 공고를 한 눈에 확인해보세요
+					구직자들이 읽을 아르바이트 대타 공고를 작성해주세요.
 				</SubTitle>
 			</TitleContainter>
 			<TitleBox>
