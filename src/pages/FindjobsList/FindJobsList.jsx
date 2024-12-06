@@ -1,9 +1,10 @@
 import FindJobsItem from '../../components/FindjobsList/FindJobsItem';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import MyCalendar from '../../components/common/MyCalendar'; // 캘린더 라이브러리 (npm install react-calendar)
 import 'react-calendar/dist/Calendar.css'; // 캘린더 스타일 적용
 import axios from 'axios';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
 
 const Layout = styled.div`
 	display: flex;
@@ -48,95 +49,6 @@ const ToggleJobs = styled.select`
 	background: #fff;
 `;
 
-const ToggleDate = styled.div`
-	position: relative;
-	width: 80%;
-	height: 52px;
-	flex-shrink: 0;
-	border-radius: 15px;
-	border: 1px solid var(--border-border-primary, #e8e8e8);
-	background: #fff;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-`;
-
-const CalendarWrapper = styled.div`
-	position: absolute;
-	top: 60px;
-	left: 0;
-	z-index: 1000;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-	border-radius: 15px;
-	overflow: hidden;
-	width: 259px;
-	height: 313px;
-
-	.react-calendar {
-		width: 259px;
-		height: 313px;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		background: #fff;
-		border-radius: 15px;
-	}
-
-	.react-calendar__navigation {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height: 50px;
-		padding: 0 10px;
-		background: #f8f8f8;
-		border-bottom: 1px solid #e8e8e8;
-	}
-
-	.react-calendar__month-view__weekdays {
-		display: grid;
-		grid-template-columns: repeat(7, 1fr);
-		text-align: center;
-		font-size: 14px;
-		font-weight: bold;
-		height: 30px;
-		background: #f0f0f0;
-		padding: 5px 0;
-	}
-
-	.react-calendar__tile {
-		text-align: center;
-		padding: 15px;
-		border-radius: 10px;
-		font-size: 14px;
-		cursor: pointer;
-		transition:
-			background 0.3s ease,
-			color 0.3s ease;
-	}
-
-	.react-calendar__tile--active {
-		background: #f66a24;
-		color: white;
-		border-radius: 10px;
-	}
-
-	.react-calendar__tile--hover {
-		background: rgba(246, 106, 36, 0.1);
-	}
-
-	.react-calendar__month-view__days {
-		display: grid;
-		grid-template-columns: repeat(7, 1fr);
-		grid-auto-rows: 50px;
-	}
-
-	.react-calendar__tile--now {
-		background: rgba(246, 106, 36, 0.1);
-		border-radius: 10px;
-	}
-`;
-
 const Filter = styled.div`
 	display: flex;
 	align-items: center;
@@ -145,6 +57,7 @@ const Filter = styled.div`
 
 const Toggle = styled.div`
 	display: flex;
+	align-items: center;
 	gap: 16px;
 `;
 
@@ -168,6 +81,43 @@ const SearchInput = styled.input`
 	border: 1px solid #ede6e6;
 	background: #fff;
 `;
+
+// Styled-components로 스타일 정의
+const StyledWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 20px;
+
+	h1 {
+		font-size: 24px;
+		margin-bottom: 16px;
+		color: #333;
+	}
+
+	p {
+		margin-top: 12px;
+		font-size: 18px;
+		color: #555;
+	}
+`;
+
+// DatePicker에 커스텀 스타일 적용
+const StyledDatePicker = styled(DatePicker)`
+	width: 200px;
+	height: 40px;
+	font-size: 16px;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	text-align: center;
+
+	&:focus {
+		border-color: #007bff;
+		outline: none;
+	}
+`;
+
 const mockData = [
 	{
 		job_offer_id: 3,
@@ -176,7 +126,7 @@ const mockData = [
 		job_tag: '카페',
 		address: '서울시 마포구 광흥창역',
 		work_detail: {
-			work_date: '2024.11.01',
+			work_date: '20241101',
 			work_hour: '4',
 			hourly_wage: '10000'
 		},
@@ -189,7 +139,7 @@ const mockData = [
 		job_tag: '과외',
 		address: '서울시 서대구문구 연세로',
 		work_detail: {
-			work_date: '2024.11.02',
+			work_date: '20241102',
 			work_hour: '2',
 			hourly_wage: '30000'
 		},
@@ -202,7 +152,7 @@ const mockData = [
 		job_tag: '식당',
 		address: '서울시 마포구 백범로',
 		work_detail: {
-			work_date: '2024.11.02',
+			work_date: '20241102',
 			work_hour: '7',
 			hourly_wage: '11000'
 		},
@@ -215,7 +165,7 @@ const mockData = [
 		job_tag: '카페',
 		address: '서울시 서대구문구 연세로',
 		work_detail: {
-			work_date: '2024.11.02',
+			work_date: '20241102',
 			work_hour: '7',
 			hourly_wage: '9000'
 		},
@@ -226,10 +176,7 @@ const mockData = [
 const FindJobsList = () => {
 	const [searchData, setSearchData] = useState('');
 	const [selectedJob, setSelectedJob] = useState('');
-	const [showCalendar, setShowCalendar] = useState(false);
-	const [selectedDate, setSelectedDate] = useState(null);
 	const [serverData, setServerData] = useState(null);
-	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -237,7 +184,7 @@ const FindJobsList = () => {
 				const response = await axios.get('/job-offers');
 				setServerData(response.data);
 			} catch (err) {
-				setError(err.message);
+				console.log('실패');
 			}
 		};
 		fetchData();
@@ -251,15 +198,6 @@ const FindJobsList = () => {
 		setSelectedJob(e.target.value);
 	};
 
-	const onToggleCalendar = () => {
-		setShowCalendar((prev) => !prev); // 캘린더 표시 상태 토글
-	};
-
-	const onDateChange = (date) => {
-		setSelectedDate(date); // 선택된 날짜 업데이트
-		setShowCalendar(false); // 날짜 선택 후 캘린더 숨김
-	};
-
 	const filteredData = () => {
 		return mockData // 서버랑 연결되면 mockData -> serverData로 교체
 			.filter((data) =>
@@ -267,8 +205,11 @@ const FindJobsList = () => {
 					? data.title.toLowerCase().includes(searchData.toLowerCase())
 					: true
 			)
-			.filter((data) => (selectedJob ? data.job_tag === selectedJob : true));
+			.filter((data) => (selectedJob ? data.job_tag === selectedJob : true))
 	};
+	const [selectedDate, setSelectedDate] = useState(null);
+	const [searchDate, setSearchDate] = useState(null);
+	console.log(searchDate);
 
 	return (
 		<Layout>
@@ -281,16 +222,22 @@ const FindJobsList = () => {
 				</TitleContainter>
 				<Filter>
 					<Toggle>
-						<ToggleDate onClick={onToggleCalendar}>
-							{selectedDate
-								? selectedDate.toLocaleDateString()
-								: '원하는 근무 일자를 선택하세요'}
-							{showCalendar && (
-								<CalendarWrapper>
-									<MyCalendar />
-								</CalendarWrapper>
-							)}
-						</ToggleDate>
+						<StyledWrapper>
+							<StyledDatePicker
+								dateFormat="yyyy-MM-dd"
+								selected={selectedDate} // 선택한 날짜 표시
+								onChange={(date) => {
+									setSelectedDate(date);
+									setSearchDate(
+										`${date.getFullYear()}` +
+											`${date.getMonth() + 1}` +
+											`${date.getDate()}`
+									);
+								}}
+								// 날짜 선택 시 상태 업데이트
+								placeholderText="2024년 11월 23일 (토)" // 입력창 placeholder
+							/>
+						</StyledWrapper>
 						<ToggleJobs onChange={onChangeJob}>
 							<option value="">직종</option>
 							<option value="과외">과외</option>

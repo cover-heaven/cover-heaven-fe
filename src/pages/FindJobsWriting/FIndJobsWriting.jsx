@@ -2,7 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import WorkingTime from '../../components/FindJobsWriting/WorkingTime';
 import axios from 'axios';
-import MyCalendar from '../../components/common/MyCalendar';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
 
 // Styled Components
 const TitleBox = styled.div`
@@ -54,7 +55,6 @@ const Layout = styled.div`
 const RowLayout = styled.div`
 	display: flex;
 	width: 100%;
-	position: relative;
 `;
 const Input = styled.input`
 	width: 100%;
@@ -143,41 +143,73 @@ const DeleteBox = styled.button`
 	border-radius: 15px;
 	background: var(--border-border-secondary, #c3c3c3);
 `;
+const StyledWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 20px;
+
+	h1 {
+		font-size: 24px;
+		margin-bottom: 16px;
+		color: #333;
+	}
+
+	p {
+		margin-top: 12px;
+		font-size: 18px;
+		color: #555;
+	}
+`;
+
+// DatePicker에 커스텀 스타일 적용
+const StyledDatePicker = styled(DatePicker)`
+	width: 200px;
+	height: 40px;
+	font-size: 16px;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	text-align: center;
+
+	&:focus {
+		border-color: #007bff;
+		outline: none;
+	}
+`;
 
 // Main Component
 const FindJobsWriting = () => {
 	const [dateTimeInputs, setDateTimeInputs] = useState([
 		{
 			id: 1,
-			time: '',
+			date: '',
 			timeString: '',
-			wage: '',
-			content: false,
-			date: ''
+			time: '',
+			hourlyWage: '',
+			content: false
 		}
 	]);
-
 	const [title, setTitle] = useState('');
 	const [storeName, setStoreName] = useState('');
 	const [address, setAddress] = useState('');
 	const [message, setMessage] = useState('');
 	const [selectedTag, setSelectedTag] = useState('');
-	const [error, setError] = useState();
 	const [workDetail, setWorkDetail] = useState([]);
-	const [isVisible, setIsVisible] = useState(false);
 
 	const makeWorkDetail = () => {
 		setWorkDetail(
 			dateTimeInputs.map((input) => ({
 				work_date: input.date,
 				work_hour: input.time,
-				hourly_wage: input.time * input.wage
+				hourly_wage: input.hourlyWage
 			}))
 		);
 	};
 
 	// 서버 전송
 	const onSubmit = async () => {
+		console.log(dateTimeInputs);
 		try {
 			makeWorkDetail();
 			await axios.post('/job-offers', {
@@ -189,7 +221,7 @@ const FindJobsWriting = () => {
 				context: message
 			});
 		} catch (err) {
-			setError(err);
+			console.log('실패');
 		}
 	};
 
@@ -200,11 +232,11 @@ const FindJobsWriting = () => {
 			...prev,
 			{
 				id: prev.length + 1,
-				time: '',
+				date: '',
 				timeString: '',
-				wage: '',
-				content: false,
-				date: ''
+				time: '',
+				hourlyWage: '',
+				content: false
 			}
 		]);
 	};
@@ -277,10 +309,6 @@ const FindJobsWriting = () => {
 		setSelectedTag(tag);
 	};
 
-	const toggleCalendar = () => {
-		setIsVisible((prev) => !prev);
-	};
-
 	return (
 		<Layout>
 			<TitleContainter>
@@ -334,16 +362,15 @@ const FindJobsWriting = () => {
 					{dateTimeInputs.map((input) => (
 						<ItemLayout key={input.id}>
 							<RowLayout>
-								<DateBox>
-									<Input
-										onClick={() => toggleCalendar(input.id)}
-										placeholder="2024년 11월 23일 (토)"
-										value={input.date}
+								<StyledWrapper>
+									<StyledDatePicker
+										dateFormat="yyyy-MM-dd"
+										selected={dateTimeInputs[input.id - 1].date} // 선택한 날짜 표시
+										onChange={(date) => updateInput(input.id, 'date', date)}
+										// 날짜 선택 시 상태 업데이트
+										placeholderText="2024년 11월 23일 (토)" // 입력창 placeholder
 									/>
-									{isVisible && (
-										<MyCalendar></MyCalendar>
-									)}
-								</DateBox>
+								</StyledWrapper>
 								<TimeBox>
 									<Input
 										onClick={() => openWorkingTime(input.id)}
@@ -375,16 +402,16 @@ const FindJobsWriting = () => {
 								</TimeBox>
 								<InputBox
 									onChange={(e) =>
-										updateInput(input.id, 'wage', e.target.value)
+										updateInput(input.id, 'hourlyWage', e.target.value)
 									}
 									placeholder="시급 00,000원"
-									value={input.wage}
+									value={input.hourlyWage}
 								/>
 								<DeleteBox onClick={() => onDelete(input.id)}>X</DeleteBox>
 							</RowLayout>
 							<div>
 								<TotalWage>
-									일급 {(input.time * input.wage || 0).toLocaleString()}원
+									일급 {(input.time * input.hourlyWage || 0).toLocaleString()}원
 								</TotalWage>
 							</div>
 						</ItemLayout>

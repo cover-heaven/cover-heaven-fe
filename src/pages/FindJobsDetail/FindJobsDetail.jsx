@@ -71,7 +71,7 @@ const FindJobsDetail = () => {
 				<DetailContent>
 					<div>상세 모집내용</div>
 					<InfoBox>
-						안녕하세요, 서강대학교 글로벌한국학&컴퓨터공학 전공 23학번
+						안녕하세요, 서강대학교 글로벌한국학&융합소프트웨어 전공 23학번
 						김동휘입니다.
 					</InfoBox>
 				</DetailContent>
@@ -90,7 +90,7 @@ const Header = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 30px;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #c3c3c3;
 `;
 const Title = styled.div`
 	color: var(--text-text-primary, #464646);
@@ -128,6 +128,7 @@ const Menu1 = styled.div`
 	color: var(--text-text-secondary, #787777);
 	text-align: center;
 	font-size: 20px;
+	font-family: Pretendard;
 	font-style: normal;
 	font-weight: 500;
 	line-height: normal;
@@ -194,12 +195,12 @@ const DdayContainer = styled.div`
 const WorkingDetail = styled.div`
 	display: flex;
 	padding-bottom: 13px;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #c3c3c3;
 `;
 const InfoBox = styled.div`
 	display: flex;
 	flex-direction: column;
-	border: 1px solid black;
+	border: 1px solid #c3c3c3;
 	border-radius: 10px;
 	padding: 3%;
 	gap: 15px;
@@ -208,7 +209,7 @@ const InfoBox = styled.div`
 const InfoBox2 = styled.div`
 	display: flex;
 	flex-direction: column;
-	border: 1px solid black;
+	border: 1px solid #c3c3c3;
 	border-radius: 10px;
 	padding: 3%;
 	gap: 15px;
