@@ -30,11 +30,13 @@ import {
 	postMatchStatus
 } from '../../components/Chat/api';
 import ReportModal from '../../components/Chat/ReportModal';
+import FeedbackModal from '../../components/Chat/FeedbackModal';
 
 const chatDataDummy = {
 	status: '매칭하기',
 	opponent_user_name: '김서강',
 	opponent_user_student_id: '20190000',
+	opponent_user_phone: '01012341234',
 	opponent_user_gender: 'male',
 	opponent_phone: '01013241234',
 	oppenent_department: '미국문화학과',
@@ -80,14 +82,19 @@ const Chat = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const defaultData = { ...location.state };
-	const [matchStatus, setMatchStatus] = useState('before');
+	const [matchStatus, setMatchStatus] = useState('beforeFeedback');
 	const [openMatch, setOpenMatch] = useState(false);
+	const [openMatchDone, setOpenMatchDone] = useState({
+		animation: false,
+		render: false
+	});
 	const [openReport, setOpenReport] = useState(false);
 	const [openReportDone, setOpenReportDone] = useState({
 		animation: false,
 		render: false
 	});
-	const [openMatchDone, setOpenMatchDone] = useState({
+	const [openFeedback, setOpenFeedback] = useState(false);
+	const [openFeedbackDone, setOpenFeedbackDone] = useState({
 		animation: false,
 		render: false
 	});
@@ -104,8 +111,6 @@ const Chat = () => {
 	const [message, setMessage] = useState('');
 	const [profileProps, setProfileProps] = useState({});
 	const inputRef = useRef(null);
-
-	// console.log(defaultData);
 
 	useEffect(() => {
 		// const chatRes = getChatData(chatData.chatting_id);
@@ -151,13 +156,17 @@ const Chat = () => {
 				...prev,
 				subText: '학번 및 전화번호는 매칭 확정 시 공개됩니다.'
 			})); //채팅 입장 시 매칭 중일 경우 백에서부터 매칭 요청된 근무일자 정보를 받자!!!
-		} else if (matchStatus === 'accepted') {
+		} else if (
+			matchStatus === 'accepted' ||
+			matchStatus === 'beforeFeedback' ||
+			matchStatus === 'afterFeedback'
+		) {
 			setProfileProps((prev) => ({
 				...prev,
-				subText: `학번 : ${chatData.opponent_user_student_id} | 전화번호 : ${chatData.opponent_user_phone.slice(0, 3)}-${chatData.opponent_user_phone.slice(3, 7)}-${chatData.opponent_user_phone.slice(7, 11)}`
-			}));
+				subText: `학번 : ${chatData.opponent_user_student_id} | 전화번호 : ${chatData.opponent_user_phone?.slice(0, 3)}-${chatData.opponent_user_phone?.slice(3, 7)}-${chatData.opponent_user_phone?.slice(7, 11)}`
+			})); // 피드백 전 상태일 경우에도 백으로부터 매칭된 날짜 배열 받자!
 		}
-	}, [matchStatus]);
+	}, [matchStatus, chatData]);
 
 	const handleBackClick = () => {
 		navigate('/chatlist');
@@ -166,6 +175,7 @@ const Chat = () => {
 	const handleInput = (e) => {
 		setMessage(e.target.value);
 	};
+
 	const handleSubmitMsg = (msgText, msgType = 'normal') => {
 		//백엔드 배포 후 개발 예정
 		if (msgType === 'normal') {
@@ -247,6 +257,29 @@ const Chat = () => {
 			);
 			setTimeout(
 				() => setOpenReportDone({ animation: false, render: false }),
+				3300
+			);
+		}
+	};
+
+	const handleOpenFeedback = () => {
+		setOpenFeedback(true);
+	};
+
+	const handleCloseFeedback = (isTaskDone) => {
+		setOpenFeedback(false);
+		if (isTaskDone === true) {
+			setOpenFeedbackDone({ animation: false, render: true });
+			setTimeout(
+				() => setOpenFeedbackDone({ animation: true, render: true }),
+				1
+			);
+			setTimeout(
+				() => setOpenFeedbackDone({ animation: false, render: true }),
+				3000
+			);
+			setTimeout(
+				() => setOpenFeedbackDone({ animation: false, render: false }),
 				3300
 			);
 		}
@@ -351,11 +384,30 @@ const Chat = () => {
 											fontWeight="600"
 											isIcon={false}
 										></Button>
-									) : (
+									) : matchStatus === 'accepted' ? (
 										<Button
 											mode="activated"
 											textSize="16"
 											content="매칭완료"
+											width="116px"
+											fontWeight="600"
+											isIcon={false}
+										></Button>
+									) : matchStatus === 'beforeFeedback' ? (
+										<Button
+											mode="default"
+											textSize="16"
+											content="평가하기"
+											width="116px"
+											fontWeight="600"
+											isIcon={false}
+											onClick={handleOpenFeedback}
+										></Button>
+									) : (
+										<Button
+											mode="activated"
+											textSize="16"
+											content="평가완료"
 											width="116px"
 											fontWeight="600"
 											isIcon={false}
@@ -506,6 +558,16 @@ const Chat = () => {
 			) : (
 				<></>
 			)}
+			{openFeedback === true ? (
+				<ModalWrapper>
+					<FeedbackModal
+						handleCloseFeedback={handleCloseFeedback}
+						workDay={workDay}
+					></FeedbackModal>
+				</ModalWrapper>
+			) : (
+				<></>
+			)}
 			{openReportDone.render === true ? (
 				<ReportDoneModal visible={openReportDone.animation}>
 					신고가 정상적으로 접수되었습니다.
@@ -516,6 +578,13 @@ const Chat = () => {
 			{openMatchDone.render === true ? (
 				<ReportDoneModal visible={openMatchDone.animation}>
 					매칭 신청이 완료되었습니다.
+				</ReportDoneModal>
+			) : (
+				<></>
+			)}
+			{openFeedbackDone.render === true ? (
+				<ReportDoneModal visible={openFeedbackDone.animation}>
+					근무자 평가가 완료되었습니다.
 				</ReportDoneModal>
 			) : (
 				<></>

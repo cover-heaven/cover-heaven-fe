@@ -189,9 +189,10 @@ const MatchingModal = ({
 export default MatchingModal;
 
 const ModalBox = styled.div`
-	width: calc(556 / 1512 * 100%);
-	min-width: 556px;
-	min-height: 670px;
+	/* width: calc(556 / 1512 * 100%); */
+	width: 556px;
+	/* min-height: 618px; */
+	height: 0%;
 	box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.1);
 	border-radius: 40px;
 	border: 1px solid ${Border_Primary};

@@ -122,8 +122,8 @@ const ReportModal = ({ handleCloseReport, chatting_id }) => {
 export default ReportModal;
 
 const ModalBox = styled.div`
-	width: calc(556 / 1512 * 100%);
-	min-width: 556px;
+	width: 556px;
+	height: 0%;
 	/* min-height: 545px; */
 	box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.1);
 	border-radius: 40px;
