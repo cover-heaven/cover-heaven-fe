@@ -79,7 +79,12 @@ const MatchingModal = ({
 
 	return (
 		<ModalBox>
-			<ExitImg src={exitIcon} onClick={handleCloseMatch}></ExitImg>
+			<ExitImg
+				src={exitIcon}
+				onClick={() => {
+					handleCloseMatch(false);
+				}}
+			></ExitImg>
 			<SubSection>
 				<SectionTitle>
 					<TitleText>1. 근무조건 입력하기 </TitleText>

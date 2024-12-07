@@ -29,6 +29,7 @@ import {
 	patchJobPost,
 	postMatchStatus
 } from '../../components/Chat/api';
+import ReportModal from '../../components/Chat/ReportModal';
 
 const chatDataDummy = {
 	status: '매칭하기',
@@ -81,6 +82,15 @@ const Chat = () => {
 	const defaultData = { ...location.state };
 	const [matchStatus, setMatchStatus] = useState('before');
 	const [openMatch, setOpenMatch] = useState(false);
+	const [openReport, setOpenReport] = useState(false);
+	const [openReportDone, setOpenReportDone] = useState({
+		animation: false,
+		render: false
+	});
+	const [openMatchDone, setOpenMatchDone] = useState({
+		animation: false,
+		render: false
+	});
 	const [workDay, setWorkDay] = useState(workDayDummy);
 	const [jobPostData, setJobPostData] = useState({});
 	const [matchData, setMatchData] = useState({});
@@ -194,13 +204,13 @@ const Chat = () => {
 		setChatData((prev) => {
 			return { ...prev, messages: msgList };
 		});
-		if (msgType == 'matchRequest') {
+		if (msgType === 'matchRequest') {
 			setMatchStatus('processing');
 			setMatchData({ workDay: msgText.workDay, totalPay: msgText.totalPay });
 			//매칭된 근무일자 배열을 저장, 이후 매칭 시 공고와 겹치는 근무일자 소거
-		} else if (msgType == 'matchFailed') {
+		} else if (msgType === 'matchFailed') {
 			setMatchStatus('before');
-		} else if (msgType == 'matchAccepted') {
+		} else if (msgType === 'matchAccepted') {
 			setMatchStatus('accepted');
 		}
 	};
@@ -208,12 +218,41 @@ const Chat = () => {
 	const handleOpenMatch = () => {
 		setOpenMatch(true);
 	};
-	const handleCloseMatch = () => {
+	const handleCloseMatch = (isTaskDone) => {
 		setOpenMatch(false);
+		if (isTaskDone === true) {
+			setOpenMatchDone({ animation: false, render: true });
+			setTimeout(() => setOpenMatchDone({ animation: true, render: true }), 1);
+			setTimeout(
+				() => setOpenMatchDone({ animation: false, render: true }),
+				3000
+			);
+			setTimeout(
+				() => setOpenMatchDone({ animation: false, render: false }),
+				3300
+			);
+		}
+	};
+	const handleOpenReport = () => {
+		setOpenReport(true);
+	};
+	const handleCloseReport = (isTaskDone) => {
+		setOpenReport(false);
+		if (isTaskDone === true) {
+			setOpenReportDone({ animation: false, render: true });
+			setTimeout(() => setOpenReportDone({ animation: true, render: true }), 1);
+			setTimeout(
+				() => setOpenReportDone({ animation: false, render: true }),
+				3000
+			);
+			setTimeout(
+				() => setOpenReportDone({ animation: false, render: false }),
+				3300
+			);
+		}
 	};
 
 	const handleRequestMatch = (tempWorkDay, totalPay) => {
-		setOpenMatch(false);
 		// postMatchStatus(chatData.chatting_id, 'processing');
 		setMatchStatus('processing');
 
@@ -226,6 +265,7 @@ const Chat = () => {
 			totalPay: `총 급여 : ${formattedPay(totalPay)}원`
 		};
 		handleSubmitMsg(msgText, 'matchRequest');
+		handleCloseMatch(true);
 	};
 
 	const handleResponseMatch = (response) => {
@@ -328,6 +368,7 @@ const Chat = () => {
 										isIcon={true}
 										iconW="26px"
 										iconH="24px"
+										onClick={handleOpenReport}
 									></Button>
 								</ButtonWrapper>
 							</ProfileWrapper>
@@ -442,6 +483,16 @@ const Chat = () => {
 					</ChatSection>
 				</MainSectionWrapper>
 			</Background>
+			{openReport === true ? (
+				<ModalWrapper>
+					<ReportModal
+						handleCloseReport={handleCloseReport}
+						chatting_id={chatData.chatting_id}
+					></ReportModal>
+				</ModalWrapper>
+			) : (
+				<></>
+			)}
 			{openMatch === true ? (
 				<ModalWrapper>
 					<MatchingModal
@@ -455,6 +506,20 @@ const Chat = () => {
 			) : (
 				<></>
 			)}
+			{openReportDone.render === true ? (
+				<ReportDoneModal visible={openReportDone.animation}>
+					신고가 정상적으로 접수되었습니다.
+				</ReportDoneModal>
+			) : (
+				<></>
+			)}
+			{openMatchDone.render === true ? (
+				<ReportDoneModal visible={openMatchDone.animation}>
+					매칭 신청이 완료되었습니다.
+				</ReportDoneModal>
+			) : (
+				<></>
+			)}
 		</>
 	);
 };
@@ -464,9 +529,10 @@ export default Chat;
 const Background = styled.div`
 	background-color: ${Surface_Background};
 	width: 100vw;
-	height: calc(100vh - 86px);
-	padding: 2% calc(300 / 1512 * 100%); //상하 패딩을 2%로 축소
+	min-height: calc(100vh - 86px);
+	padding: 30px calc(300 / 1512 * 100%); //상하 패딩을 2%로 축소
 	position: relative;
+	overflow: auto;
 `;
 
 const ModalWrapper = styled.div`
@@ -518,6 +584,7 @@ const BackText = styled.p`
 const ChatSection = styled.section`
 	width: 100%;
 	height: 100%;
+	min-height: calc(100vh - 86px - 36px - 60px);
 	background-color: #fff;
 	border-radius: 30px;
 	border: 1px solid ${Border_Primary};
@@ -668,4 +735,29 @@ const MatchBtnWrapper = styled.div`
 	display: flex;
 	gap: 15px;
 	margin-top: 20px;
+`;
+
+const ReportDoneModal = styled.span`
+	position: absolute;
+	left: calc((100vw - 300px) / 2);
+	bottom: 8%;
+	width: 300px;
+	/* height: 50px; */
+	padding: 20px 0;
+	text-align: center;
+	border-radius: 30px;
+	background-color: #fff;
+	box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.2);
+
+	color: ${Text_Primary};
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	transition:
+		transform 0.3s ease-in-out,
+		opacity 0.3s ease-in-out;
+	opacity: ${(props) => (props.visible ? 1 : 0)};
+	transform: ${(props) =>
+		props.visible ? 'translateY(0)' : 'translateY(100px)'};
 `;

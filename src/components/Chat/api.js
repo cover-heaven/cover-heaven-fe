@@ -61,3 +61,17 @@ export const patchJobPost = async (job_offer_id, data) => {
 		alert(err);
 	}
 };
+
+export const postChatReport = async (chatting_id, content) => {
+	const headers = {
+		Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+	};
+	const body = content;
+	try {
+		await instance.post(`/chatting/${chatting_id}/report`, body, {
+			headers
+		});
+	} catch (err) {
+		alert(err);
+	}
+};
