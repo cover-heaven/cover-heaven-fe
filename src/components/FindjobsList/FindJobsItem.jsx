@@ -5,36 +5,56 @@ const Layout = styled.div`
 	display: flex;
 	padding: 20px;
 	cursor: pointer;
-	width: 97.5%;
+	width: 100%;
 	border-radius: 30px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
 `;
 
 const TitleContainer = styled.div`
-	padding-left: 1%;
+	display: flex;
+	flex-direction: column;
+	padding-left: 2%;
+	padding-top: 6px;
 	width: 33%;
+	gap: 5px;
 `;
 
 const AddressContainer = styled.div`
-	padding-top: 0.8%;
+	padding-top: 1.6%;
 	width: 25%;
 `;
 const HourlyWageContainer = styled.div`
-	padding-top: 0.8%;
+	padding-top: 1.6%;
 	width: 15%;
 `;
 const TotalWageContainer = styled.div`
-	padding-top: 0.8%;
+	padding-top: 1.6%;
 	width: 15%;
 `;
 const DdayContainer = styled.div`
-	padding-top: 0.8%;
+	padding-top: 1.6%;
 `;
 
 const Img = styled.img`
 	width: 50px;
 	height: 50px;
+`;
+
+const DateBox = styled.div`
+	display: flex;
+	width: 44px;
+	height: 21.053px;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	border: 1px solid #ff5238;
+	color: #ff5238;
+`;
+
+const RowLayout = styled.div`
+	display: flex;
+	gap: 5px;
 `;
 
 const FindJobsItem = ({ data }) => {
@@ -46,11 +66,11 @@ const FindJobsItem = ({ data }) => {
 			<Img src="icon"></Img>
 			<TitleContainer>
 				<div>{data.title}</div>
-				<div>
+				<RowLayout>
 					{data.work_date.map((date) => (
-						<span key={data.job_offer_id}>{date}&nbsp;</span>
+						<DateBox key={data.job_offer_id}>{date}&nbsp;</DateBox>
 					))}
-				</div>
+				</RowLayout>
 			</TitleContainer>
 			<AddressContainer>
 				<div>{data.address}</div>

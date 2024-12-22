@@ -176,12 +176,12 @@ const StyledDatePicker = styled(DatePicker)`
 `;
 const Highlight = styled.div`
 	background-color: red;
-	opacity: 70%;
-	width: 148px;
+	opacity: 60%;
+	width: 345px;
 	height: 16px;
 	position: absolute;
-	left: calc(300 / 1512 * 100%);
-	top: 109px;
+	left: calc(315 / 1512 * 100%);
+	top: 160px;
 `;
 
 // Main Component

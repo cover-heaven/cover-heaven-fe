@@ -10,6 +10,7 @@ const Layout = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding-top: 74px;
+	padding-bottom: 50px;
 	gap: 45px;
 `;
 
