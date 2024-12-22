@@ -28,26 +28,48 @@ const WorkingTime = ({ setContent, upDateWorkingTime }) => {
 			setHour(0);
 			setMinute(0);
 			setWorkTime(0);
-			console.log('올바른 시간을 입력해주세요.');
+			console.error('올바른 시간을 입력해주세요.');
 			return;
 		}
 
-		// 2. 시작 시간과 종료 시간 계산
-		const start =
-			parseInt(newStartHour, 10) * 60 + parseInt(newStartMinute, 10);
-		const end = parseInt(newEndHour, 10) * 60 + parseInt(newEndMinute, 10);
+		// 2. 시간 범위 검증
+		const startHourInt = parseInt(newStartHour, 10);
+		const startMinuteInt = parseInt(newStartMinute, 10);
+		const endHourInt = parseInt(newEndHour, 10);
+		const endMinuteInt = parseInt(newEndMinute, 10);
 
-		// 3. 하루를 넘기는 경우 처리
+		if (
+			startHourInt < 0 ||
+			startHourInt > 23 ||
+			startMinuteInt < 0 ||
+			startMinuteInt > 59 ||
+			endHourInt < 0 ||
+			endHourInt > 23 ||
+			endMinuteInt < 0 ||
+			endMinuteInt > 59
+		) {
+			setHour(0);
+			setMinute(0);
+			setWorkTime(0);
+			console.error('시간 입력 범위를 확인해주세요. (0~23 시간, 0~59 분)');
+			return;
+		}
+
+		// 3. 시작 시간과 종료 시간 계산
+		const start = startHourInt * 60 + startMinuteInt;
+		const end = endHourInt * 60 + endMinuteInt;
+
+		// 4. 하루를 넘기는 경우 처리
 		const totalMinutes =
 			end >= start
 				? end - start // 같은 날
 				: 1440 - start + end; // 다음 날
 
-		// 4. 시간 및 분 계산
+		// 5. 시간 및 분 계산
 		const calculatedHours = Math.floor(totalMinutes / 60); // 시간
 		const calculatedMinutes = totalMinutes % 60; // 분
 
-		// 5. 상태 업데이트
+		// 6. 상태 업데이트
 		setHour(calculatedHours);
 		setMinute(calculatedMinutes);
 		setWorkTime(calculatedHours + calculatedMinutes / 60); // 소수점 포함 시간

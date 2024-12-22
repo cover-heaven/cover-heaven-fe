@@ -33,7 +33,7 @@ const Header = () => {
 			<div className="Icon">
 				<button
 					onClick={() => {
-						nav('/login');
+						nav('/chatlist');
 					}}
 				>
 					로그인

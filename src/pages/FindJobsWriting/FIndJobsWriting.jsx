@@ -180,8 +180,8 @@ const Highlight = styled.div`
 	width: 345px;
 	height: 16px;
 	position: absolute;
-	left: calc(315 / 1512 * 100%);
-	top: 160px;
+	left: calc(310 / 1512 * 100%);
+	top: 200px;
 `;
 
 // Main Component

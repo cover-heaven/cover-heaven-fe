@@ -59,7 +59,6 @@ const Filter = styled.div`
 const Toggle = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 16px;
 `;
 
 const SubHeader = styled.div`
@@ -67,7 +66,7 @@ const SubHeader = styled.div`
 	padding-left: 14.2%;
 	padding-right: 14.2%;
 	flex-direction: column;
-	gap: 39px;
+	gap: 20px;
 	border-bottom: 1px solid #c3c3c3;
 	padding-bottom: 1.5%;
 `;
@@ -75,7 +74,7 @@ const SubHeader = styled.div`
 const TitleContainter = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
+	gap: 25px;
 `;
 
 const SearchInput = styled.input`
@@ -91,7 +90,7 @@ const StyledWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 20px;
+	margin: 20px 20px 20px 0px;
 
 	h1 {
 		font-size: 24px;
@@ -140,6 +139,15 @@ const SelectedDate = styled.div`
 		top: 50%;
 		transform: translateY(-50%);
 	}
+`;
+const Highlight = styled.div`
+	background-color: red;
+	opacity: 60%;
+	width: 250px;
+	height: 16px;
+	position: absolute;
+	left: calc(223 / 1512 * 100%);
+	top: 194px;
 `;
 
 const mockData = [
@@ -256,7 +264,10 @@ const FindJobsList = () => {
 		<Layout>
 			<SubHeader>
 				<TitleContainter>
-					<MainTitle>단기알바 찾기</MainTitle>
+					<div>
+						<MainTitle>단기알바 찾기</MainTitle>
+						<Highlight></Highlight>
+					</div>
 					<SubTitle>
 						단기로 일할 수 있는 아르바이트 공고를 한 눈에 확인해보세요
 					</SubTitle>
