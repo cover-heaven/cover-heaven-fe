@@ -369,7 +369,7 @@ const Dot = styled.div`
 `;
 const Line = styled.div`
 	width: 2px; /* 선의 너비 */
-	height: 73px; /* 선의 높이 */
+	height: 82px; /* 선의 높이 */
 	background-color: white; /* 선의 색상 */
 `;
 const Title = styled.div`

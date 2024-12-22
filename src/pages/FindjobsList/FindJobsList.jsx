@@ -86,7 +86,6 @@ const SearchInput = styled.input`
 	background: #fff;
 `;
 
-// Styled-components로 스타일 정의
 const StyledWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -106,7 +105,6 @@ const StyledWrapper = styled.div`
 	}
 `;
 
-// DatePicker에 커스텀 스타일 적용
 const StyledDatePicker = styled(DatePicker)`
 	width: 200px;
 	height: 40px;
@@ -119,6 +117,27 @@ const StyledDatePicker = styled(DatePicker)`
 	&:focus {
 		border-color: #007bff;
 		outline: none;
+	}
+`;
+
+const SelectedDate = styled.div`
+	width: 259px;
+	height: auto;
+	min-height: 53px;
+	border: 1px solid #ede6e6;
+	border-radius: 15px;
+	padding: 10px;
+	position: relative;
+	cursor: pointer;
+
+	&:empty::before {
+		content: attr(data-placeholder);
+		color: #aaa;
+		pointer-events: none;
+		position: absolute;
+		left: 10px;
+		top: 50%;
+		transform: translateY(-50%);
 	}
 `;
 
@@ -160,7 +179,7 @@ const mockData = [
 			work_hour: '7',
 			hourly_wage: '11000'
 		},
-		work_date: ['11/9', '11/12']
+		work_date: ['12/13', '12/15']
 	},
 	{
 		job_offer_id: 0,
@@ -169,11 +188,11 @@ const mockData = [
 		job_tag: '카페',
 		address: '서울시 서대구문구 연세로',
 		work_detail: {
-			work_date: '20241214',
+			work_date: '20241201',
 			work_hour: '7',
 			hourly_wage: '9000'
 		},
-		work_date: ['12/1', '12/2']
+		work_date: ['12/1', '12/2', '12/4']
 	}
 ];
 
@@ -181,9 +200,8 @@ const FindJobsList = () => {
 	const [searchData, setSearchData] = useState('');
 	const [selectedJob, setSelectedJob] = useState('');
 	const [serverData, setServerData] = useState(null);
-	const [selectedDate, setSelectedDate] = useState(null);
-	const [searchDate, setSearchDate] = useState(null);
-	console.log(searchDate);
+	const [selectedDates, setSelectedDates] = useState([]);
+	const [showCalendar, setShowCalendar] = useState(false);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -205,6 +223,17 @@ const FindJobsList = () => {
 		setSelectedJob(e.target.value);
 	};
 
+	const toggleDate = (date) => {
+		const formattedDate = `${date.getFullYear()}${
+			date.getMonth() + 1
+		}${date.getDate()}`;
+		if (selectedDates.includes(formattedDate)) {
+			setSelectedDates(selectedDates.filter((d) => d !== formattedDate));
+		} else {
+			setSelectedDates([...selectedDates, formattedDate]);
+		}
+	};
+
 	const filteredData = () => {
 		return mockData // 서버랑 연결되면 mockData -> serverData로 교체
 			.filter((data) =>
@@ -214,7 +243,11 @@ const FindJobsList = () => {
 			)
 			.filter((data) => (selectedJob ? data.job_tag === selectedJob : true))
 			.filter((data) =>
-				searchDate ? data.work_detail.work_date === searchDate : true
+				selectedDates.length
+					? selectedDates.some((date) =>
+							data.work_date.includes(`${date.slice(4, 6)}/${date.slice(6)}`)
+						)
+					: true
 			);
 	};
 
@@ -230,23 +263,25 @@ const FindJobsList = () => {
 				<Filter>
 					<Toggle>
 						<StyledWrapper>
-							<StyledDatePicker
-								dateFormat="yyyy-MM-dd"
-								selected={selectedDate} // 선택한 날짜 표시
-								onChange={(date) => {
-									setSelectedDate(date);
-									setSearchDate(
-										`${date.getFullYear()}` +
-											`${date.getMonth() + 1}` +
-											`${date.getDate()}`
-									);
-								}}
-								// 날짜 선택 시 상태 업데이트
-								placeholderText="2024년 11월 23일 (토)" // 입력창 placeholder
-							/>
+							<SelectedDate
+								data-placeholder="원하는 근무일자를 선택하세요."
+								onClick={() => setShowCalendar(!showCalendar)}
+							>
+								{selectedDates.join(', ')}
+							</SelectedDate>
+							{showCalendar && (
+								<StyledDatePicker
+									dateFormat="yyyy-MM-dd"
+									selected={null} // 선택한 날짜 표시하지 않음
+									onChange={toggleDate} // 날짜 선택 시 상태 업데이트
+									placeholderText="날짜를 선택하세요" // 입력창 placeholder
+									inline
+									isClearable={false}
+								/>
+							)}
 						</StyledWrapper>
 						<ToggleJobs onChange={onChangeJob}>
-							<option value="">직종</option>
+							<option value="">전체</option>
 							<option value="과외">과외</option>
 							<option value="주점">주점</option>
 							<option value="식당">식당</option>

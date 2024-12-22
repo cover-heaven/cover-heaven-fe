@@ -79,7 +79,7 @@ const Login = () => {
 };
 
 const Layout = styled.div`
-	padding-top: 160px;
+	padding-top: 130px;
 `;
 const TitleContainer = styled.div`
 	display: flex;

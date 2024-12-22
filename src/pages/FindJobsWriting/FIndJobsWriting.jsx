@@ -55,6 +55,7 @@ const Layout = styled.div`
 const RowLayout = styled.div`
 	display: flex;
 	width: 100%;
+	gap: 10px;
 `;
 const Input = styled.input`
 	width: 100%;
@@ -72,6 +73,7 @@ const InputBox = styled.input`
 `;
 const DetailInput = styled.textarea`
 	width: 100%;
+	padding: 10px;
 	height: 202px;
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
@@ -94,7 +96,7 @@ const ItemLayout = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	gap: 10px;
+	gap: 1px;
 `;
 const AddButton = styled.button`
 	width: 100%;
@@ -128,14 +130,11 @@ const Tag = styled.div`
 const Label = styled.label`
 	flex: 1;
 `;
-const DateBox = styled.div`
-	width: 100%;
-`;
 const TimeBox = styled.div`
 	width: 100%;
 `;
 const TotalWage = styled.div`
-	padding-left: 87.5%;
+	padding-left: 85.5%;
 `;
 const DeleteBox = styled.button`
 	width: 49px;
@@ -147,8 +146,6 @@ const StyledWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 20px;
-
 	h1 {
 		font-size: 24px;
 		margin-bottom: 16px;
@@ -165,11 +162,11 @@ const StyledWrapper = styled.div`
 // DatePicker에 커스텀 스타일 적용
 const StyledDatePicker = styled(DatePicker)`
 	width: 200px;
-	height: 40px;
+	height: 49px;
 	font-size: 16px;
 	padding: 8px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
+	border: 1px solid #e8e8e8;
+	border-radius: 15px;
 	text-align: center;
 
 	&:focus {
@@ -177,9 +174,14 @@ const StyledDatePicker = styled(DatePicker)`
 		outline: none;
 	}
 `;
-
 const Highlight = styled.div`
-	border: 3px solid red;
+	background-color: red;
+	opacity: 70%;
+	width: 148px;
+	height: 16px;
+	position: absolute;
+	left: calc(300 / 1512 * 100%);
+	top: 109px;
 `;
 
 // Main Component
@@ -187,9 +189,10 @@ const FindJobsWriting = () => {
 	const [dateTimeInputs, setDateTimeInputs] = useState([
 		{
 			id: 1,
-			date: '',
+			date: null,
+			workTime: '',
 			timeString: '',
-			time: '',
+			timeData: '',
 			hourlyWage: '',
 			content: false
 		}
@@ -213,7 +216,10 @@ const FindJobsWriting = () => {
 
 	// 서버 전송
 	const onSubmit = async () => {
-		console.log(dateTimeInputs);
+		if (!title || !storeName || !address || workDetail.length === 0) {
+			alert('모든 필수 정보를 입력해주세요.');
+			return;
+		}
 		try {
 			makeWorkDetail();
 			await axios.post('/job-offers', {
@@ -225,7 +231,7 @@ const FindJobsWriting = () => {
 				context: message
 			});
 		} catch (err) {
-			console.log('실패');
+			console.log('실패', err);
 		}
 	};
 
@@ -236,16 +242,17 @@ const FindJobsWriting = () => {
 			...prev,
 			{
 				id: prev.length + 1,
-				date: '',
+				date: null,
+				workTime: '',
 				timeString: '',
-				time: '',
+				timeData: '',
 				hourlyWage: '',
 				content: false
 			}
 		]);
 	};
 
-	// 근무일자 삭제: ID값이 일치하지 않는 것들만 렌더링 (일치하는 걸 삭제하는 게 아니라 렌더링하지 않음)
+	// 근무일자 삭제
 	const onDelete = (id) => {
 		setDateTimeInputs((prev) => prev.filter((input) => input.id !== id));
 	};
@@ -282,9 +289,7 @@ const FindJobsWriting = () => {
 		const startTimeInMinutes = Number(startHour) * 60 + Number(startMinute);
 		const endTimeInMinutes = Number(endHour) * 60 + Number(endMinute);
 		const totalMinutes =
-			endTimeInMinutes >= startTimeInMinutes
-				? endTimeInMinutes - startTimeInMinutes
-				: 24 * 60 - startTimeInMinutes + endTimeInMinutes;
+			(endTimeInMinutes - startTimeInMinutes + 24 * 60) % (24 * 60);
 		return totalMinutes / 60;
 	};
 
@@ -299,6 +304,7 @@ const FindJobsWriting = () => {
 		const timeStr = `${startHour}시 ${startMinute}분 - ${endHour}시 ${endMinute}분`;
 		const timeData = `${startHour}:${startMinute}-${endHour}:${endMinute}`;
 		updateInput(id, 'timeString', timeStr);
+		updateInput(id, 'timeData', timeData);
 
 		const totalHours = calculateWorkTime(
 			startHour,
@@ -306,7 +312,7 @@ const FindJobsWriting = () => {
 			endHour,
 			endMinute
 		);
-		updateInput(id, 'time', totalHours);
+		updateInput(id, 'workTime', totalHours);
 	};
 
 	// 태그 변경
@@ -340,9 +346,10 @@ const FindJobsWriting = () => {
 			<JobTypeBox>
 				<P>직종</P>
 				<Tag>
-					{tags.map((tag) => (
-						<Label key={tag}>
+					{tags.map((tag, index) => (
+						<Label key={tag} htmlFor={`tag-${index}`}>
 							<input
+								id={`tag-${index}`}
 								type="radio"
 								onChange={() => handleTagChange(tag)}
 								checked={selectedTag === tag}
@@ -371,10 +378,9 @@ const FindJobsWriting = () => {
 								<StyledWrapper>
 									<StyledDatePicker
 										dateFormat="yyyy-MM-dd"
-										selected={dateTimeInputs[input.id - 1].date} // 선택한 날짜 표시
+										selected={input.date}
 										onChange={(date) => updateInput(input.id, 'date', date)}
-										// 날짜 선택 시 상태 업데이트
-										placeholderText="2024년 11월 23일 (토)" // 입력창 placeholder
+										placeholderText="2024년 11월 23일 (토)"
 									/>
 								</StyledWrapper>
 								<TimeBox>
@@ -400,9 +406,6 @@ const FindJobsWriting = () => {
 												)
 											}
 											setContent={() => closeWorkingTime(input.id)}
-											onMove={(workTime) =>
-												updateInput(input.id, 'time', workTime)
-											}
 										/>
 									)}
 								</TimeBox>
@@ -417,7 +420,11 @@ const FindJobsWriting = () => {
 							</RowLayout>
 							<div>
 								<TotalWage>
-									일급 {(input.time * input.hourlyWage || 0).toLocaleString()}원
+									일급&nbsp;
+									{(
+										Number(input.workTime || 0) * Number(input.hourlyWage || 0)
+									).toLocaleString()}
+									원
 								</TotalWage>
 							</div>
 						</ItemLayout>
@@ -437,7 +444,7 @@ const FindJobsWriting = () => {
 				/>
 			</DetailBox>
 			<ButtonLayout>
-				<Button onClick={() => onSubmit()}>작성 완료</Button>
+				<Button onClick={onSubmit}>작성 완료</Button>
 			</ButtonLayout>
 		</Layout>
 	);

@@ -25,7 +25,7 @@ const StyledWrapper = styled.div`
 
 // DatePicker에 커스텀 스타일 적용
 const StyledDatePicker = styled(DatePicker)`
-	width: 200px;
+	width: 100%;
 	height: 40px;
 	font-size: 16px;
 	padding: 8px;
