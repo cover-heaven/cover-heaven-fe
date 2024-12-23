@@ -123,23 +123,31 @@ const WorkingTime = ({ setContent, upDateWorkingTime }) => {
 					<InputBox value={endMinute} onChange={handleEndMinuteChange} />
 				</div>
 			</SecondContainer>
-			<div>
-				총 {hour}시간 {minute}분 근무
-			</div>
+			<WorkTime>
+				<div>총</div>
+				<div>
+					{hour}시간 {minute}분
+				</div>
+				<div>근무</div>
+			</WorkTime>
 			<Button onClick={onCreate}>적용하기</Button>
 		</Layout>
 	);
 };
 
+const WorkTime = styled.div`
+	display: flex;
+	gap: 10%;
+`;
 const FirstContainer = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 5%;
+	gap: 10%;
 `;
 const SecondContainer = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 5%;
+	gap: 10%;
 `;
 const Layout = styled.div`
 	width: 100%;
@@ -147,10 +155,11 @@ const Layout = styled.div`
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
-	padding: 5%;
+	padding-left: 13%;
+	padding-top: 10%;
 	display: flex;
 	flex-direction: column;
-	gap: 10%;
+	gap: 8%;
 `;
 const InputBox = styled.input`
 	width: 40px;

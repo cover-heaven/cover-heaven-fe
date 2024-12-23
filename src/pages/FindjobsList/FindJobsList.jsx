@@ -91,6 +91,7 @@ const StyledWrapper = styled.div`
 	flex-direction: column;
 	align-items: center;
 	margin: 20px 20px 20px 0px;
+	position: relative; /* 캘린더 위치를 부모 기준으로 고정하기 위해 추가 */
 
 	h1 {
 		font-size: 24px;
@@ -113,6 +114,9 @@ const StyledDatePicker = styled(DatePicker)`
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	text-align: center;
+	position: absolute; /* 다른 요소에 영향을 주지 않도록 */
+	top: 60px; /* 원하는 위치로 조정 */
+	left: 0;
 
 	&:focus {
 		border-color: #007bff;
@@ -140,6 +144,7 @@ const SelectedDate = styled.div`
 		transform: translateY(-50%);
 	}
 `;
+
 const Highlight = styled.div`
 	background-color: red;
 	opacity: 60%;
@@ -151,6 +156,19 @@ const Highlight = styled.div`
 `;
 
 const mockData = [
+	{
+		job_offer_id: 4,
+		title: '광흥창 투썸 알바 급구',
+		store_name: '투썸 플레이스',
+		job_tag: '술집',
+		address: '서울시 마포구 광흥창역',
+		work_detail: {
+			work_date: '20241211',
+			work_hour: '4',
+			hourly_wage: '10000'
+		},
+		work_date: ['11/1', '11/2']
+	},
 	{
 		job_offer_id: 3,
 		title: '광흥창 투썸 알바 급구',
@@ -205,6 +223,13 @@ const mockData = [
 	}
 ];
 
+const formatDate = (dateString) => {
+	const year = dateString.slice(2, 4); // 앞 두 자리 연도
+	const month = dateString.slice(4, 6); // 월
+	const day = dateString.slice(6); // 일
+	return `${year}.${month}.${day}`;
+};
+
 const FindJobsList = () => {
 	const [searchData, setSearchData] = useState('');
 	const [selectedJob, setSelectedJob] = useState('');
@@ -233,9 +258,9 @@ const FindJobsList = () => {
 	};
 
 	const toggleDate = (date) => {
-		const formattedDate = `${date.getFullYear()}${
+		const formattedDate = `${date.getFullYear()}${String(
 			date.getMonth() + 1
-		}${date.getDate()}`;
+		).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}`;
 		if (selectedDates.includes(formattedDate)) {
 			setSelectedDates(selectedDates.filter((d) => d !== formattedDate));
 		} else {
@@ -244,7 +269,7 @@ const FindJobsList = () => {
 	};
 
 	const filteredData = () => {
-		return mockData // 서버랑 연결되면 mockData -> serverData로 교체
+		return mockData
 			.filter((data) =>
 				searchData
 					? data.title.toLowerCase().includes(searchData.toLowerCase())
@@ -279,14 +304,14 @@ const FindJobsList = () => {
 								data-placeholder="원하는 근무일자를 선택하세요."
 								onClick={() => setShowCalendar(!showCalendar)}
 							>
-								{selectedDates.join(', ')}
+								{selectedDates.map(formatDate).join(', ')}
 							</SelectedDate>
 							{showCalendar && (
 								<StyledDatePicker
 									dateFormat="yyyy-MM-dd"
-									selected={null} // 선택한 날짜 표시하지 않음
-									onChange={toggleDate} // 날짜 선택 시 상태 업데이트
-									placeholderText="날짜를 선택하세요" // 입력창 placeholder
+									selected={null}
+									onChange={toggleDate}
+									placeholderText="날짜를 선택하세요"
 									inline
 									isClearable={false}
 								/>

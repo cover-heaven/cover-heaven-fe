@@ -72,7 +72,10 @@ const SignUp = () => {
 					<ExplanationBox>
 						<P>1. 기본 인적사항을 입력해주세요.</P>
 						<P>2. 학교 정보 입력 후 학생증을 인증해주세요.</P>
-						<P>3. 아이디와 비밀번호를 입력해주세요.</P>
+						<div>
+							<P>3. 아이디와 비밀번호를 입력해주세요.</P>
+							<AbstractLine></AbstractLine>
+						</div>
 						<P>4. 가입 완료!</P>
 					</ExplanationBox>
 				</ContentBox>
@@ -249,16 +252,16 @@ const Layout = styled.div`
 	display: flex;
 	width: 100%;
 	height: auto;
-	padding-left: 14%;
+	padding-left: 10%;
 	padding-top: 5%;
-	gap: 10%;
+	gap: 7%;
 `;
 const LeftLayout = styled.div`
 	display: flex;
 	padding: 4%;
 	flex-direction: column;
 	gap: 70px;
-	width: 57%;
+	width: 70%;
 	height: 52%;
 	border-radius: 30px;
 	background: linear-gradient(
@@ -367,9 +370,15 @@ const Dot = styled.div`
 	border-radius: 50%; /* 원으로 만들기 */
 	border: none; /* 원 테두리 */
 `;
+const AbstractLine = styled.div`
+	width: 288px;
+	height: 3px;
+	margin-left: 20px;
+	background-color: #fff;
+`;
 const Line = styled.div`
 	width: 2px; /* 선의 너비 */
-	height: 82px; /* 선의 높이 */
+	height: 73px; /* 선의 높이 */
 	background-color: white; /* 선의 색상 */
 `;
 const Title = styled.div`

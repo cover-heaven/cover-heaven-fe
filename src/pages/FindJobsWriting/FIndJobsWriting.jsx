@@ -78,7 +78,16 @@ const DetailInput = styled.textarea`
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
+	font-size: 14px;
+	line-height: 1.5;
+	&::placeholder {
+		white-space: pre-line; /* 줄바꿈 허용 */
+	}
+	&:focus {
+		outline: none;
+	}
 `;
+
 const Button = styled.button`
 	width: 212px;
 	height: 49px;
@@ -96,7 +105,7 @@ const ItemLayout = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	gap: 1px;
+	gap: 6px;
 `;
 const AddButton = styled.button`
 	width: 100%;
@@ -131,7 +140,7 @@ const Label = styled.label`
 	flex: 1;
 `;
 const TimeBox = styled.div`
-	width: 100%;
+	width: 80%;
 `;
 const TotalWage = styled.div`
 	padding-left: 85.5%;
@@ -161,16 +170,14 @@ const StyledWrapper = styled.div`
 
 // DatePicker에 커스텀 스타일 적용
 const StyledDatePicker = styled(DatePicker)`
-	width: 200px;
+	width: 260px;
 	height: 49px;
 	font-size: 16px;
-	padding: 8px;
 	border: 1px solid #e8e8e8;
 	border-radius: 15px;
 	text-align: center;
 
 	&:focus {
-		border-color: #007bff;
 		outline: none;
 	}
 `;
@@ -439,7 +446,7 @@ const FindJobsWriting = () => {
 			<DetailBox>
 				<P>상세 정보</P>
 				<DetailInput
-					placeholder="상세 정보를 작성해주세요."
+					placeholder={`많은 사람들이 보고 지원할 수 있도록, 공고에 대한 상세 정보를 작성해주세요.\n\n예) 00직군 경험자 우대합니다. 인근 거주자 우대합니다.`}
 					onChange={(e) => setMessage(e.target.value)}
 				/>
 			</DetailBox>
