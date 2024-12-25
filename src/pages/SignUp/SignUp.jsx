@@ -70,10 +70,10 @@ const SignUp = () => {
 						<Dot></Dot>
 					</LineContainer>
 					<ExplanationBox>
-						<P>1. 기본 인적사항을 입력해주세요.</P>
-						<P>2. 학교 정보 입력 후 학생증을 인증해주세요.</P>
+						<P>1. 기본 인적사항을 입력해 주세요.</P>
+						<P>2. 학교 정보 입력 후 학생증을 인증해 주세요.</P>
 						<div>
-							<P>3. 아이디와 비밀번호를 입력해주세요.</P>
+							<P>3. 아이디와 비밀번호를 입력해 주세요.</P>
 							<AbstractLine></AbstractLine>
 						</div>
 						<P>4. 가입 완료!</P>
@@ -83,7 +83,10 @@ const SignUp = () => {
 			<RightLayout>
 				<InputContainer>
 					<FirstLayout>
-						<Title>01. 기본 인적사항을 입력해주세요.</Title>
+						<RowLayout2>
+							<Orange>01.</Orange>
+							<Title>기본 인적사항</Title>
+						</RowLayout2>
 						<div>
 							<div>이름</div>
 							<Input
@@ -159,7 +162,10 @@ const SignUp = () => {
 						</RowLayout>
 					</FirstLayout>
 					<SecondLayout>
-						<Title>02. 학교 정보 입력 후 학생증을 인증해주세요.</Title>
+						<RowLayout2>
+							<Orange>02.</Orange>
+							<Title>학생 인증</Title>
+						</RowLayout2>
 						<div>
 							<div>학교</div>
 							<Input
@@ -207,7 +213,10 @@ const SignUp = () => {
 						</div>
 					</SecondLayout>
 					<ThirdLayout>
-						<Title>03. 아이디와 비밀번호를 입력해주세요.</Title>
+						<RowLayout2>
+							<Orange>03.</Orange>
+							<Title>아이디 & 비밀번호</Title>
+						</RowLayout2>
 						<div>
 							<div>아이디</div>
 							<Input
@@ -248,11 +257,19 @@ const SignUp = () => {
 	);
 };
 
+const Orange = styled.div`
+	color: #ff5238;
+	font-family: Pretendard;
+	font-size: 33px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: normal;
+`;
 const Layout = styled.div`
 	display: flex;
 	width: 100%;
 	height: auto;
-	padding-left: 10%;
+	padding-left: 12.5%;
 	padding-top: 5%;
 	gap: 7%;
 `;
@@ -261,7 +278,7 @@ const LeftLayout = styled.div`
 	padding: 4%;
 	flex-direction: column;
 	gap: 70px;
-	width: 70%;
+	width: 72%;
 	height: 52%;
 	border-radius: 30px;
 	background: linear-gradient(
@@ -294,6 +311,8 @@ const RowLayout = styled.div`
 `;
 const RowLayout2 = styled.div`
 	display: flex;
+	align-items: center;
+	gap: 1%;
 `;
 const SubTitle = styled.div`
 	color: #fff;

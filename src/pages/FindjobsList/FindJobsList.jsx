@@ -22,11 +22,6 @@ const JobsListContainer = styled.div`
 	padding-right: 14.2%;
 `;
 
-const ListArray = styled.div`
-	display: flex;
-	justify-content: space-between;
-`;
-
 const ItemList = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -276,13 +271,18 @@ const FindJobsList = () => {
 					: true
 			)
 			.filter((data) => (selectedJob ? data.job_tag === selectedJob : true))
-			.filter((data) =>
-				selectedDates.length
-					? selectedDates.some((date) =>
-							data.work_date.includes(`${date.slice(4, 6)}/${date.slice(6)}`)
-						)
-					: true
-			);
+			.filter((data) => {
+				if (!selectedDates.length) return true; // 선택된 날짜가 없으면 모든 데이터를 반환
+				const formattedWorkDates = data.work_date.map((date) => {
+					// mockData의 work_date(MM/DD)를 YYYYMMDD로 변환
+					const [month, day] = date.split('/');
+					return `2024${month.padStart(2, '0')}${day.padStart(2, '0')}`;
+				});
+				// selectedDates와 비교
+				return selectedDates.some((selectedDate) =>
+					formattedWorkDates.includes(selectedDate)
+				);
+			});
 	};
 
 	return (
@@ -294,14 +294,14 @@ const FindJobsList = () => {
 						<Highlight></Highlight>
 					</div>
 					<SubTitle>
-						단기로 일할 수 있는 아르바이트 공고를 한 눈에 확인해보세요
+						단기로 일할 수 있는 아르바이트 공고를 한눈에 확인해 보세요
 					</SubTitle>
 				</TitleContainter>
 				<Filter>
 					<Toggle>
 						<StyledWrapper>
 							<SelectedDate
-								data-placeholder="원하는 근무일자를 선택하세요."
+								data-placeholder="원하는 근무 일자를 선택하세요."
 								onClick={() => setShowCalendar(!showCalendar)}
 							>
 								{selectedDates.map(formatDate).join(', ')}
@@ -329,27 +329,11 @@ const FindJobsList = () => {
 					</Toggle>
 					<SearchInput
 						onChange={onChangeSearch}
-						placeholder="검색어를 입력해주세요"
+						placeholder="검색어를 입력해 주세요"
 					/>
 				</Filter>
 			</SubHeader>
 			<JobsListContainer>
-				<ListArray>
-					<div>
-						<button onClick={() => setSelectedJob('')}>전체</button>
-						<span>|</span>
-						<button onClick={() => alert('급구 필터를 선택했습니다.')}>
-							급구
-						</button>
-					</div>
-					<div>
-						<select>
-							<option>최신순</option>
-							<option>총급여순</option>
-							<option>시급높은순</option>
-						</select>
-					</div>
-				</ListArray>
 				<ItemList>
 					{filteredData().map((data) => (
 						<FindJobsItem data={data} key={data.id} />
