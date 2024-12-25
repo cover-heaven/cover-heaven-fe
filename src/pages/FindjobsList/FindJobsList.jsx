@@ -1,23 +1,25 @@
 import FindJobsItem from '../../components/FindjobsList/FindJobsItem';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Calendar from 'react-calendar'; // 캘린더 라이브러리 (npm install react-calendar)
 import 'react-calendar/dist/Calendar.css'; // 캘린더 스타일 적용
 import axios from 'axios';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
 
 const Layout = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding-top: 74px;
-	padding-left: 14.2%;
-	padding-right: 14.2%;
-	gap: 84px;
+	padding-bottom: 50px;
+	gap: 45px;
 `;
 
 const JobsListContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 41px;
+	padding-left: 14.2%;
+	padding-right: 14.2%;
 `;
 
 const ListArray = styled.div`
@@ -48,95 +50,6 @@ const ToggleJobs = styled.select`
 	background: #fff;
 `;
 
-const ToggleDate = styled.div`
-	position: relative;
-	width: 80%;
-	height: 52px;
-	flex-shrink: 0;
-	border-radius: 15px;
-	border: 1px solid var(--border-border-primary, #e8e8e8);
-	background: #fff;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-`;
-
-const CalendarWrapper = styled.div`
-	position: absolute;
-	top: 60px;
-	left: 0;
-	z-index: 1000;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-	border-radius: 15px;
-	overflow: hidden;
-	width: 259px;
-	height: 313px;
-
-	.react-calendar {
-		width: 259px;
-		height: 313px;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		background: #fff;
-		border-radius: 15px;
-	}
-
-	.react-calendar__navigation {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height: 50px;
-		padding: 0 10px;
-		background: #f8f8f8;
-		border-bottom: 1px solid #e8e8e8;
-	}
-
-	.react-calendar__month-view__weekdays {
-		display: grid;
-		grid-template-columns: repeat(7, 1fr);
-		text-align: center;
-		font-size: 14px;
-		font-weight: bold;
-		height: 30px;
-		background: #f0f0f0;
-		padding: 5px 0;
-	}
-
-	.react-calendar__tile {
-		text-align: center;
-		padding: 15px;
-		border-radius: 10px;
-		font-size: 14px;
-		cursor: pointer;
-		transition:
-			background 0.3s ease,
-			color 0.3s ease;
-	}
-
-	.react-calendar__tile--active {
-		background: #f66a24;
-		color: white;
-		border-radius: 10px;
-	}
-
-	.react-calendar__tile--hover {
-		background: rgba(246, 106, 36, 0.1);
-	}
-
-	.react-calendar__month-view__days {
-		display: grid;
-		grid-template-columns: repeat(7, 1fr);
-		grid-auto-rows: 50px;
-	}
-
-	.react-calendar__tile--now {
-		background: rgba(246, 106, 36, 0.1);
-		border-radius: 10px;
-	}
-`;
-
 const Filter = styled.div`
 	display: flex;
 	align-items: center;
@@ -145,19 +58,23 @@ const Filter = styled.div`
 
 const Toggle = styled.div`
 	display: flex;
-	gap: 16px;
+	align-items: center;
 `;
 
 const SubHeader = styled.div`
 	display: flex;
+	padding-left: 14.2%;
+	padding-right: 14.2%;
 	flex-direction: column;
-	gap: 39px;
+	gap: 20px;
+	border-bottom: 1px solid #c3c3c3;
+	padding-bottom: 1.5%;
 `;
 
 const TitleContainter = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
+	gap: 25px;
 `;
 
 const SearchInput = styled.input`
@@ -169,13 +86,156 @@ const SearchInput = styled.input`
 	background: #fff;
 `;
 
-const FindJobsList = ({ mockData }) => {
+const StyledWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 20px 20px 20px 0px;
+	position: relative; /* 캘린더 위치를 부모 기준으로 고정하기 위해 추가 */
+
+	h1 {
+		font-size: 24px;
+		margin-bottom: 16px;
+		color: #333;
+	}
+
+	p {
+		margin-top: 12px;
+		font-size: 18px;
+		color: #555;
+	}
+`;
+
+const StyledDatePicker = styled(DatePicker)`
+	width: 200px;
+	height: 40px;
+	font-size: 16px;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	text-align: center;
+	position: absolute; /* 다른 요소에 영향을 주지 않도록 */
+	top: 60px; /* 원하는 위치로 조정 */
+	left: 0;
+
+	&:focus {
+		border-color: #007bff;
+		outline: none;
+	}
+`;
+
+const SelectedDate = styled.div`
+	width: 259px;
+	height: auto;
+	min-height: 53px;
+	border: 1px solid #ede6e6;
+	border-radius: 15px;
+	padding: 10px;
+	position: relative;
+	cursor: pointer;
+
+	&:empty::before {
+		content: attr(data-placeholder);
+		color: #aaa;
+		pointer-events: none;
+		position: absolute;
+		left: 10px;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+`;
+
+const Highlight = styled.div`
+	background-color: red;
+	opacity: 60%;
+	width: 250px;
+	height: 16px;
+	position: absolute;
+	left: calc(223 / 1512 * 100%);
+	top: 194px;
+`;
+
+const mockData = [
+	{
+		job_offer_id: 4,
+		title: '광흥창 투썸 알바 급구',
+		store_name: '투썸 플레이스',
+		job_tag: '술집',
+		address: '서울시 마포구 광흥창역',
+		work_detail: {
+			work_date: '20241211',
+			work_hour: '4',
+			hourly_wage: '10000'
+		},
+		work_date: ['11/1', '11/2']
+	},
+	{
+		job_offer_id: 3,
+		title: '광흥창 투썸 알바 급구',
+		store_name: '투썸 플레이스',
+		job_tag: '카페',
+		address: '서울시 마포구 광흥창역',
+		work_detail: {
+			work_date: '20241211',
+			work_hour: '4',
+			hourly_wage: '10000'
+		},
+		work_date: ['11/1', '11/2']
+	},
+	{
+		job_offer_id: 2,
+		title: '수학 과외 알바 급구합니다',
+		store_name: '수학과외',
+		job_tag: '과외',
+		address: '서울시 서대구문구 연세로',
+		work_detail: {
+			work_date: '20241212',
+			work_hour: '2',
+			hourly_wage: '30000'
+		},
+		work_date: ['11/4', '11/6']
+	},
+	{
+		job_offer_id: 1,
+		title: '고밥 알바 급구합니다',
+		store_name: '고기마니밥마니',
+		job_tag: '식당',
+		address: '서울시 마포구 백범로',
+		work_detail: {
+			work_date: '20241213',
+			work_hour: '7',
+			hourly_wage: '11000'
+		},
+		work_date: ['12/13', '12/15']
+	},
+	{
+		job_offer_id: 0,
+		title: '신촌역 나무카페 알바 급구합니다',
+		store_name: '나무카페',
+		job_tag: '카페',
+		address: '서울시 서대구문구 연세로',
+		work_detail: {
+			work_date: '20241201',
+			work_hour: '7',
+			hourly_wage: '9000'
+		},
+		work_date: ['12/1', '12/2', '12/4']
+	}
+];
+
+const formatDate = (dateString) => {
+	const year = dateString.slice(2, 4); // 앞 두 자리 연도
+	const month = dateString.slice(4, 6); // 월
+	const day = dateString.slice(6); // 일
+	return `${year}.${month}.${day}`;
+};
+
+const FindJobsList = () => {
 	const [searchData, setSearchData] = useState('');
 	const [selectedJob, setSelectedJob] = useState('');
-	const [showCalendar, setShowCalendar] = useState(false);
-	const [selectedDate, setSelectedDate] = useState(null);
 	const [serverData, setServerData] = useState(null);
-	const [error, setError] = useState(null);
+	const [selectedDates, setSelectedDates] = useState([]);
+	const [showCalendar, setShowCalendar] = useState(false);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -183,7 +243,7 @@ const FindJobsList = ({ mockData }) => {
 				const response = await axios.get('/job-offers');
 				setServerData(response.data);
 			} catch (err) {
-				setError(err.message);
+				console.log('실패');
 			}
 		};
 		fetchData();
@@ -197,51 +257,68 @@ const FindJobsList = ({ mockData }) => {
 		setSelectedJob(e.target.value);
 	};
 
-	const onToggleCalendar = () => {
-		setShowCalendar((prev) => !prev); // 캘린더 표시 상태 토글
-	};
-
-	const onDateChange = (date) => {
-		setSelectedDate(date); // 선택된 날짜 업데이트
-		setShowCalendar(false); // 날짜 선택 후 캘린더 숨김
+	const toggleDate = (date) => {
+		const formattedDate = `${date.getFullYear()}${String(
+			date.getMonth() + 1
+		).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}`;
+		if (selectedDates.includes(formattedDate)) {
+			setSelectedDates(selectedDates.filter((d) => d !== formattedDate));
+		} else {
+			setSelectedDates([...selectedDates, formattedDate]);
+		}
 	};
 
 	const filteredData = () => {
-		return mockData // 서버랑 연결되면 mockData -> serverData로 교체
+		return mockData
 			.filter((data) =>
 				searchData
 					? data.title.toLowerCase().includes(searchData.toLowerCase())
 					: true
 			)
-			.filter((data) => (selectedJob ? data.job_tag === selectedJob : true));
+			.filter((data) => (selectedJob ? data.job_tag === selectedJob : true))
+			.filter((data) =>
+				selectedDates.length
+					? selectedDates.some((date) =>
+							data.work_date.includes(`${date.slice(4, 6)}/${date.slice(6)}`)
+						)
+					: true
+			);
 	};
 
 	return (
 		<Layout>
 			<SubHeader>
 				<TitleContainter>
-					<MainTitle>단기알바 찾기</MainTitle>
+					<div>
+						<MainTitle>단기알바 찾기</MainTitle>
+						<Highlight></Highlight>
+					</div>
 					<SubTitle>
 						단기로 일할 수 있는 아르바이트 공고를 한 눈에 확인해보세요
 					</SubTitle>
 				</TitleContainter>
 				<Filter>
 					<Toggle>
-						<ToggleDate onClick={onToggleCalendar}>
-							{selectedDate
-								? selectedDate.toLocaleDateString()
-								: '원하는 근무 일자를 선택하세요'}
+						<StyledWrapper>
+							<SelectedDate
+								data-placeholder="원하는 근무일자를 선택하세요."
+								onClick={() => setShowCalendar(!showCalendar)}
+							>
+								{selectedDates.map(formatDate).join(', ')}
+							</SelectedDate>
 							{showCalendar && (
-								<CalendarWrapper>
-									<Calendar
-										onChange={onDateChange}
-										formatDay={(locale, date) => date.getDate()} // 날짜를 숫자로만 표시
-									/>
-								</CalendarWrapper>
+								<StyledDatePicker
+									dateFormat="yyyy-MM-dd"
+									selected={null}
+									onChange={toggleDate}
+									placeholderText="날짜를 선택하세요"
+									inline
+									isClearable={false}
+								/>
 							)}
-						</ToggleDate>
+						</StyledWrapper>
 						<ToggleJobs onChange={onChangeJob}>
-							<option value="">직종</option>
+							<option value="">전체</option>
 							<option value="과외">과외</option>
 							<option value="주점">주점</option>
 							<option value="식당">식당</option>

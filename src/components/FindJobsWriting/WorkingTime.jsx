@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const WorkingTime = ({ onMove, setContent, upDateWorkingTime }) => {
+const WorkingTime = ({ setContent, upDateWorkingTime }) => {
 	const [startHour, setStartHour] = useState('');
 	const [startMinute, setStartMinute] = useState('');
 	const [endHour, setEndHour] = useState('');
@@ -28,26 +28,48 @@ const WorkingTime = ({ onMove, setContent, upDateWorkingTime }) => {
 			setHour(0);
 			setMinute(0);
 			setWorkTime(0);
-			console.log('올바른 시간을 입력해주세요.');
+			console.error('올바른 시간을 입력해주세요.');
 			return;
 		}
 
-		// 2. 시작 시간과 종료 시간 계산
-		const start =
-			parseInt(newStartHour, 10) * 60 + parseInt(newStartMinute, 10);
-		const end = parseInt(newEndHour, 10) * 60 + parseInt(newEndMinute, 10);
+		// 2. 시간 범위 검증
+		const startHourInt = parseInt(newStartHour, 10);
+		const startMinuteInt = parseInt(newStartMinute, 10);
+		const endHourInt = parseInt(newEndHour, 10);
+		const endMinuteInt = parseInt(newEndMinute, 10);
 
-		// 3. 하루를 넘기는 경우 처리
+		if (
+			startHourInt < 0 ||
+			startHourInt > 23 ||
+			startMinuteInt < 0 ||
+			startMinuteInt > 59 ||
+			endHourInt < 0 ||
+			endHourInt > 23 ||
+			endMinuteInt < 0 ||
+			endMinuteInt > 59
+		) {
+			setHour(0);
+			setMinute(0);
+			setWorkTime(0);
+			console.error('시간 입력 범위를 확인해주세요. (0~23 시간, 0~59 분)');
+			return;
+		}
+
+		// 3. 시작 시간과 종료 시간 계산
+		const start = startHourInt * 60 + startMinuteInt;
+		const end = endHourInt * 60 + endMinuteInt;
+
+		// 4. 하루를 넘기는 경우 처리
 		const totalMinutes =
 			end >= start
 				? end - start // 같은 날
 				: 1440 - start + end; // 다음 날
 
-		// 4. 시간 및 분 계산
+		// 5. 시간 및 분 계산
 		const calculatedHours = Math.floor(totalMinutes / 60); // 시간
 		const calculatedMinutes = totalMinutes % 60; // 분
 
-		// 5. 상태 업데이트
+		// 6. 상태 업데이트
 		setHour(calculatedHours);
 		setMinute(calculatedMinutes);
 		setWorkTime(calculatedHours + calculatedMinutes / 60); // 소수점 포함 시간
@@ -88,48 +110,44 @@ const WorkingTime = ({ onMove, setContent, upDateWorkingTime }) => {
 			<FirstContainer>
 				<div>출근</div>
 				<div>
-					<InputBox
-						placeholder="시"
-						value={startHour}
-						onChange={handleStartHourChange}
-					/>
+					<InputBox value={startHour} onChange={handleStartHourChange} />
 					<span> : </span>
-					<InputBox
-						placeholder="분"
-						value={startMinute}
-						onChange={handleStartMinuteChange}
-					/>
+					<InputBox value={startMinute} onChange={handleStartMinuteChange} />
 				</div>
 			</FirstContainer>
 			<SecondContainer>
 				<div>퇴근</div>
 				<div>
-					<InputBox
-						placeholder="시"
-						value={endHour}
-						onChange={handleEndHourChange}
-					/>
+					<InputBox value={endHour} onChange={handleEndHourChange} />
 					<span> : </span>
-					<InputBox
-						placeholder="분"
-						value={endMinute}
-						onChange={handleEndMinuteChange}
-					/>
+					<InputBox value={endMinute} onChange={handleEndMinuteChange} />
 				</div>
 			</SecondContainer>
-			<div>
-				총 {hour}시간 {minute}분 근무
-			</div>
+			<WorkTime>
+				<div>총</div>
+				<div>
+					{hour}시간 {minute}분
+				</div>
+				<div>근무</div>
+			</WorkTime>
 			<Button onClick={onCreate}>적용하기</Button>
 		</Layout>
 	);
 };
 
+const WorkTime = styled.div`
+	display: flex;
+	gap: 10%;
+`;
 const FirstContainer = styled.div`
 	display: flex;
+	align-items: center;
+	gap: 10%;
 `;
 const SecondContainer = styled.div`
 	display: flex;
+	align-items: center;
+	gap: 10%;
 `;
 const Layout = styled.div`
 	width: 100%;
@@ -137,6 +155,11 @@ const Layout = styled.div`
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
+	padding-left: 13%;
+	padding-top: 10%;
+	display: flex;
+	flex-direction: column;
+	gap: 8%;
 `;
 const InputBox = styled.input`
 	width: 40px;
@@ -145,10 +168,11 @@ const InputBox = styled.input`
 	background: #d9d9d9;
 `;
 const Button = styled.button`
-	width: 152px;
+	width: 170px;
 	height: 30px;
 	padding: 0px 51px;
 	border-radius: 10px;
+	color: white;
 	background: var(--surface-surface-primary, #ff5238);
 `;
 

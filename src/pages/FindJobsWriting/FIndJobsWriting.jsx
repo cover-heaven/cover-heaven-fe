@@ -2,7 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import WorkingTime from '../../components/FindJobsWriting/WorkingTime';
 import axios from 'axios';
-import Calendar from 'react-calendar';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
 
 // Styled Components
 const TitleBox = styled.div`
@@ -11,7 +12,7 @@ const TitleBox = styled.div`
 `;
 const StoreNameBox = styled.div`
 	display: flex;
-  gap: 3%;
+	gap: 3%;
 `;
 const JobTypeBox = styled.div`
 	display: flex;
@@ -54,7 +55,7 @@ const Layout = styled.div`
 const RowLayout = styled.div`
 	display: flex;
 	width: 100%;
-	position: relative;
+	gap: 10px;
 `;
 const Input = styled.input`
 	width: 100%;
@@ -72,11 +73,21 @@ const InputBox = styled.input`
 `;
 const DetailInput = styled.textarea`
 	width: 100%;
+	padding: 10px;
 	height: 202px;
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
+	font-size: 14px;
+	line-height: 1.5;
+	&::placeholder {
+		white-space: pre-line; /* 줄바꿈 허용 */
+	}
+	&:focus {
+		outline: none;
+	}
 `;
+
 const Button = styled.button`
 	width: 212px;
 	height: 49px;
@@ -94,7 +105,7 @@ const ItemLayout = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	gap: 10px;
+	gap: 6px;
 `;
 const AddButton = styled.button`
 	width: 100%;
@@ -114,8 +125,8 @@ const SubTitle = styled.div`
 const TitleContainter = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
-	padding: 5% 0;
+	gap: 25px;
+	padding: 9% 0 3% 0;
 `;
 const AddButtonLayout = styled.div`
 	display: flex;
@@ -128,14 +139,11 @@ const Tag = styled.div`
 const Label = styled.label`
 	flex: 1;
 `;
-const DateBox = styled.div`
-	width: 100%;
-`;
 const TimeBox = styled.div`
-	width: 100%;
+	width: 80%;
 `;
 const TotalWage = styled.div`
-	padding-left: 87.5%;
+	padding-left: 85.5%;
 `;
 const DeleteBox = styled.button`
 	width: 49px;
@@ -143,42 +151,82 @@ const DeleteBox = styled.button`
 	border-radius: 15px;
 	background: var(--border-border-secondary, #c3c3c3);
 `;
+const StyledWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	h1 {
+		font-size: 24px;
+		margin-bottom: 16px;
+		color: #333;
+	}
+
+	p {
+		margin-top: 12px;
+		font-size: 18px;
+		color: #555;
+	}
+`;
+
+// DatePicker에 커스텀 스타일 적용
+const StyledDatePicker = styled(DatePicker)`
+	width: 260px;
+	height: 49px;
+	font-size: 16px;
+	border: 1px solid #e8e8e8;
+	border-radius: 15px;
+	text-align: center;
+
+	&:focus {
+		outline: none;
+	}
+`;
+const Highlight = styled.div`
+	background-color: red;
+	opacity: 60%;
+	width: 345px;
+	height: 16px;
+	position: absolute;
+	left: calc(310 / 1512 * 100%);
+	top: 200px;
+`;
 
 // Main Component
 const FindJobsWriting = () => {
 	const [dateTimeInputs, setDateTimeInputs] = useState([
 		{
 			id: 1,
-			time: '',
+			date: null,
+			workTime: '',
 			timeString: '',
-			wage: '',
-			content: false,
-			isOpen: false,
-			date: ''
+			timeData: '',
+			hourlyWage: '',
+			content: false
 		}
 	]);
-
 	const [title, setTitle] = useState('');
 	const [storeName, setStoreName] = useState('');
 	const [address, setAddress] = useState('');
 	const [message, setMessage] = useState('');
 	const [selectedTag, setSelectedTag] = useState('');
-	const [error, setError] = useState();
-	const [selectedDate, setSelectedDate] = useState();
 	const [workDetail, setWorkDetail] = useState([]);
 
 	const makeWorkDetail = () => {
 		setWorkDetail(
 			dateTimeInputs.map((input) => ({
 				work_date: input.date,
-				work_hour: input.time,
-				hourly_wage: input.time * input.wage
+				work_hour: input.timeData,
+				hourly_wage: input.hourlyWage
 			}))
 		);
 	};
 
 	// 서버 전송
 	const onSubmit = async () => {
+		if (!title || !storeName || !address || workDetail.length === 0) {
+			alert('모든 필수 정보를 입력해주세요.');
+			return;
+		}
 		try {
 			makeWorkDetail();
 			await axios.post('/job-offers', {
@@ -190,7 +238,7 @@ const FindJobsWriting = () => {
 				context: message
 			});
 		} catch (err) {
-			setError(err);
+			console.log('실패', err);
 		}
 	};
 
@@ -201,17 +249,17 @@ const FindJobsWriting = () => {
 			...prev,
 			{
 				id: prev.length + 1,
-				time: '',
+				date: null,
+				workTime: '',
 				timeString: '',
-				wage: '',
-				content: false,
-				isOpen: false,
-				date: ''
+				timeData: '',
+				hourlyWage: '',
+				content: false
 			}
 		]);
 	};
 
-	// 근무일자 삭제: ID값이 일치하지 않는 것들만 렌더링 (일치하는 걸 삭제하는 게 아니라 렌더링하지 않음)
+	// 근무일자 삭제
 	const onDelete = (id) => {
 		setDateTimeInputs((prev) => prev.filter((input) => input.id !== id));
 	};
@@ -243,43 +291,12 @@ const FindJobsWriting = () => {
 		);
 	};
 
-	// Calendar 열기
-	const openCalendar = (id) => {
-		setDateTimeInputs((prev) =>
-			prev.map((input) =>
-				input.id === id ? { ...input, isOpen: true } : input
-			)
-		);
-	};
-
-	// Calendar 닫기
-	const closeCalendar = (id) => {
-		setDateTimeInputs((prev) =>
-			prev.map((input) =>
-				input.id === id ? { ...input, isOpen: false } : input
-			)
-		);
-	};
-
-	// date 추가
-	const handleDateChange = (date) => {
-		const formattedDate = date.toISOString().split('T')[0];
-		setDateTimeInputs((inputs) =>
-			inputs.map((input) =>
-				input.isOpen ? { ...input, date: formattedDate, isOpen: false } : input
-			)
-		);
-	};
-
 	// 근무 시간 계산
 	const calculateWorkTime = (startHour, startMinute, endHour, endMinute) => {
-		const startTimeInMinutes = startHour * 60 + startMinute;
-		const endTimeInMinutes = endHour * 60 + endMinute;
+		const startTimeInMinutes = Number(startHour) * 60 + Number(startMinute);
+		const endTimeInMinutes = Number(endHour) * 60 + Number(endMinute);
 		const totalMinutes =
-			endTimeInMinutes >= startTimeInMinutes
-				? endTimeInMinutes - startTimeInMinutes
-				: 24 * 60 - startTimeInMinutes + endTimeInMinutes;
-
+			(endTimeInMinutes - startTimeInMinutes + 24 * 60) % (24 * 60);
 		return totalMinutes / 60;
 	};
 
@@ -292,7 +309,9 @@ const FindJobsWriting = () => {
 		endMinute
 	) => {
 		const timeStr = `${startHour}시 ${startMinute}분 - ${endHour}시 ${endMinute}분`;
+		const timeData = `${startHour}:${startMinute}-${endHour}:${endMinute}`;
 		updateInput(id, 'timeString', timeStr);
+		updateInput(id, 'timeData', timeData);
 
 		const totalHours = calculateWorkTime(
 			startHour,
@@ -300,7 +319,7 @@ const FindJobsWriting = () => {
 			endHour,
 			endMinute
 		);
-		updateInput(id, 'time', totalHours);
+		updateInput(id, 'workTime', totalHours);
 	};
 
 	// 태그 변경
@@ -312,8 +331,9 @@ const FindJobsWriting = () => {
 		<Layout>
 			<TitleContainter>
 				<MainTitle>대타 공고 작성하기</MainTitle>
+				<Highlight></Highlight>
 				<SubTitle>
-					단기로 일할 수 있는 아르바이트 공고를 한 눈에 확인해보세요
+					구직자들이 읽을 아르바이트 대타 공고를 작성해주세요.
 				</SubTitle>
 			</TitleContainter>
 			<TitleBox>
@@ -333,9 +353,10 @@ const FindJobsWriting = () => {
 			<JobTypeBox>
 				<P>직종</P>
 				<Tag>
-					{tags.map((tag) => (
-						<Label key={tag}>
+					{tags.map((tag, index) => (
+						<Label key={tag} htmlFor={`tag-${index}`}>
 							<input
+								id={`tag-${index}`}
 								type="radio"
 								onChange={() => handleTagChange(tag)}
 								checked={selectedTag === tag}
@@ -361,16 +382,14 @@ const FindJobsWriting = () => {
 					{dateTimeInputs.map((input) => (
 						<ItemLayout key={input.id}>
 							<RowLayout>
-								<DateBox>
-									<Input
-										onClick={() => openCalendar(input.id)}
-										placeholder="2024년 11월 23일 (토)"
-										value={input.date}
+								<StyledWrapper>
+									<StyledDatePicker
+										dateFormat="yyyy-MM-dd"
+										selected={input.date}
+										onChange={(date) => updateInput(input.id, 'date', date)}
+										placeholderText="2024년 11월 23일 (토)"
 									/>
-									{input.isOpen && (
-										<Calendar onChange={handleDateChange}></Calendar>
-									)}
-								</DateBox>
+								</StyledWrapper>
 								<TimeBox>
 									<Input
 										onClick={() => openWorkingTime(input.id)}
@@ -394,24 +413,25 @@ const FindJobsWriting = () => {
 												)
 											}
 											setContent={() => closeWorkingTime(input.id)}
-											onMove={(workTime) =>
-												updateInput(input.id, 'time', workTime)
-											}
 										/>
 									)}
 								</TimeBox>
 								<InputBox
 									onChange={(e) =>
-										updateInput(input.id, 'wage', e.target.value)
+										updateInput(input.id, 'hourlyWage', e.target.value)
 									}
 									placeholder="시급 00,000원"
-									value={input.wage}
+									value={input.hourlyWage}
 								/>
 								<DeleteBox onClick={() => onDelete(input.id)}>X</DeleteBox>
 							</RowLayout>
 							<div>
 								<TotalWage>
-									일급 {(input.time * input.wage || 0).toLocaleString()}원
+									일급&nbsp;
+									{(
+										Number(input.workTime || 0) * Number(input.hourlyWage || 0)
+									).toLocaleString()}
+									원
 								</TotalWage>
 							</div>
 						</ItemLayout>
@@ -426,12 +446,12 @@ const FindJobsWriting = () => {
 			<DetailBox>
 				<P>상세 정보</P>
 				<DetailInput
-					placeholder="상세 정보를 작성해주세요."
+					placeholder={`많은 사람들이 보고 지원할 수 있도록, 공고에 대한 상세 정보를 작성해주세요.\n\n예) 00직군 경험자 우대합니다. 인근 거주자 우대합니다.`}
 					onChange={(e) => setMessage(e.target.value)}
 				/>
 			</DetailBox>
 			<ButtonLayout>
-				<Button onClick={() => onSubmit()}>작성 완료</Button>
+				<Button onClick={onSubmit}>작성 완료</Button>
 			</ButtonLayout>
 		</Layout>
 	);

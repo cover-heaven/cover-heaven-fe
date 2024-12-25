@@ -9,51 +9,47 @@ import {
 import ChatListItem from '../../components/ChatList/ChatListItem';
 import { useEffect, useState } from 'react';
 import { instance } from '../../api/instance';
+import { useNavigate } from 'react-router-dom';
 
 const dummyData = [
 	{
 		chatting_id: '1',
-		search_user_id: 'id1',
-		offer_user_id: 'id2',
-		job_offer_id: '1',
-		user_name: '김서강',
-		department: '컴퓨터공학과',
-		student_id: '20190000',
-		last_message: '안녕하세요 대화 가능할까요?',
-		last_message_send_date: 'date',
-		unread_messages: '3',
-		gender: 'male'
+		job_offer_id: '999',
+		opponent_user_name: '김서강',
+		opponent_user_gender: 'male',
+		opponent_user_student_id: '19',
+		oppenent_department: '경제학과',
+		opponent_profile: null,
+		last_message: '안녕하세요^^~',
+		unread_messages: '3'
 	},
 	{
 		chatting_id: '2',
-		search_user_id: 'id1',
-		offer_user_id: 'id2',
-		job_offer_id: '1',
-		user_name: '김강강',
-		department: '미국문화학과',
-		student_id: '20190000',
-		last_message: '안녕하세요 안녕하세요?',
-		last_message_send_date: 'date',
-		unread_messages: '1',
-		gender: 'female'
+		job_offer_id: '999',
+		opponent_user_name: '김스깡',
+		opponent_user_gender: 'male',
+		opponent_user_student_id: '21',
+		oppenent_department: '물리학과',
+		opponent_profile: null,
+		last_message: '안녕하세요 안녕하세요~',
+		unread_messages: '1'
 	},
 	{
 		chatting_id: '3',
-		search_user_id: 'id1',
-		offer_user_id: 'id2',
-		job_offer_id: '1',
-		user_name: '김공공',
-		department: '미국문화학과',
-		student_id: '20190000',
-		last_message: '굿굿입니다',
-		last_message_send_date: 'date',
-		unread_messages: '0',
-		gender: 'male'
+		job_offer_id: '999',
+		opponent_user_name: '김성강',
+		opponent_user_gender: 'female',
+		opponent_user_student_id: '22',
+		oppenent_department: '화학과',
+		opponent_profile: null,
+		last_message: '단기 알바 관심있어요',
+		unread_messages: '0'
 	}
 ];
 
 const ChatList = () => {
 	const [listData, setListData] = useState(dummyData);
+	const navigate = useNavigate();
 	// useEffect(() => {
 	// 	const fetchListData = async () => {
 	// 		const headers = {
@@ -71,6 +67,20 @@ const ChatList = () => {
 	// 	fetchListData();
 	// }, []);
 
+	const handleItemClick = (data) => {
+		navigate('/chat', {
+			state: {
+				chatting_id: data.chatting_id,
+				job_offer_id: data.job_offer_id,
+				// opponent_user_name: data.opponent_user_name,
+				// opponent_user_gender: data.opponent_user_gender,
+				opponent_user_student_id: data.opponent_user_student_id
+				// oppenent_department: data.oppenent_department,
+				// opponent_profile: data.opponent_profile
+			}
+		});
+	};
+
 	return (
 		<>
 			<HeadSection>
@@ -85,7 +95,17 @@ const ChatList = () => {
 				<ListWrapper>
 					<ListText>나의 채팅 목록 </ListText>
 					{listData.map((data) => (
-						<ChatListItem key={data.chatting_id} {...data}></ChatListItem>
+						<div
+							key={data.chatting_id}
+							onClick={() => {
+								handleItemClick(data);
+							}}
+						>
+							<ChatListItem
+								subText={data.last_message}
+								{...data}
+							></ChatListItem>
+						</div>
 					))}
 				</ListWrapper>
 			</MainSection>

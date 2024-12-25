@@ -1,12 +1,15 @@
-import AppRouter from './Router';
 import styled from 'styled-components';
 import { GlobalStyle } from './styles/GlobalStyles';
+import Router from './Router';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
 	return (
 		<AppContainer>
 			<GlobalStyle />
-			<AppRouter></AppRouter>
+			<BrowserRouter>
+				<Router></Router>
+			</BrowserRouter>
 		</AppContainer>
 	);
 }

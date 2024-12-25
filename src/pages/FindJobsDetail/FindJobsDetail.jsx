@@ -1,188 +1,273 @@
-import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-const Layout = styled.div`
-	padding-right: 24%;
-	padding-left: 24%;
-`;
-
-const DetailPage = styled.div`
-	display: flex;
-	flex-direction: column;
-	padding: 3% 6%;
-	border-radius: 30px;
-	border: 1px solid #e8e8e8;
-	background: rgba(255, 255, 255, 0.6);
-	gap: 18px;
-`;
-
-const InfoBox = styled.div`
-	width: 14%;
-`;
-
-const WorkingPlace = styled.div`
-	display: flex;
-`;
-const Address = styled.div`
-	display: flex;
-`;
-const Writer = styled.div`
-	display: flex;
-`;
-const Tag = styled.div`
-	display: flex;
-`;
-const WorkingPeriod = styled.div`
-	display: flex;
-`;
-const WorkingDate = styled.div`
-	display: flex;
-`;
-const TotalWage = styled.div`
-	display: flex;
-`;
-const Detail = styled.div`
-	display: flex;
-`;
-const DateContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 5px;
-`;
-const TitleBox = styled.div`
-	display: flex;
-	gap: 13px;
-	padding-left: 15%;
-`;
-const Img = styled.img`
-	width: 57.113px;
-	height: 57.113px;
-	flex-shrink: 0;
-`;
-const SubTitleBox = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 200px;
-	padding-top: 3%;
-`;
-const DateBox = styled.div`
-	display: flex;
-	gap: 5px;
-	padding-left: 15%;
-`;
-const Date = styled.div`
-	color: var(--surface-surface-primary, #ff5238);
-	font-size: 14px;
-	border-radius: 5px;
-	border: 1px solid var(--surface-surface-primary, #ff5238);
-	padding: 1px 11px;
-`;
-const BackButton = styled.button`
-	margin-bottom: 15px;
-	width: 140px;
-`;
-const RightContainer = styled.div`
-	padding-top: 6.5%;
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-`;
-const LeftContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-`;
-const ParentContainer = styled.div`
-	display: flex;
-	justify-content: space-between;
-	padding-top: 30px;
-	padding-bottom: 25px;
-`;
-const Button = styled.button`
-	width: 201px;
-	height: 43px;
-	flex-shrink: 0;
-	border-radius: 30px;
-	background: var(--surface-surface-primary, #ff5238);
-	color: white;
-`;
-const DdayBox = styled.div`
-	padding-left: 20%;
-`;
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const FindJobsDetail = () => {
-	const location = useLocation();
-	const nav = useNavigate();
+	const [serverData, setServerData] = useState(null);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get('/job-offers/:job_offer_id');
+				setServerData(response.data);
+			} catch (err) {
+				console.log('잘못 받아왔습니다');
+			}
+		};
+		fetchData();
+	}, []);
+
 	return (
 		<Layout>
-			<ParentContainer>
-				{' '}
-				<LeftContainer>
-					<BackButton onClick={() => nav('/findjobslist')}>
-						{' '}
-						{'<'} 목록으로 돌아가기
-					</BackButton>
+			<Header>
+				<TitleContainer>
 					<TitleBox>
-						<Img src="icon"></Img>
-						<SubTitleBox>
-							<div>{location.state.title}</div>
-							<div>#{location.state.tag}</div>
-						</SubTitleBox>
+						<Title>광흥창 투썸 알바 급구</Title>
+						<JobTag>카페</JobTag>
 					</TitleBox>
-					<DateBox>
-						<Date>11/2</Date>
-						<Date>11/2</Date>
-						<Date>11/2</Date>
-						<Date>11/2</Date>
-					</DateBox>
-				</LeftContainer>
-				<RightContainer>
-					<DdayBox>첫 근무까지 D-7</DdayBox>
-					<Button>알바 지원하기</Button>
-				</RightContainer>
-			</ParentContainer>
-			<DetailPage>
-				<WorkingPlace>
-					<InfoBox>근무처</InfoBox>
-					<div>{location.state.storeName}</div>
-				</WorkingPlace>
-				<Address>
-					<InfoBox>주소</InfoBox>
-					<div>{location.state.address}</div>
-				</Address>
-				<Writer>
-					<InfoBox>작성자</InfoBox>
-					<div>김동동</div>
-				</Writer>
-				<Tag>
-					<InfoBox>분류 태그</InfoBox>
-					<div>{location.state.tag}</div>
-				</Tag>
-				<WorkingPeriod>
-					<InfoBox>기간</InfoBox>
-					<div>2024.11.1 -2024.11.5</div>
-				</WorkingPeriod>
-				<WorkingDate>
-					<InfoBox>날짜 및 시간</InfoBox>
-					<DateContainer>
-						<div>11/1 16:00 - 20 :00</div>
-						<div>11/1 16:00 - 20 :00</div>
-						<div>11/1 16:00 - 20 :00</div>
-						<div>11/1 16:00 - 20 :00</div>
-						<div>11/1 16:00 - 20 :00</div>
-					</DateContainer>
-				</WorkingDate>
-				<TotalWage>
-					<InfoBox>총 급여</InfoBox>
-					<div>{Number(location.state.totalWage).toLocaleString()}원</div>
-				</TotalWage>
-				<Detail>
-					<InfoBox>상세 내용</InfoBox>
-					<div>{location.state.context}</div>
-				</Detail>
-			</DetailPage>
+					<DdayContainer>
+						<SubTitle>첫 근무까지</SubTitle>
+						<Dday>D-7</Dday>
+					</DdayContainer>
+				</TitleContainer>
+				<SubTitleContainer>
+					<WriitenDate>2024.11.25 12시 49분에 작성된 글입니다</WriitenDate>
+					<Inquiry>1:1 문의하기</Inquiry>
+				</SubTitleContainer>
+			</Header>
+			<Detail>
+				<WorkingPlaceInfo>
+					<div>근무지 정보</div>
+					<InfoBox>
+						<InnerInfoBox>
+							<InfoTitle>근무지명</InfoTitle>
+							<Place>투썸플레이스 광흥창역점</Place>
+						</InnerInfoBox>
+						<InnerInfoBox>
+							<InfoTitle>상세주소</InfoTitle>
+							<Place>서울 마포구 신수로 8길 16</Place>
+						</InnerInfoBox>
+					</InfoBox>
+				</WorkingPlaceInfo>
+				<WorkingDateWage>
+					<div>근무일자 및 급여</div>
+					<InfoBox2>
+						<MenuTitle>
+							<Menu1>근무일자</Menu1>
+							<Menu1>근무시간</Menu1>
+							<Menu1>시급</Menu1>
+							<Menu1>일급</Menu1>
+						</MenuTitle>
+						<WorkingDetail>
+							<Menu2>2024년 11월 25일 (화)</Menu2>
+							<Menu2>00:00 ~ 00:00</Menu2>
+							<Menu2>00,000원</Menu2>
+							<Menu2>00,000원</Menu2>
+						</WorkingDetail>
+						<TotalWage>
+							<div>총 급여 00,000원</div>
+						</TotalWage>
+					</InfoBox2>
+				</WorkingDateWage>
+				<DetailContent>
+					<div>상세 모집내용</div>
+					<InfoBox>
+						안녕하세요, 서강대학교 글로벌한국학&융합소프트웨어 전공 23학번
+						김동휘입니다.
+					</InfoBox>
+				</DetailContent>
+			</Detail>
 		</Layout>
 	);
 };
+const Layout = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 100vw;
+`;
+const Header = styled.div`
+	padding: 4% 18% 3% 18%;
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	border-bottom: 1px solid #c3c3c3;
+`;
+const Title = styled.div`
+	color: var(--text-text-primary, #464646);
+	font-family: Pretendard;
+	font-size: 40px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: normal;
+`;
+const Place = styled.div`
+	color: var(--text-text-primary, #464646);
+	font-family: Pretendard;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+`;
+const InnerInfoBox = styled.div`
+	display: flex;
+	gap: 25px;
+`;
+const TitleContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+const InfoTitle = styled.div`
+	color: var(--text-text-secondary, #787777);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+`;
+const Menu1 = styled.div`
+	width: 250px;
+	color: var(--text-text-secondary, #787777);
+	text-align: center;
+	font-size: 20px;
+	font-family: Pretendard;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+`;
+const Menu2 = styled.div`
+	width: 250px;
+	color: var(--text-text-primary, #464646);
+	text-align: center;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+`;
+const TitleBox = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 10px;
+`;
+const SubTitleContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+`;
+const MenuTitle = styled.div`
+	display: flex;
+`;
+const JobTag = styled.div`
+	display: flex;
+	width: 71.732px;
+	height: 31px;
+	padding: 1px 11px;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	flex-shrink: 0;
+	border-radius: 5px;
+	background: linear-gradient(
+			0deg,
+			rgba(255, 255, 255, 0.7) 0%,
+			rgba(255, 255, 255, 0.7) 100%
+		),
+		var(--icon-, #a5e09c);
+`;
+const SubTitle = styled.div`
+	color: #787777;
+	font-family: Inter;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+`;
+const Dday = styled.div`
+	color: #ff5238;
+	font-family: Inter;
+	font-size: 32px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+`;
+const DdayContainer = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 9px;
+`;
+const WorkingDetail = styled.div`
+	display: flex;
+	padding-bottom: 13px;
+	border-bottom: 1px solid #c3c3c3;
+`;
+const InfoBox = styled.div`
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #c3c3c3;
+	border-radius: 10px;
+	padding: 3%;
+	gap: 15px;
+	width: 100%;
+`;
+const InfoBox2 = styled.div`
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #c3c3c3;
+	border-radius: 10px;
+	padding: 3%;
+	gap: 15px;
+	width: 100%;
+`;
+const TotalWage = styled.div`
+	display: flex;
+	justify-content: right;
+	padding: 5px;
+	color: var(--surface-surface-primary, #ff5238);
+	text-align: right;
+	font-family: Pretendard;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+`;
+const WriitenDate = styled.div`
+	color: var(--text-text-tertiary, #989898);
+	text-align: center;
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+`;
+const Inquiry = styled.button`
+	width: 200px;
+	padding: 10px;
+	border-radius: 15px;
+	background: #ff5238;
+	color: #fff;
+	text-align: center;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+`;
+const Detail = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	padding: 1.5% 18%;
+`;
+const WorkingPlaceInfo = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 13px;
+`;
+const WorkingDateWage = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 13px;
+`;
+const DetailContent = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 13px;
+`;
 
 export default FindJobsDetail;
