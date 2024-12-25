@@ -112,6 +112,7 @@ const InputContainer = styled.div`
 	gap: 15px;
 `;
 const Input = styled.input`
+	padding: 10px;
 	border: 1px solid black;
 	width: 396px;
 	height: 49px;

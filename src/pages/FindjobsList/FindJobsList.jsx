@@ -5,6 +5,7 @@ import 'react-calendar/dist/Calendar.css'; // 캘린더 스타일 적용
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
+import ko from 'date-fns/locale/ko';
 
 const Layout = styled.div`
 	display: flex;
@@ -38,22 +39,30 @@ const SubTitle = styled.div`
 
 const ToggleJobs = styled.select`
 	width: 40%;
-	height: 52px;
+	height: 52px; /* 전체 높이 */
 	flex-shrink: 0;
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
+	padding: 8px; /* 내부 여백 */
+	font-size: 16px;
+	color: #333;
+	option {
+		font-size: 14px; /* 옵션 글꼴 크기 */
+		padding: 10px; /* 옵션 간격 */
+		background-color: #f9f9f9; /* 옵션 배경색 */
+	}
 `;
 
 const Filter = styled.div`
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-between;
 `;
 
 const Toggle = styled.div`
 	display: flex;
-	align-items: center;
+	gap: 15px;
 `;
 
 const SubHeader = styled.div`
@@ -79,21 +88,18 @@ const SearchInput = styled.input`
 	border-radius: 15px;
 	border: 1px solid #ede6e6;
 	background: #fff;
+	padding: 10px;
 `;
 
 const StyledWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	margin: 20px 20px 20px 0px;
 	position: relative; /* 캘린더 위치를 부모 기준으로 고정하기 위해 추가 */
-
 	h1 {
 		font-size: 24px;
 		margin-bottom: 16px;
 		color: #333;
 	}
-
 	p {
 		margin-top: 12px;
 		font-size: 18px;
@@ -101,26 +107,39 @@ const StyledWrapper = styled.div`
 	}
 `;
 
-const StyledDatePicker = styled(DatePicker)`
-	width: 200px;
-	height: 40px;
-	font-size: 16px;
-	padding: 8px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	text-align: center;
-	position: absolute; /* 다른 요소에 영향을 주지 않도록 */
-	top: 60px; /* 원하는 위치로 조정 */
-	left: 0;
+const StyledDatePickerWrapper = styled.div`
+	.react-datepicker {
+		width: 260px !important; /* 달력 전체 너비 */
+		font-size: 16px !important; /* 텍스트 크기 */
+		padding-bottom: 5px;
+		border: 1px solid #e8e8e8;
+	}
 
-	&:focus {
-		border-color: #007bff;
-		outline: none;
+	.react-datepicker__month-container {
+		width: 100% !important; /* 월 컨테이너 크기 */
+	}
+
+	.react-datepicker__day,
+	.react-datepicker__day-name {
+		width: 2rem !important; /* 날짜 셀 너비 */
+		height: 2rem !important; /* 날짜 셀 높이 */
+		line-height: 2rem !important;
+		font-size: 14px !important;
+	}
+
+	.react-datepicker__header {
+		font-size: 14px !important;
+		background-color: white;
+	}
+
+	.react-datepicker__current-month {
+		font-size: 20px !important;
+		color: #333;
 	}
 `;
 
 const SelectedDate = styled.div`
-	width: 259px;
+	width: 260px;
 	height: auto;
 	min-height: 53px;
 	border: 1px solid #ede6e6;
@@ -214,7 +233,7 @@ const mockData = [
 			work_hour: '7',
 			hourly_wage: '9000'
 		},
-		work_date: ['12/1', '12/2', '12/4']
+		work_date: ['12/1', '12/2', '12/4', '12/8']
 	}
 ];
 
@@ -307,16 +326,20 @@ const FindJobsList = () => {
 								{selectedDates.map(formatDate).join(', ')}
 							</SelectedDate>
 							{showCalendar && (
-								<StyledDatePicker
-									dateFormat="yyyy-MM-dd"
-									selected={null}
-									onChange={toggleDate}
-									placeholderText="날짜를 선택하세요"
-									inline
-									isClearable={false}
-								/>
+								<StyledDatePickerWrapper>
+									<DatePicker
+										dateFormat="yyyy-MM-dd" // 원하는 날짜 포맷
+										locale={ko} // 한글 로케일 적용
+										selected={null}
+										onChange={toggleDate}
+										placeholderText="날짜를 선택하세요"
+										inline
+										isClearable={false}
+									/>
+								</StyledDatePickerWrapper>
 							)}
 						</StyledWrapper>
+
 						<ToggleJobs onChange={onChangeJob}>
 							<option value="">전체</option>
 							<option value="과외">과외</option>

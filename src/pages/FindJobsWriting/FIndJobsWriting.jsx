@@ -63,6 +63,7 @@ const Input = styled.input`
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
+	padding: 10px;
 `;
 const InputBox = styled.input`
 	width: 80%;

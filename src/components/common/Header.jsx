@@ -27,14 +27,14 @@ const Header = () => {
 						nav('/findjobswriting');
 					}}
 				>
-					<p>구직자찾기 글쓰기</p>
+					<p>공고 글쓰기</p>
 				</button>
 				<button
 					onClick={() => {
 						nav('/workerswriting');
 					}}
 				>
-					<p>구인 글쓰기</p>
+					<p>구직 글쓰기</p>
 				</button>
 			</div>
 			<div className="Icon">

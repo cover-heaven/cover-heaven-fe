@@ -72,10 +72,7 @@ const SignUp = () => {
 					<ExplanationBox>
 						<P>1. 기본 인적사항을 입력해 주세요.</P>
 						<P>2. 학교 정보 입력 후 학생증을 인증해 주세요.</P>
-						<div>
-							<P>3. 아이디와 비밀번호를 입력해 주세요.</P>
-							<AbstractLine></AbstractLine>
-						</div>
+						<P>3. 아이디와 비밀번호를 입력해 주세요.</P>
 						<P>4. 가입 완료!</P>
 					</ExplanationBox>
 				</ContentBox>
@@ -415,6 +412,7 @@ const InputContainer = styled.div`
 	padding-bottom: 5%;
 `;
 const Input = styled.input`
+	padding: 10px;
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
@@ -429,6 +427,7 @@ const BirthInput = styled.input`
 	border: 1px solid #e8e8e8;
 	background: #fff;
 	margin-top: 3%;
+	padding: 10px;
 `;
 const Button = styled.button`
 	width: 464px;
