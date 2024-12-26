@@ -1,8 +1,37 @@
 import styled from 'styled-components';
 import iconMan from '../../assets/icon/icon_man.svg';
+import { useState } from 'react';
+import axios from 'axios';
 
 const WorkersWriting = () => {
+	const [selectedTags, setSelectedTags] = useState([]);
+	const [message, setMessage] = useState();
+
+	const handleTagChange = (job) => {
+		if (selectedTags.includes(job)) {
+			setSelectedTags(selectedTags.filter((tag) => tag !== job));
+		} else if (selectedTags.length < 3) {
+			setSelectedTags([...selectedTags, job]);
+		} else {
+			alert('최대 3개까지만 선택 가능합니다.');
+		}
+	};
 	const Jobs = ['학원', '과외', '주점', '식당', '카페'];
+
+	const onSubmit = async () => {
+		if (!selectedTags || !message) {
+			alert('모든 필수 정보를 입력해주세요.');
+			return;
+		}
+		try {
+			await axios.post('http://3.131.18.121/alumni_job/job-searches', {
+				job_tag: selectedTags,
+				context: message
+			});
+		} catch (err) {
+			console.log('실패', err);
+		}
+	};
 	return (
 		<Layout>
 			<Header>
@@ -34,7 +63,11 @@ const WorkersWriting = () => {
 					<RowLayout>
 						{Jobs.map((job, index) => (
 							<Toggle key={index}>
-								<input type="radio" name="preferredJob" value={job} />
+								<input
+									type="checkbox"
+									onChange={() => handleTagChange(job)}
+									checked={selectedTags.includes(job)}
+								/>
 								{job}
 							</Toggle>
 						))}
@@ -43,10 +76,13 @@ const WorkersWriting = () => {
 				<Introduction>
 					<SelfIntro>
 						<SubTitle>자기소개서</SubTitle>
-						<InputBox placeholder="자기소개서를 입력해주세요."></InputBox>
+						<InputBox
+							placeholder="자기소개서를 입력해주세요."
+							onChange={(e) => setMessage(e.target.value)}
+						></InputBox>
 					</SelfIntro>
 					<Location>
-						<Button>작성 완료</Button>
+						<Button onClick={onSubmit}>작성 완료</Button>
 					</Location>
 				</Introduction>
 			</Body>

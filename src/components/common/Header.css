@@ -11,11 +11,9 @@
 }
 
 .Header > .Title {
-	color: #ff5238;
-	font-size: 26px;
-	font-style: normal;
-	font-weight: 900;
-	line-height: normal;
+	width: 200px;
+	height: 33px;
+	padding-left: 29px;
 }
 
 .NavBar {

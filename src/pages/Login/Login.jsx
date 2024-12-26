@@ -27,7 +27,10 @@ const Login = () => {
 		};
 		try {
 			setIsPedingRequest(true); // true일 때, 함수 실행이 안되기 때문에 중복 방지
-			const res = await axios.post('/users/login', body);
+			const res = await axios.post(
+				'http://3.131.18.121/alumni_job/users/login',
+				body
+			);
 			if (res.status === 200) {
 				// 로그인 성공
 				localStorage.setItem('accessToken', res.data.access);

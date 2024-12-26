@@ -22,10 +22,13 @@ const SignUp = () => {
 	const nav = useNavigate();
 
 	const postSignUpData = async () => {
-		if (isPendingRequest) return;
+		if (isPendingRequest) return; // 중복 클릭 방지.
 		try {
 			setIsPedingRequest(true);
-			await axios.post('/users/register', formData);
+			await axios.post(
+				'http://3.131.18.121/alumni_job/users/register',
+				formData
+			);
 			alert('회원가입 성공');
 			setFormData(initialFormData);
 			nav('/login');

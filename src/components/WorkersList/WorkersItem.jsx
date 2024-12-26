@@ -52,6 +52,12 @@ const Layout = styled.div`
 	background: #fff;
 	width: 40%;
 	height: 107px;
+	cursor: pointer;
+	&:hover {
+		border: 1px solid #ff5238;
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+	}
 `;
 
 const ProfileSection = styled.div`

@@ -230,7 +230,7 @@ const FindJobsWriting = () => {
 		}
 		try {
 			makeWorkDetail();
-			await axios.post('/job-offers', {
+			await axios.post('http://3.131.18.121/alumni_job/job-offers', {
 				title: title,
 				store_name: storeName,
 				job_tag: selectedTag,

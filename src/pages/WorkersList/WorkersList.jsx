@@ -1,12 +1,89 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import WorkersItem from '../../components/WorkersList/WorkersItem';
 import { useState } from 'react';
-
-const WorkersList = ({ mockData1 }) => {
+import axios from 'axios';
+const mockData1 = [
+	{
+		job_search_id: '1',
+		profile: '글로벌한국학과 23',
+		gender: '남성',
+		uer_name: '김동휘',
+		department: '글로벌한국학과',
+		student_id: '23학번',
+		manner_temperature: '39도',
+		job_tag: ['학원', '과외', '카페']
+	},
+	{
+		job_search_id: '2',
+		profile: '경영학과 23',
+		gender: '남성',
+		uer_name: '이형빈',
+		department: '경영학과',
+		student_id: '24학번',
+		manner_temperature: '40도',
+		job_tag: ['식당', '주점', '카페']
+	},
+	{
+		job_search_id: '3',
+		profile: '미국문화학과 19',
+		gender: '여성',
+		uer_name: '유민우',
+		department: '미국문화학과',
+		student_id: '19학번',
+		manner_temperature: '41도',
+		job_tag: ['식당', '주점', '편의점']
+	},
+	{
+		job_search_id: '4',
+		profile: '컴퓨터공학과 24',
+		gender: '남성',
+		uer_name: '김현승',
+		department: '컴퓨터공학과',
+		student_id: '24학번',
+		manner_temperature: '42도',
+		job_tag: ['식당', '편의점', '카페']
+	},
+	{
+		job_search_id: '5',
+		profile: '사진',
+		gender: '여성',
+		uer_name: '유서강',
+		department: '유럽문화학과',
+		student_id: '24학번',
+		manner_temperature: '43도',
+		job_tag: ['식당', '주점', '카페']
+	},
+	{
+		job_search_id: '6',
+		profile: '사진',
+		gender: '여성',
+		uer_name: '서서강',
+		department: '글로벌한국학과',
+		student_id: '23학번',
+		manner_temperature: 'double',
+		job_tag: ['string']
+	}
+];
+const WorkersList = () => {
 	const [age, setAge] = useState('');
 	const [gender, setGender] = useState('');
 	const [job, setJob] = useState('');
+	const [serverData, setServerData] = useState(null);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get(
+					'http://3.131.18.121/alumni_job/job-searches'
+				);
+				setServerData(response.data);
+			} catch (err) {
+				console.log('실패');
+			}
+		};
+		fetchData();
+	}, []);
 
 	const onChangeAge = (e) => {
 		setAge(e.target.value);
@@ -18,7 +95,7 @@ const WorkersList = ({ mockData1 }) => {
 		setJob(e.target.value);
 	};
 	const filteredData = () => {
-		return mockData1
+		return mockData1 //api 연결 후 serverData로 수정.
 			.filter((data) => (gender ? data.gender === gender : true))
 			.filter((data) => (job ? data.job_tag.includes(job) : true));
 	};

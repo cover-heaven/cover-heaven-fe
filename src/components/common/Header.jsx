@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
+import logo from '../../assets/icon/logo.png';
 const Header = () => {
 	const nav = useNavigate();
 	return (
 		<div className="Header">
 			<div className="Title">
-				<div>동문서잡</div>
+				<img src={logo}></img>
 			</div>
 			<div className="NavBar">
 				<button

@@ -254,7 +254,9 @@ const FindJobsList = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await axios.get('/job-offers');
+				const response = await axios.get(
+					'http://3.131.18.121/alumni_job/job-offers'
+				);
 				setServerData(response.data);
 			} catch (err) {
 				console.log('실패');
