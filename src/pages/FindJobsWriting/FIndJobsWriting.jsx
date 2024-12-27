@@ -119,7 +119,17 @@ const AddButton = styled.button`
 	color: #ff5238;
 `;
 const MainTitle = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+const Title = styled.div`
 	font-size: 40px;
+`;
+const Highlight = styled.div`
+	background-color: red;
+	opacity: 60%;
+	width: 345px;
+	height: 16px;
 `;
 const SubTitle = styled.div`
 	font-size: 15px;
@@ -183,14 +193,7 @@ const StyledDatePicker = styled(DatePicker)`
 		outline: none;
 	}
 `;
-const Highlight = styled.div`
-	background-color: red;
-	opacity: 60%;
-	width: 345px;
-	height: 16px;
-	position: absolute;
-	left: calc(310 / 1512 * 100%);
-`;
+
 
 // Main Component
 const FindJobsWriting = () => {
@@ -331,10 +334,10 @@ const FindJobsWriting = () => {
 	return (
 		<Layout>
 			<TitleContainter>
-				<div>
-					<MainTitle>대타 공고 작성하기</MainTitle>
+				<MainTitle>
+					<Title>대타 공고 작성하기</Title>
 					<Highlight></Highlight>
-				</div>
+				</MainTitle>
 				<SubTitle>
 					구직자들이 읽을 아르바이트 대타 공고를 작성해 주세요.
 				</SubTitle>

@@ -30,7 +30,19 @@ const ItemList = styled.div`
 `;
 
 const MainTitle = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
+const Title = styled.div`
 	font-size: 40px;
+`;
+
+const Highlight = styled.div`
+	background-color: red;
+	opacity: 60%;
+	width: 250px;
+	height: 16px;
 `;
 
 const SubTitle = styled.div`
@@ -157,15 +169,6 @@ const SelectedDate = styled.div`
 		top: 50%;
 		transform: translateY(-50%);
 	}
-`;
-
-const Highlight = styled.div`
-	background-color: red;
-	opacity: 60%;
-	width: 250px;
-	height: 16px;
-	position: absolute;
-	left: calc(223 / 1512 * 100%);
 `;
 
 const mockData = [
@@ -309,10 +312,10 @@ const FindJobsList = () => {
 		<Layout>
 			<SubHeader>
 				<TitleContainter>
-					<div>
-						<MainTitle>단기알바 찾기</MainTitle>
+					<MainTitle>
+						<Title>단기알바 찾기</Title>
 						<Highlight></Highlight>
-					</div>
+					</MainTitle>
 					<SubTitle>
 						단기로 일할 수 있는 아르바이트 공고를 한눈에 확인해 보세요
 					</SubTitle>

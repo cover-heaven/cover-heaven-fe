@@ -103,10 +103,10 @@ const WorkersList = () => {
 		<Layout>
 			<HeadSection>
 				<TitleContainer>
-					<div>
-						<PageTitle>구직자 찾기</PageTitle>
+					<PageTitle>
+						<Title>구직자 찾기</Title>
 						<Highlight></Highlight>
-					</div>
+					</PageTitle>
 					<PageSubTitle>
 						믿고 맡길 수 있는 동문 구직자를 찾아보세요!
 					</PageSubTitle>
@@ -167,7 +167,19 @@ const TitleContainer = styled.div`
 `;
 
 const PageTitle = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
+const Title = styled.div`
 	font-size: 40px;
+`;
+
+const Highlight = styled.div`
+	background-color: red;
+	opacity: 60%;
+	width: 210px;
+	height: 16px;
 `;
 
 const PageSubTitle = styled.div`
@@ -179,15 +191,6 @@ const ToggleContainer = styled.div`
 	gap: 30px;
 	padding-left: 14.2%;
 	height: 52px; /* 전체 높이 */
-`;
-
-const Highlight = styled.div`
-	background-color: red;
-	opacity: 60%;
-	width: 210px;
-	height: 16px;
-	position: absolute;
-	left: calc(223 / 1512 * 100%);
 `;
 
 const MainSection = styled.div`

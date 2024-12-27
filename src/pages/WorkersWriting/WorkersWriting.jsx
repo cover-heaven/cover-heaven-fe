@@ -35,10 +35,10 @@ const WorkersWriting = () => {
 	return (
 		<Layout>
 			<Header>
-				<div>
+				<MainTitle>
 					<Title>구직글 작성하기</Title>
 					<Highlight></Highlight>
-				</div>
+				</MainTitle>
 				<P>대타 제안을 받기 위한 구직글을 작성해 보세요!</P>
 			</Header>
 			<Body>
@@ -97,8 +97,18 @@ const Layout = styled.div`
 	padding-left: 19%;
 `;
 
+const MainTitle = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
 const Title = styled.div`
 	font-size: 40px;
+`;
+const Highlight = styled.div`
+	background-color: red;
+	opacity: 60%;
+	width: 290px;
+	height: 16px;
 `;
 
 const SubTitle = styled.div`
@@ -133,15 +143,6 @@ const Explain = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 14px;
-`;
-
-const Highlight = styled.div`
-	background-color: red;
-	opacity: 60%;
-	width: 290px;
-	height: 16px;
-	position: absolute;
-	left: calc(295 / 1512 * 100%);
 `;
 
 const Header = styled.div`

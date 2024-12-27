@@ -6,7 +6,12 @@ const Header = () => {
 	return (
 		<div className="Header">
 			<div className="Title">
-				<img src={logo}></img>
+				<img
+					onClick={() => {
+						nav('/');
+					}}
+					src={logo}
+				></img>
 			</div>
 			<div className="NavBar">
 				<button
