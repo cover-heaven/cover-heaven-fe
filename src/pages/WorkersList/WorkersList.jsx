@@ -3,6 +3,8 @@ import React, { useEffect } from 'react';
 import WorkersItem from '../../components/WorkersList/WorkersItem';
 import { useState } from 'react';
 import axios from 'axios';
+import WorkerInfo from '../../components/WorkersList/WorkerInfo';
+
 const mockData1 = [
 	{
 		job_search_id: '1',
@@ -70,20 +72,28 @@ const WorkersList = () => {
 	const [gender, setGender] = useState('');
 	const [job, setJob] = useState('');
 	const [serverData, setServerData] = useState(null);
+	const [modal, setModal] = useState(false);
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await axios.get(
-					'http://3.131.18.121/alumni_job/job-searches'
-				);
-				setServerData(response.data);
-			} catch (err) {
-				console.log('실패');
-			}
-		};
-		fetchData();
-	}, []);
+	const openModal = () => {
+		setModal(true);
+	};
+
+	const closeModal = () => {
+		setModal(false);
+	};
+	// useEffect(() => {
+	// 	const fetchData = async () => {
+	// 		try {
+	// 			const response = await axios.get(
+	// 				'http://3.131.18.121/alumni_job/job-searches'
+	// 			);
+	// 			setServerData(response.data);
+	// 		} catch (err) {
+	// 			console.log('실패');
+	// 		}
+	// 	};
+	// 	fetchData();
+	// }, []);
 
 	const onChangeAge = (e) => {
 		setAge(e.target.value);
@@ -137,8 +147,9 @@ const WorkersList = () => {
 			<MainSection>
 				<WorkersContainer>
 					{filteredData().map((data, index) => (
-						<WorkersItem key={index} data={data} />
+						<WorkersItem openModal={openModal} key={index} data={data} />
 					))}
+					{modal && <WorkerInfo close={closeModal}></WorkerInfo>}
 				</WorkersContainer>
 			</MainSection>
 		</Layout>

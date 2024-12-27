@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Man from '../../assets/icon/Man.png';
 import Woman from '../../assets/icon/Woman.png';
 
-const WorkersItem = ({ data }) => {
+const WorkersItem = ({ data, openModal }) => {
 	const colorMap = {
 		학원: '#A5E09C', // 초록색
 		과외: '#9CD2EA', // 파랑색
@@ -17,7 +17,7 @@ const WorkersItem = ({ data }) => {
 	const genderSrc = gender[data.gender];
 
 	return (
-		<Layout>
+		<Layout onClick={openModal}>
 			<ProfileSection>
 				<ProfileImage src={genderSrc}></ProfileImage>
 				<NameAndInfo>
@@ -108,26 +108,6 @@ const Tag = styled.div`
 	border-radius: 4px;
 	font-size: 14px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-`;
-
-const TemperatureSection = styled.div`
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
-
-const Temperature = styled.div`
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	border: 3px solid #ffeaea;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: #ff6b6b;
-	font-size: 18px;
-	font-weight: bold;
 `;
 
 export default WorkersItem;
