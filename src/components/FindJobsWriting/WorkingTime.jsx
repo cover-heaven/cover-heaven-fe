@@ -135,6 +135,8 @@ const WorkingTime = ({ setContent, upDateWorkingTime }) => {
 	);
 };
 
+export default WorkingTime;
+
 const WorkTime = styled.div`
 	display: flex;
 	gap: 10%;
@@ -175,5 +177,3 @@ const Button = styled.button`
 	color: white;
 	background: var(--surface-surface-primary, #ff5238);
 `;
-
-export default WorkingTime;
