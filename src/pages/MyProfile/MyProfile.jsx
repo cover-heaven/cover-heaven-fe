@@ -27,20 +27,20 @@ const MyProfile = () => {
 				setLoading(false);
 			} catch (err) {
 				setError('프로필 정보를 불러오는 데 실패했습니다.');
-				setLoading(false);
+				setLoading(true);
 			}
 		};
 
 		fetchProfileData();
 	}, []);
 
-	if (loading) {
-		return <div>로딩 중...</div>;
-	}
+	// if (loading) {
+	// 	return <div>로딩 중...</div>;
+	// }
 
-	if (error) {
-		return <div>{error}</div>;
-	}
+	// if (error) {
+	// 	return <div>{error}</div>;
+	// }
 
 	return (
 		<MainContainer>
@@ -48,7 +48,7 @@ const MyProfile = () => {
 				<Highlight></Highlight>
 				<PageTitle>마이페이지</PageTitle>
 				<PageSubTitle>
-					{profileData.name} 님의 회원 정보를 확인해보세요.
+					{profileData?.name} 님의 회원 정보를 확인해보세요.
 				</PageSubTitle>
 			</HeadSection>
 			<MainSection>
@@ -57,21 +57,21 @@ const MyProfile = () => {
 					<SectionTitle>나의 프로필</SectionTitle>
 					<ProfileBox>
 						<ProfileInfo>
-							<Avatar src={profileData.profile || '/default-avatar.png'} />
+							<Avatar src={profileData?.profile || '/default-avatar.png'} />
 							<ProfileDetails>
-								<ProfileName>{profileData.name}</ProfileName>
+								<ProfileName>{profileData?.name}</ProfileName>
 								<ProfileDetail>
-									{profileData.gender} | 만{' '}
-									{calculateAge(profileData.birth_date)}세
+									{profileData?.gender} | 만{' '}
+									{profileData ? calculateAge(profileData?.birth_date) : 0}세
 								</ProfileDetail>
 								<ProfileDetail>
-									{profileData.school} {profileData.department}{' '}
-									{profileData.student_id}학번
+									{profileData?.school} {profileData?.department}{' '}
+									{profileData?.student_id}학번
 								</ProfileDetail>
-								<ProfileDetail>{profileData.phone}</ProfileDetail>
+								<ProfileDetail>{profileData?.phone}</ProfileDetail>
 							</ProfileDetails>
 						</ProfileInfo>
-						<MatchCount>매칭횟수 {profileData.match_count} 회</MatchCount>
+						<MatchCount>매칭횟수 {profileData?.match_count} 회</MatchCount>
 					</ProfileBox>
 				</Section>
 
@@ -80,7 +80,7 @@ const MyProfile = () => {
 					<SectionTitle>나의 코인 현황</SectionTitle>
 					<CoinBox>
 						<CurrentCoin>
-							현재 코인 잔액: <strong>{profileData.coin_balance} P</strong>
+							현재 코인 잔액: <strong>{profileData?.coin_balance} P</strong>
 						</CurrentCoin>
 						<CoinButton>코인 충전하기</CoinButton>
 					</CoinBox>
@@ -92,13 +92,13 @@ const MyProfile = () => {
 					<JobBox>
 						<JobItem>
 							<ProfileImage
-								src={profileData.profile || '/default-avatar.png'}
+								src={profileData?.profile || '/default-avatar.png'}
 								alt="프로필 이미지"
 							/>
 							<NameAndDepartment>
-								<JobName>{profileData.name}</JobName>
+								<JobName>{profileData?.name}</JobName>
 								<JobDepartment>
-									({profileData.department} {profileData.student_id}학번)
+									({profileData?.department} {profileData?.student_id}학번)
 								</JobDepartment>
 							</NameAndDepartment>
 							<TagWrapper>
