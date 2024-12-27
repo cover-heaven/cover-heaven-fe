@@ -71,7 +71,7 @@ const WorkerInfo = ({ close }) => {
 						</LayoutForm>
 					</BasicInfo>
 					<SelfIntro>
-						<SubTitle>자기소개</SubTitle>
+						<SubTitle>자기소개서서</SubTitle>
 						<LayoutForm>{mockData.context}</LayoutForm>
 					</SelfIntro>
 				</MainContainer>
