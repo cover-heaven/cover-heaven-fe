@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from 'react';
 import styled from 'styled-components';
 import WorkingTime from '../../components/FindJobsWriting/WorkingTime';
@@ -458,3 +459,10 @@ const FindJobsWriting = () => {
 };
 
 export default FindJobsWriting;
+=======
+const FindJobsWriting = () => {
+  return <div>FindJobsWriting</div>
+};
+
+export default FindJobsWriting
+>>>>>>> 98b3212 (Feat: Header  workerswriting workerslist)
