@@ -93,7 +93,7 @@ const WorkersWriting = () => {
 export default WorkersWriting;
 
 const Layout = styled.div`
-	padding-top: 148px;
+	padding-top: 74px;
 	padding-left: 19%;
 `;
 

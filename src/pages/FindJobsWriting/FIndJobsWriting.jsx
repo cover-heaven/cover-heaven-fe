@@ -49,7 +49,7 @@ const Layout = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 40px;
-	padding-top: 148px;
+	padding-top: 74px;
 	padding-left: 20%;
 	padding-right: 20%;
 	padding-bottom: 50px;
@@ -195,7 +195,6 @@ const StyledDatePicker = styled(DatePicker)`
 	}
 `;
 
-
 // Main Component
 const FindJobsWriting = () => {
 	const [dateTimeInputs, setDateTimeInputs] = useState([
@@ -335,8 +334,10 @@ const FindJobsWriting = () => {
 	return (
 		<Layout>
 			<TitleContainter>
-				<MainTitle>대타 공고 작성하기</MainTitle>
-				<Highlight></Highlight>
+				<MainTitle>
+					<Title>대타 공고 작성하기</Title>
+					<Highlight></Highlight>
+				</MainTitle>
 				<SubTitle>
 					구직자들이 읽을 아르바이트 대타 공고를 작성해 주세요.
 				</SubTitle>
