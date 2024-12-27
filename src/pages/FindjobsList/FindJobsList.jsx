@@ -10,7 +10,7 @@ import ko from 'date-fns/locale/ko';
 const Layout = styled.div`
 	display: flex;
 	flex-direction: column;
-	padding-top: 74px;
+	padding-top: 148px;
 	padding-bottom: 50px;
 	gap: 45px;
 `;
@@ -166,7 +166,6 @@ const Highlight = styled.div`
 	height: 16px;
 	position: absolute;
 	left: calc(223 / 1512 * 100%);
-	top: 194px;
 `;
 
 const mockData = [

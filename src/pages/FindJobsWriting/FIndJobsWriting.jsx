@@ -49,6 +49,7 @@ const Layout = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 40px;
+	padding-top: 148px;
 	padding-left: 20%;
 	padding-right: 20%;
 `;
@@ -127,7 +128,7 @@ const TitleContainter = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 25px;
-	padding: 9% 0 3% 0;
+	padding: 0 0 3% 0;
 `;
 const AddButtonLayout = styled.div`
 	display: flex;
@@ -189,7 +190,6 @@ const Highlight = styled.div`
 	height: 16px;
 	position: absolute;
 	left: calc(310 / 1512 * 100%);
-	top: 200px;
 `;
 
 // Main Component
@@ -331,8 +331,10 @@ const FindJobsWriting = () => {
 	return (
 		<Layout>
 			<TitleContainter>
-				<MainTitle>대타 공고 작성하기</MainTitle>
-				<Highlight></Highlight>
+				<div>
+					<MainTitle>대타 공고 작성하기</MainTitle>
+					<Highlight></Highlight>
+				</div>
 				<SubTitle>
 					구직자들이 읽을 아르바이트 대타 공고를 작성해 주세요.
 				</SubTitle>
