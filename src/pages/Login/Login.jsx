@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { instance } from '../../api/instance';
 
 const Login = () => {
 	const [id, setId] = useState('');
@@ -27,11 +28,11 @@ const Login = () => {
 		};
 		try {
 			setIsPedingRequest(true); // true일 때, 함수 실행이 안되기 때문에 중복 방지
-			const res = await axios.post('/users/login', body);
+			const res = await instance.post('/users/login', body);
 			if (res.status === 200) {
 				// 로그인 성공
-				localStorage.setItem('accessToken', res.data.access);
-				localStorage.setItem('refreshToken', res.data.refresh);
+				localStorage.setItem('accessToken', res.data.accessToken);
+				localStorage.setItem('refreshToken', res.data.refreshToken);
 				nav('/');
 			} else {
 				// 로그인 실패

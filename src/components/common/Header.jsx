@@ -1,12 +1,18 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
+import logoImg from '../../assets/icon/logo_header.svg';
 const Header = () => {
+	const location = useLocation();
 	const nav = useNavigate();
 	return (
-		<div className="Header">
-			<div className="Title">
-				<div>동문서잡</div>
-			</div>
+		<div className={`Header ${location.pathname === '/' ? 'IsLanding' : ''}`}>
+			<img
+				className="Title"
+				src={logoImg}
+				onClick={() => {
+					nav('/');
+				}}
+			/>
 			<div className="NavBar">
 				<button
 					onClick={() => {
@@ -33,7 +39,7 @@ const Header = () => {
 			<div className="Icon">
 				<button
 					onClick={() => {
-						nav('/chatlist');
+						nav('/login');
 					}}
 				>
 					로그인
