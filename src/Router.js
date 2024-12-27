@@ -12,6 +12,7 @@ import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import MyProfile from './pages/MyProfile/MyProfile';
 import FindJobsDetail from './pages/FindJobsDetail/FindJobsDetail';
+import styled from 'styled-components';
 
 const Router = () => {
 	const location = useLocation();
@@ -19,21 +20,27 @@ const Router = () => {
 	return (
 		<>
 			{!hideHeaderRoutes.includes(location.pathname) && <Header />}
-			<Routes>
-				<Route path="/" element={<Main />} />
-				<Route path="/findjobslist" element={<FindJobsList />} />
-				<Route path="/findjobsdetail" element={<FindJobsDetail />} />
-				<Route path="/workerslist" element={<WorkersList />} />
-				<Route path="/findjobswriting" element={<FindJobsWriting />} />
-				<Route path="/workerswriting" element={<WorkersWriting />} />
-				<Route path="/chat" element={<Chat />} />
-				<Route path="/chatlist" element={<ChatList />} />
-				<Route path="/myprofile" element={<MyProfile />} />
-				<Route path="/signup" element={<SignUp />} />
-				<Route path="/login" element={<Login />} />
-			</Routes>
+			<Content>
+				<Routes>
+					<Route path="/" element={<Main />} />
+					<Route path="/findjobslist" element={<FindJobsList />} />
+					<Route path="/findjobsdetail" element={<FindJobsDetail />} />
+					<Route path="/workerslist" element={<WorkersList />} />
+					<Route path="/findjobswriting" element={<FindJobsWriting />} />
+					<Route path="/workerswriting" element={<WorkersWriting />} />
+					<Route path="/chat" element={<Chat />} />
+					<Route path="/chatlist" element={<ChatList />} />
+					<Route path="/myprofile" element={<MyProfile />} />
+					<Route path="/signup" element={<SignUp />} />
+					<Route path="/login" element={<Login />} />
+				</Routes>
+			</Content>
 		</>
 	);
 };
 
 export default Router;
+
+const Content = styled.div`
+	padding-top: 86px;
+`;

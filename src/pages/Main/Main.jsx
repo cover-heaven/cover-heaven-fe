@@ -65,7 +65,7 @@ const Main = () => {
 						y={dot.y}
 						dist={calculateDistance(
 							cursorPosition.x,
-							cursorPosition.y,
+							cursorPosition.y + 86,
 							dot.x,
 							dot.y
 						)}
@@ -87,7 +87,7 @@ const Background = styled.div`
 	width: 100vw;
 	min-height: 100vh;
 	position: absolute;
-	top: 0;
+	top: -86px;
 	left: 0;
 	z-index: 0;
 `;

@@ -48,7 +48,7 @@ const SectionWrapper = styled.div`
 	width: 100vw;
 	height: 100vh;
 	position: relative;
-	top: 66px;
+	/* top: 66px; */
 	z-index: 1;
 `;
 

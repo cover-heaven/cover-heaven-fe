@@ -1,9 +1,48 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
 import logoImg from '../../assets/icon/logo_header.svg';
+import { instance } from '../../api/instance';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Text_Primary } from '../../styles/color';
+import chatIcon from '../../assets/icon/icon_chat_header.svg';
+import profileIcon from '../../assets/icon/icon_profile_header.svg';
+
+const getUserInfo = async () => {
+	const headers = {
+		Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+	};
+	try {
+		const response = await instance.get(`/users/info`, {
+			headers
+		});
+		if (response.status === 200) {
+			return {
+				name: response.data.name,
+				school: response.data.school,
+				profile: response.data.profile
+			};
+		}
+	} catch (err) {
+		alert(err);
+	}
+};
+
 const Header = () => {
 	const location = useLocation();
 	const nav = useNavigate();
+	const [isLogin, setIsLogin] = useState(false);
+	const [userInfo, setUserInfo] = useState({});
+
+	useEffect(() => {
+		if (localStorage.getItem('accessToken')) {
+			setUserInfo(getUserInfo());
+			setIsLogin(true);
+		} else {
+			setIsLogin(false);
+		}
+	}, [location.pathname]);
+
 	return (
 		<div className={`Header ${location.pathname === '/' ? 'IsLanding' : ''}`}>
 			<img
@@ -43,27 +82,71 @@ const Header = () => {
 					<p>구직 글쓰기</p>
 				</button>
 			</div>
-			<div className="Icon">
-				<button
-					onClick={() => {
-						nav('/login');
-					}}
-				>
-					로그인
-				</button>
-				<button
-					onClick={() => {
-						nav('/signup');
-					}}
-				>
-					회원가입
-				</button>
-			</div>
+			{isLogin ? (
+				<UserSection>
+					<ProfileWrapper>
+						<ProfileImg
+							src={userInfo.profile ? userInfo.profile : profileIcon}
+						/>
+						<ProfileText>{`${userInfo.name} | ${userInfo.school}`}</ProfileText>
+					</ProfileWrapper>
+					<ChatImg src={chatIcon} />
+				</UserSection>
+			) : (
+				<div className="Icon">
+					<button
+						onClick={() => {
+							nav('/login');
+						}}
+					>
+						로그인
+					</button>
+					<button
+						onClick={() => {
+							nav('/signup');
+						}}
+					>
+						회원가입
+					</button>
+				</div>
+			)}
 		</div>
 	);
 };
 
 export default Header;
+
+const UserSection = styled.section`
+	display: flex;
+	gap: calc(17 / 1512 * 100vw);
+	align-items: center;
+`;
+
+const ProfileWrapper = styled.div`
+	display: flex;
+	gap: calc(16 / 1512 * 100vw);
+	align-items: center;
+`;
+
+const ProfileImg = styled.img`
+	width: calc(32 / 1512 * 100vw);
+	border-radius: 50%;
+	background-image: url(${(props) => props.bgImg});
+	object-fit: cover;
+`;
+
+const ProfileText = styled.span`
+	color: ${Text_Primary};
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+`;
+
+const ChatImg = styled.img`
+	width: calc(24 / 1512 * 100vw);
+	/* margin: calc(8 / 1512 * 100vw); */
+`;
 
 // =======
 // import styled from 'styled-components';
