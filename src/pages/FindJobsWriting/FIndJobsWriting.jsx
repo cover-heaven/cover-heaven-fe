@@ -51,6 +51,7 @@ const Layout = styled.div`
 	gap: 40px;
 	padding-left: 20%;
 	padding-right: 20%;
+	padding-bottom: 50px;
 `;
 const RowLayout = styled.div`
 	display: flex;
@@ -189,7 +190,6 @@ const Highlight = styled.div`
 	height: 16px;
 	position: absolute;
 	left: calc(310 / 1512 * 100%);
-	top: 200px;
 `;
 
 // Main Component
@@ -331,8 +331,10 @@ const FindJobsWriting = () => {
 	return (
 		<Layout>
 			<TitleContainter>
-				<MainTitle>대타 공고 작성하기</MainTitle>
-				<Highlight></Highlight>
+				<div>
+					<MainTitle>대타 공고 작성하기</MainTitle>
+					<Highlight></Highlight>
+				</div>
 				<SubTitle>
 					구직자들이 읽을 아르바이트 대타 공고를 작성해 주세요.
 				</SubTitle>

@@ -166,7 +166,6 @@ const Highlight = styled.div`
 	height: 16px;
 	position: absolute;
 	left: calc(223 / 1512 * 100%);
-	top: 194px;
 `;
 
 const mockData = [

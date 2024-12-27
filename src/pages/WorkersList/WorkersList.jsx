@@ -103,8 +103,10 @@ const WorkersList = () => {
 		<Layout>
 			<HeadSection>
 				<TitleContainer>
-					<PageTitle>구직자 찾기</PageTitle>
-					<Highlight></Highlight>
+					<div>
+						<PageTitle>구직자 찾기</PageTitle>
+						<Highlight></Highlight>
+					</div>
 					<PageSubTitle>
 						믿고 맡길 수 있는 동문 구직자를 찾아보세요!
 					</PageSubTitle>
@@ -186,7 +188,6 @@ const Highlight = styled.div`
 	height: 16px;
 	position: absolute;
 	left: calc(223 / 1512 * 100%);
-	top: 194px;
 `;
 
 const MainSection = styled.div`
