@@ -63,6 +63,7 @@ const Input = styled.input`
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
+	padding: 10px;
 `;
 const InputBox = styled.input`
 	width: 80%;
@@ -229,7 +230,7 @@ const FindJobsWriting = () => {
 		}
 		try {
 			makeWorkDetail();
-			await axios.post('/job-offers', {
+			await axios.post('http://3.131.18.121/alumni_job/job-offers', {
 				title: title,
 				store_name: storeName,
 				job_tag: selectedTag,
@@ -333,20 +334,20 @@ const FindJobsWriting = () => {
 				<MainTitle>대타 공고 작성하기</MainTitle>
 				<Highlight></Highlight>
 				<SubTitle>
-					구직자들이 읽을 아르바이트 대타 공고를 작성해주세요.
+					구직자들이 읽을 아르바이트 대타 공고를 작성해 주세요.
 				</SubTitle>
 			</TitleContainter>
 			<TitleBox>
 				<P>공고 제목</P>
 				<Input
-					placeholder="공고 제목을 입력해주세요"
+					placeholder="공고 제목을 입력해 주세요"
 					onChange={(e) => setTitle(e.target.value)}
 				/>
 			</TitleBox>
 			<StoreNameBox>
 				<P>근무지명</P>
 				<Input
-					placeholder="가게 이름을 입력해주세요"
+					placeholder="가게 이름을 입력해 주세요"
 					onChange={(e) => setStoreName(e.target.value)}
 				/>
 			</StoreNameBox>
@@ -373,7 +374,7 @@ const FindJobsWriting = () => {
 						placeholder="상호명으로 주소를 검색하세요."
 						onChange={(e) => setAddress(e.target.value)}
 					/>
-					<Input placeholder="상세 주소를 작성해주세요." />
+					<Input placeholder="상세 주소를 작성해 주세요." />
 				</AddressInput>
 			</AddressBox>
 			<WorkConditionBox>
@@ -438,7 +439,7 @@ const FindJobsWriting = () => {
 					))}
 					<AddButtonLayout>
 						<AddButton onClick={onClickAddButton}>
-							+ 근무일자 추가하기
+							+ 근무 일자 추가하기
 						</AddButton>
 					</AddButtonLayout>
 				</ColumnLayout>
@@ -446,7 +447,7 @@ const FindJobsWriting = () => {
 			<DetailBox>
 				<P>상세 정보</P>
 				<DetailInput
-					placeholder={`많은 사람들이 보고 지원할 수 있도록, 공고에 대한 상세 정보를 작성해주세요.\n\n예) 00직군 경험자 우대합니다. 인근 거주자 우대합니다.`}
+					placeholder={`많은 사람들이 보고 지원할 수 있도록, 공고에 대한 상세 정보를 작성해 주세요.\n\n예) 00직군 경험자 우대합니다. 인근 거주자 우대합니다.`}
 					onChange={(e) => setMessage(e.target.value)}
 				/>
 			</DetailBox>
