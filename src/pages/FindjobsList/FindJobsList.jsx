@@ -6,6 +6,7 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
 import ko from 'date-fns/locale/ko';
+import { Text_Secondary } from '../../styles/color';
 
 const Layout = styled.div`
 	display: flex;

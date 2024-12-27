@@ -49,6 +49,7 @@ const Layout = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 40px;
+	padding-top: 74px;
 	padding-left: 20%;
 	padding-right: 20%;
 	padding-bottom: 50px;
@@ -138,7 +139,7 @@ const TitleContainter = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 25px;
-	padding: 9% 0 3% 0;
+	padding: 0 0 3% 0;
 `;
 const AddButtonLayout = styled.div`
 	display: flex;
@@ -193,7 +194,6 @@ const StyledDatePicker = styled(DatePicker)`
 		outline: none;
 	}
 `;
-
 
 // Main Component
 const FindJobsWriting = () => {

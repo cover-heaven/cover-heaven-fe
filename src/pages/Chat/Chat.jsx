@@ -9,7 +9,7 @@ import {
 	Text_Primary,
 	Text_Secondary,
 	Text_Tertiary
-} from '../../styles/color';
+} from '../../styles/color'; 
 import arrowIcon from '../../assets/icon/icon_arrow_before.svg';
 import ChatProfile from '../../components/common/ChatProfile';
 import { useEffect, useRef, useState } from 'react';

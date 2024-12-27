@@ -11,10 +11,10 @@
 }
 
 .Header > .Title {
-	width: 200px;
+	width: 140px;
 	height: 33px;
-	padding-left: 29px;
 	cursor: pointer;
+	margin-left: 40px;
 }
 
 .NavBar {
