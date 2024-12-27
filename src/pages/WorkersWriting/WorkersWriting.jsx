@@ -42,7 +42,7 @@ const WorkersWriting = () => {
 				<P>대타 제안을 받기 위한 구직글을 작성해 보세요!</P>
 			</Header>
 			<Body>
-				<MyProfile>
+				<Profile>
 					<SubTitle>나의 프로필</SubTitle>
 					<ProfileBox>
 						<Img src={iconMan}></Img>
@@ -54,7 +54,7 @@ const WorkersWriting = () => {
 							</SubInfo>
 						</PersonInfo>
 					</ProfileBox>
-				</MyProfile>
+				</Profile>
 				<FavoriteJob>
 					<Explain>
 						<SubTitle>선호 직종</SubTitle>
@@ -93,7 +93,7 @@ const WorkersWriting = () => {
 export default WorkersWriting;
 
 const Layout = styled.div`
-	padding-top: 74px;
+	padding-top: 148px;
 	padding-left: 19%;
 `;
 
@@ -160,7 +160,7 @@ const Body = styled.div`
 	padding-bottom: 50px;
 `;
 
-const MyProfile = styled.div`
+const Profile = styled.div`
 	display: flex;
 	gap: 17%;
 `;

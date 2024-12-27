@@ -147,7 +147,7 @@ const WorkersList = () => {
 
 const Layout = styled.div`
 	width: 100vw;
-	padding-top: 74px;
+	padding-top: 148px;
 	display: flex;
 	flex-direction: column;
 	gap: 45px;
