@@ -5,6 +5,7 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
 import { Surface_Primary } from '../../styles/color';
+import TrashCan from '../../assets/icon/TrashCan.png';
 
 // Styled Components
 const TitleBox = styled.div`
@@ -174,12 +175,7 @@ const TimeBox = styled.div`
 const TotalWage = styled.div`
 	padding-left: 85.5%;
 `;
-const DeleteBox = styled.button`
-	width: 49px;
-	height: 49px;
-	border-radius: 15px;
-	background: var(--border-border-secondary, #c3c3c3);
-`;
+
 const StyledWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -194,6 +190,12 @@ const StyledWrapper = styled.div`
 		font-size: 18px;
 		color: #555;
 	}
+`;
+
+const DeleteBox = styled.img`
+	cursor: pointer;
+	width: 49px;
+	height: 49px;
 `;
 
 // DatePicker에 커스텀 스타일 적용
@@ -445,7 +447,10 @@ const FindJobsWriting = () => {
 									placeholder="시급 00,000원"
 									value={input.hourlyWage}
 								/>
-								<DeleteBox onClick={() => onDelete(input.id)}>X</DeleteBox>
+								<DeleteBox
+									src={TrashCan}
+									onClick={() => onDelete(input.id)}
+								></DeleteBox>
 							</RowLayout>
 							<div>
 								<TotalWage>

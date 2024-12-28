@@ -8,7 +8,7 @@ const mockData = {
 	offer_user_name: 'string',
 	title: '신촌역 나무카페 알바 급구합니다',
 	store_name: '나무카페',
-	job_tag: '카페',
+	job_tag: '학원',
 	address: '서울시 마포구 광흥창역',
 	work_detail: [
 		{
@@ -25,7 +25,13 @@ const mockData = {
 	context: '안녕하세요. 광흥창 투썸 알바 급구합니다.',
 	offer_date: 'date'
 };
-
+const colorMap = {
+	학원: '#A5E09C', // 초록색
+	과외: '#9CD2EA', // 파랑색
+	카페: '#F49C9C', // 빨강색
+	식당: '#B49EE8', // 보라색
+	주점: '#FFC65C'
+};
 const FindJobsDetail = () => {
 	const [serverData, setServerData] = useState(null);
 	useEffect(() => {
@@ -74,7 +80,9 @@ const FindJobsDetail = () => {
 				<TitleContainer>
 					<TitleBox>
 						<Title>{mockData.title}</Title>
-						<JobTag>{mockData.job_tag}</JobTag>
+						<JobTag color={colorMap[mockData.job_tag] || '#CCCCCC'}>
+							{mockData.job_tag}
+						</JobTag>
 					</TitleBox>
 					<DdayContainer>
 						<SubTitle>첫 근무까지</SubTitle>
@@ -209,7 +217,7 @@ const Menu2 = styled.div`
 const TitleBox = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 15px;
 `;
 const SubTitleContainer = styled.div`
 	display: flex;
@@ -222,18 +230,13 @@ const JobTag = styled.div`
 	display: flex;
 	width: 71.732px;
 	height: 31px;
-	padding: 1px 11px;
+	padding: 1px 13px;
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
 	flex-shrink: 0;
 	border-radius: 5px;
-	background: linear-gradient(
-			0deg,
-			rgba(255, 255, 255, 0.7) 0%,
-			rgba(255, 255, 255, 0.7) 100%
-		),
-		var(--icon-, #a5e09c);
+	background-color: ${(props) => props.color || '#CCCCCC'};
 `;
 const SubTitle = styled.div`
 	color: #787777;
