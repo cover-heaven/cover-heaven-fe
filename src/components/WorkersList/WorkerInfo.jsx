@@ -79,9 +79,10 @@ const WorkerInfo = ({ close }) => {
 				<Button
 					mode="default"
 					textSize="16"
-					content="지원하기"
-					width="300px"
-					fontWeight={200}
+					content="1:1 채팅하기"
+					width="100%"
+					height="50px"
+					fontWeight={400}
 					isIcon={false}
 				></Button>
 			</Layout>
@@ -183,6 +184,7 @@ const Tag = styled.div`
 
 const MainContainer = styled.div`
 	padding-top: 40px;
+	padding-bottom: 30px;
 	display: flex;
 	flex-direction: column;
 	gap: 40px;
