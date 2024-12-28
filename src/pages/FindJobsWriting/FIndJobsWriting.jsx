@@ -4,6 +4,7 @@ import WorkingTime from '../../components/FindJobsWriting/WorkingTime';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
+import { Surface_Primary } from '../../styles/color';
 
 // Styled Components
 const TitleBox = styled.div`
@@ -66,6 +67,11 @@ const Input = styled.input`
 	border: 1px solid #e8e8e8;
 	background: #fff;
 	padding: 10px;
+	&:focus {
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+	}
 `;
 const InputBox = styled.input`
 	width: 80%;
@@ -73,11 +79,18 @@ const InputBox = styled.input`
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
+	padding: 10px;
+	&:focus {
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+	}
 `;
 const DetailInput = styled.textarea`
 	width: 100%;
+	height: auto;
+	min-height: 240px;
 	padding: 10px;
-	height: 202px;
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
@@ -88,6 +101,9 @@ const DetailInput = styled.textarea`
 	}
 	&:focus {
 		outline: none;
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
 `;
 
@@ -173,7 +189,6 @@ const StyledWrapper = styled.div`
 		margin-bottom: 16px;
 		color: #333;
 	}
-
 	p {
 		margin-top: 12px;
 		font-size: 18px;
@@ -189,9 +204,10 @@ const StyledDatePicker = styled(DatePicker)`
 	border: 1px solid #e8e8e8;
 	border-radius: 15px;
 	text-align: center;
-
 	&:focus {
-		outline: none;
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
 `;
 

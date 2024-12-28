@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import React, { useEffect } from 'react';
 import WorkersItem from '../../components/WorkersList/WorkersItem';
 import { useState } from 'react';
-import axios from 'axios';
 import WorkerInfo from '../../components/WorkersList/WorkerInfo';
 
 const mockData1 = [
@@ -13,6 +12,7 @@ const mockData1 = [
 		uer_name: '김동휘',
 		department: '글로벌한국학과',
 		student_id: '23학번',
+		birth_date: 'string',
 		manner_temperature: '39도',
 		job_tag: ['학원', '과외', '카페']
 	},
@@ -23,6 +23,7 @@ const mockData1 = [
 		uer_name: '이형빈',
 		department: '경영학과',
 		student_id: '24학번',
+		birth_date: 'string',
 		manner_temperature: '40도',
 		job_tag: ['식당', '주점', '카페']
 	},
@@ -33,6 +34,7 @@ const mockData1 = [
 		uer_name: '유민우',
 		department: '미국문화학과',
 		student_id: '19학번',
+		birth_date: 'string',
 		manner_temperature: '41도',
 		job_tag: ['식당', '주점', '편의점']
 	},
@@ -43,6 +45,7 @@ const mockData1 = [
 		uer_name: '김현승',
 		department: '컴퓨터공학과',
 		student_id: '24학번',
+		birth_date: 'string',
 		manner_temperature: '42도',
 		job_tag: ['식당', '편의점', '카페']
 	},
@@ -53,6 +56,7 @@ const mockData1 = [
 		uer_name: '유서강',
 		department: '유럽문화학과',
 		student_id: '24학번',
+		birth_date: 'string',
 		manner_temperature: '43도',
 		job_tag: ['식당', '주점', '카페']
 	},
@@ -63,6 +67,7 @@ const mockData1 = [
 		uer_name: '서서강',
 		department: '글로벌한국학과',
 		student_id: '23학번',
+		birth_date: 'string',
 		manner_temperature: 'double',
 		job_tag: ['string']
 	}

@@ -2,6 +2,35 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const mockData = {
+	job_offer_id: '0',
+	offer_user_id: 'string',
+	offer_user_name: 'string',
+	title: '신촌역 나무카페 알바 급구합니다',
+	store_name: '나무카페',
+	job_tag: '카페',
+	address: '서울시 서대구문구 연세로',
+	work_detail: [
+		{
+			work_date: '20241201',
+			work_hour: '7',
+			hourly_wage: '9000'
+		},
+		{
+			work_date: '20241201',
+			work_hour: '7',
+			hourly_wage: '9000'
+		},
+		{
+			work_date: '20241202',
+			work_hour: '5',
+			hourly_wage: '15000'
+		} // work_detail이 비어있으면 매칭 완료 (어차피 비어있으면 못들어 오는거 아냐?)
+	],
+	context: '안녕하세요. 광흥창 투썸 알바 급구합니다.',
+	offer_date: 'date'
+};
+
 const FindJobsDetail = () => {
 	const [serverData, setServerData] = useState(null);
 	useEffect(() => {
@@ -21,8 +50,8 @@ const FindJobsDetail = () => {
 			<Header>
 				<TitleContainer>
 					<TitleBox>
-						<Title>광흥창 투썸 알바 급구</Title>
-						<JobTag>카페</JobTag>
+						<Title>{mockData.title}</Title>
+						<JobTag>{mockData.job_tag}</JobTag>
 					</TitleBox>
 					<DdayContainer>
 						<SubTitle>첫 근무까지</SubTitle>
@@ -40,11 +69,11 @@ const FindJobsDetail = () => {
 					<InfoBox>
 						<InnerInfoBox>
 							<InfoTitle>근무지명</InfoTitle>
-							<Place>투썸플레이스 광흥창역점</Place>
+							<Place>{mockData.store_name}</Place>
 						</InnerInfoBox>
 						<InnerInfoBox>
 							<InfoTitle>상세주소</InfoTitle>
-							<Place>서울 마포구 신수로 8길 16</Place>
+							<Place>{mockData.address}</Place>
 						</InnerInfoBox>
 					</InfoBox>
 				</WorkingPlaceInfo>
@@ -57,12 +86,23 @@ const FindJobsDetail = () => {
 							<Menu1>시급</Menu1>
 							<Menu1>일급</Menu1>
 						</MenuTitle>
-						<WorkingDetail>
-							<Menu2>2024년 11월 25일 (화)</Menu2>
-							<Menu2>00:00 ~ 00:00</Menu2>
-							<Menu2>00,000원</Menu2>
-							<Menu2>00,000원</Menu2>
-						</WorkingDetail>
+						{mockData.work_detail.map((data) => (
+							<div key={data.job_offer_id}>
+								<WorkingDetail>
+									<Menu2>
+										{data.work_date.substring(0, 4)}년&nbsp;
+										{data.work_date.substring(4, 6)}월&nbsp;
+										{data.work_date.substring(6, 8)}일
+									</Menu2>
+									<Menu2>00:00 ~ 00:00</Menu2>
+									<Menu2>{Number(data.hourly_wage).toLocaleString()}원</Menu2>
+									<Menu2>
+										{Number(data.hourly_wage * data.work_hour).toLocaleString()}
+										원
+									</Menu2>
+								</WorkingDetail>
+							</div>
+						))}
 						<TotalWage>
 							<div>총 급여 00,000원</div>
 						</TotalWage>
@@ -70,10 +110,7 @@ const FindJobsDetail = () => {
 				</WorkingDateWage>
 				<DetailContent>
 					<div>상세 모집내용</div>
-					<InfoBox>
-						안녕하세요, 서강대학교 글로벌한국학&융합소프트웨어 전공 23학번
-						김동휘입니다.
-					</InfoBox>
+					<InfoBox>{mockData.context}</InfoBox>
 				</DetailContent>
 			</Detail>
 		</Layout>
@@ -192,10 +229,10 @@ const DdayContainer = styled.div`
 	align-items: center;
 	gap: 9px;
 `;
+
 const WorkingDetail = styled.div`
 	display: flex;
 	padding-bottom: 13px;
-	border-bottom: 1px solid #c3c3c3;
 `;
 const InfoBox = styled.div`
 	display: flex;
@@ -212,13 +249,15 @@ const InfoBox2 = styled.div`
 	border: 1px solid #c3c3c3;
 	border-radius: 10px;
 	padding: 3%;
-	gap: 15px;
+	gap: 17px;
 	width: 100%;
 `;
 const TotalWage = styled.div`
+	border-top: 1px solid #c3c3c3;
 	display: flex;
 	justify-content: right;
-	padding: 5px;
+	margin: 0 30px;
+	padding: 20px 10px 0 0;
 	color: var(--surface-surface-primary, #ff5238);
 	text-align: right;
 	font-family: Pretendard;

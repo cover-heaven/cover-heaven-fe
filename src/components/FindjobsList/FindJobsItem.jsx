@@ -33,7 +33,7 @@ const TitleContainer = styled.div`
 
 const AddressContainer = styled.div`
 	padding-top: 1.6%;
-	width: 25%;
+	width: 20%;
 `;
 const HourlyWageContainer = styled.div`
 	padding-top: 1.6%;
@@ -99,10 +99,10 @@ const FindJobsItem = ({ data }) => {
 				<div>{data.address}</div>
 			</AddressContainer>
 			<HourlyWageContainer>
-				<div>{Number(hourlyWage).toLocaleString()}원</div>
+				<div>시급 {Number(hourlyWage).toLocaleString()}원</div>
 			</HourlyWageContainer>
 			<TotalWageContainer>
-				<div>{totalWage.toLocaleString()}원</div>
+				<div>총 {totalWage.toLocaleString()}원</div>
 			</TotalWageContainer>
 			<DdayContainer>
 				<div>{/* D-day 로직 추가 가능 */}</div>
