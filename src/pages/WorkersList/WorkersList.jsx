@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import WorkersItem from '../../components/WorkersList/WorkersItem';
 import { useState } from 'react';
 import WorkerInfo from '../../components/WorkersList/WorkerInfo';
+import axios from 'axios';
 
 const mockData1 = [
 	{
@@ -12,7 +13,7 @@ const mockData1 = [
 		uer_name: '김동휘',
 		department: '글로벌한국학과',
 		student_id: '23학번',
-		birth_date: 'string',
+		birth_date: '1998-12-02',
 		manner_temperature: '55',
 		job_tag: ['학원', '과외', '카페']
 	},
@@ -23,7 +24,7 @@ const mockData1 = [
 		uer_name: '이형빈',
 		department: '경영학과',
 		student_id: '24학번',
-		birth_date: 'string',
+		birth_date: '1992-12-02',
 		manner_temperature: '40',
 		job_tag: ['식당', '주점', '카페']
 	},
@@ -34,8 +35,8 @@ const mockData1 = [
 		uer_name: '유민우',
 		department: '미국문화학과',
 		student_id: '19학번',
-		birth_date: 'string',
-		manner_temperature: '77',
+		birth_date: '1995-12-02',
+		manner_temperature: '81',
 		job_tag: ['식당', '주점', '편의점']
 	},
 	{
@@ -45,7 +46,7 @@ const mockData1 = [
 		uer_name: '김현승',
 		department: '컴퓨터공학과',
 		student_id: '24학번',
-		birth_date: 'string',
+		birth_date: '2003-12-02',
 		manner_temperature: '42',
 		job_tag: ['식당', '편의점', '카페']
 	},
@@ -56,7 +57,7 @@ const mockData1 = [
 		uer_name: '유서강',
 		department: '유럽문화학과',
 		student_id: '24학번',
-		birth_date: 'string',
+		birth_date: '2001-12-02',
 		manner_temperature: '90',
 		job_tag: ['식당', '주점', '카페']
 	}
@@ -75,34 +76,58 @@ const WorkersList = () => {
 	const closeModal = () => {
 		setModal(false);
 	};
-	// useEffect(() => {
-	// 	const fetchData = async () => {
-	// 		try {
-	// 			const response = await axios.get(
-	// 				'http://3.131.18.121/alumni_job/job-searches'
-	// 			);
-	// 			setServerData(response.data);
-	// 		} catch (err) {
-	// 			console.log('실패');
-	// 		}
-	// 	};
-	// 	fetchData();
-	// }, []);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get(
+					'http://3.131.18.121/alumni_job/job-searches'
+				);
+				setServerData(response.data);
+			} catch (err) {
+				console.log('실패');
+			}
+		};
+		fetchData();
+	}, []);
 
-	const onChangeAge = (e) => {
-		setAge(e.target.value);
-	};
 	const onChangeGender = (e) => {
 		setGender(e.target.value);
 	};
 	const onChangeJob = (e) => {
 		setJob(e.target.value);
 	};
-	const filteredData = () => {
-		return mockData1 //api 연결 후 serverData로 수정.
-			.filter((data) => (gender ? data.gender === gender : true))
-			.filter((data) => (job ? data.job_tag.includes(job) : true));
+	const onChangeAge = (e) => {
+		setAge(e.target.value); // 선택된 나이 범위를 설정
 	};
+
+	const calculateAge = (birthDate) => {
+		const today = new Date();
+		const birth = new Date(birthDate);
+		let age = today.getFullYear() - birth.getFullYear();
+		const monthDiff = today.getMonth() - birth.getMonth();
+		if (
+			monthDiff < 0 ||
+			(monthDiff === 0 && today.getDate() < birth.getDate())
+		) {
+			age--; // 생일이 아직 안 지났다면 한 살 빼기
+		}
+		return age;
+	};
+
+	const filteredData = () => {
+		return mockData1 // api 연결 후 serverData로 수정.
+			.filter((data) => (gender ? data.gender === gender : true)) // 성별 필터
+			.filter((data) => (job ? data.job_tag.includes(job) : true)) // 직업 필터
+			.filter((data) => {
+				if (!age) return true; // 나이 필터가 선택되지 않은 경우 모든 데이터를 반환
+				const userAge = calculateAge(data.birth_date); // 생년월일로 나이 계산
+				if (age === '20-25') return userAge >= 20 && userAge <= 25;
+				if (age === '26-29') return userAge >= 26 && userAge <= 29;
+				if (age === '30+') return userAge >= 30;
+				return true;
+			});
+	};
+
 	return (
 		<Layout>
 			<HeadSection>
@@ -118,10 +143,11 @@ const WorkersList = () => {
 				<ToggleContainer>
 					<ToggleBox onChange={onChangeAge}>
 						<option value="">나이</option>
-						<option>20세~25세</option>
-						<option>26세~29세</option>
-						<option>30세 이상</option>
+						<option value="20-25">20세~25세</option>
+						<option value="26-29">26세~29세</option>
+						<option value="30+">30세 이상</option>
 					</ToggleBox>
+
 					<ToggleBox onChange={onChangeGender}>
 						<option value="">성별</option>
 						<option value="남성">남성</option>
