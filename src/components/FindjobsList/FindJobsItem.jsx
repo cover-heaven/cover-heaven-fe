@@ -33,18 +33,18 @@ const TitleContainer = styled.div`
 
 const AddressContainer = styled.div`
 	padding-top: 1.6%;
-	width: 20%;
+	width: 21%;
 `;
 const HourlyWageContainer = styled.div`
 	padding-top: 1.6%;
-	width: 15%;
+	width: 16%;
 `;
 const TotalWageContainer = styled.div`
 	padding-top: 1.6%;
-	width: 15%;
+	width: 16.5%;
 `;
 const DdayContainer = styled.div`
-	padding-top: 1.6%;
+	padding-top: 0.9%;
 `;
 
 const Img = styled.img`
@@ -54,8 +54,6 @@ const Img = styled.img`
 
 const DateBox = styled.div`
 	display: flex;
-	padding-left: 4px;
-	padding-bottom: 1px;
 	width: 44px;
 	height: 21.053px;
 	justify-content: center;
@@ -64,7 +62,6 @@ const DateBox = styled.div`
 	border: 1px solid #ff5238;
 	color: #ff5238;
 `;
-
 const RowLayout = styled.div`
 	display: flex;
 	gap: 5px;
@@ -76,22 +73,55 @@ const jobIcons = {
 	술집: beer,
 	default: '/images/default-icon.png' // 매칭되지 않을 경우 기본 아이콘
 };
+
 const FindJobsItem = ({ data }) => {
-	const totalWage = data.work_detail.work_hour * data.work_detail.hourly_wage;
-	const hourlyWage = data.work_detail.hourly_wage;
+	// 근무 시간을 계산하는 함수
+	const calculateWorkTime = (workHour) => {
+		if (!workHour) return 0;
+		const [start, end] = workHour.split('-');
+		const [startHour, startMinute] = start.split(':').map(Number);
+		const [endHour, endMinute] = end.split(':').map(Number);
+
+		const startInMinutes = startHour * 60 + startMinute;
+		const endInMinutes = endHour * 60 + endMinute;
+
+		// 24시간을 기준으로 차이를 계산 (야간 근무 고려)
+		const totalMinutes = (endInMinutes - startInMinutes + 24 * 60) % (24 * 60);
+		return totalMinutes / 60; // 시간으로 변환
+	};
+
+	// 총 급여 계산
+	const totalSalary = data.work_detail.reduce((acc, job) => {
+		const workTime = calculateWorkTime(job.work_hour);
+		return acc + workTime * job.hourly_wage;
+	}, 0);
+
+	const dayLeftCalculator = (time) => {
+		const targetDate = new Date(time); // 목표 날짜
+		const currentDate = new Date(); // 현재 날짜
+
+		// 밀리초 단위 차이 계산
+		const diffInMilliseconds = targetDate - currentDate;
+
+		// 밀리초를 일수로 변환
+		const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
+		return diffInDays;
+	};
 	const nav = useNavigate();
 
-	// job_tag에 따라 아이콘 경로 선택
+	// 아이콘 매칭
 	const iconSrc = jobIcons[data.job_tag] || jobIcons.default;
 
 	return (
-		<Layout key={data.job_offer_id} onClick={() => nav('/findjobsdetail')}>
+		<Layout onClick={() => nav('/findjobsdetail')}>
 			<Img src={iconSrc} alt={`${data.job_tag} icon`} />
 			<TitleContainer>
 				<div>{data.title}</div>
 				<RowLayout>
-					{data.work_date.map((date) => (
-						<DateBox key={`${data.job_offer_id}-${date}`}>{date}&nbsp;</DateBox>
+					{data.work_detail.map((detail, index) => (
+						<DateBox key={`${data.job_offer_id}-${index}`}>
+							{detail.work_date.slice(5, 7)}/{detail.work_date.slice(8, 10)}
+						</DateBox>
 					))}
 				</RowLayout>
 			</TitleContainer>
@@ -99,17 +129,30 @@ const FindJobsItem = ({ data }) => {
 				<div>{data.address}</div>
 			</AddressContainer>
 			<HourlyWageContainer>
-				<div>시급 {Number(hourlyWage).toLocaleString()}원</div>
+				<div>
+					시급 {Number(data.work_detail[0].hourly_wage).toLocaleString()}원
+				</div>
 			</HourlyWageContainer>
 			<TotalWageContainer>
-				<div>총 {totalWage.toLocaleString()}원</div>
+				<div>총 {totalSalary.toLocaleString()}원</div>
 			</TotalWageContainer>
 			<DdayContainer>
-				<div>{/* D-day 로직 추가 가능 */}</div>
+				<DdayText>
+					D-{dayLeftCalculator(data.work_detail[0].work_date)}
+				</DdayText>
 			</DdayContainer>
 		</Layout>
 	);
 };
 
 export default FindJobsItem;
-// toLocaleSting()은 숫자에만 적용가능. 문자열X. 그래서 Number(문자열).toLocaleString() 이렇게 해야함
+
+const DdayText = styled.div`
+	color: var(--surface-surface-primary, #ff5238);
+	text-align: center;
+	font-family: Pretendard;
+	font-size: 22px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: normal;
+`;

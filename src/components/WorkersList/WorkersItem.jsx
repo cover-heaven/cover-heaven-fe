@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Man from '../../assets/icon/Man.png';
 import Woman from '../../assets/icon/Woman.png';
-import temperature from '../../assets/icon/temperature.png';
+import Temperature from './Temperature';
 
 const WorkersItem = ({ data, openModal }) => {
 	const colorMap = {
@@ -42,18 +42,11 @@ const WorkersItem = ({ data, openModal }) => {
 				</NameAndInfo>
 			</ProfileSection>
 			<FixLocation>
-				<Temperature src={temperature}></Temperature>
+				<Temperature data={data.manner_temperature} />
 			</FixLocation>
-			<ExternalCircle>
-				<InternalCircle></InternalCircle>
-			</ExternalCircle>
 		</Layout>
 	);
 };
-
-const ExternalCircle = styled.div``;
-
-const InternalCircle = styled.div``;
 
 // CSS
 const Layout = styled.div`
@@ -120,15 +113,11 @@ const Tag = styled.div`
 	font-size: 14px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
-const Temperature = styled.img`
-	width: 60px;
-	height: 60px;
-`;
 
 const FixLocation = styled.div`
 	display: flex;
 	justify-content: right;
-	padding-top: 20px;
+	padding-top: 22px;
 	padding-right: 20px;
 `;
 

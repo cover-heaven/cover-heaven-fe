@@ -9,23 +9,18 @@ const mockData = {
 	title: '신촌역 나무카페 알바 급구합니다',
 	store_name: '나무카페',
 	job_tag: '카페',
-	address: '서울시 서대구문구 연세로',
+	address: '서울시 마포구 광흥창역',
 	work_detail: [
 		{
-			work_date: '20241201',
-			work_hour: '7',
-			hourly_wage: '9000'
+			work_date: '2025-01-09',
+			work_hour: '10:00-18:00',
+			hourly_wage: 14000
 		},
 		{
-			work_date: '20241201',
-			work_hour: '7',
-			hourly_wage: '9000'
-		},
-		{
-			work_date: '20241202',
-			work_hour: '5',
-			hourly_wage: '15000'
-		} // work_detail이 비어있으면 매칭 완료 (어차피 비어있으면 못들어 오는거 아냐?)
+			work_date: '2025-01-19',
+			work_hour: '13:00-18:00',
+			hourly_wage: 14000
+		}
 	],
 	context: '안녕하세요. 광흥창 투썸 알바 급구합니다.',
 	offer_date: 'date'
@@ -44,7 +39,35 @@ const FindJobsDetail = () => {
 		};
 		fetchData();
 	}, []);
+	const calculateWorkTime = (workHour) => {
+		if (!workHour) return 0;
+		const [start, end] = workHour.split('-');
+		const [startHour, startMinute] = start.split(':').map(Number);
+		const [endHour, endMinute] = end.split(':').map(Number);
 
+		const startInMinutes = startHour * 60 + startMinute;
+		const endInMinutes = endHour * 60 + endMinute;
+
+		// 24시간을 기준으로 차이를 계산 (야간 근무 고려)
+		const totalMinutes = (endInMinutes - startInMinutes + 24 * 60) % (24 * 60);
+		return totalMinutes / 60; // 시간으로 변환
+	};
+	// 총 급여 계산
+	const totalSalary = mockData.work_detail.reduce((acc, job) => {
+		const workTime = calculateWorkTime(job.work_hour);
+		return acc + workTime * job.hourly_wage;
+	}, 0);
+	const dayLeftCalculator = (time) => {
+		const targetDate = new Date(time); // 목표 날짜
+		const currentDate = new Date(); // 현재 날짜
+
+		// 밀리초 단위 차이 계산
+		const diffInMilliseconds = targetDate - currentDate;
+
+		// 밀리초를 일수로 변환
+		const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
+		return diffInDays;
+	};
 	return (
 		<Layout>
 			<Header>
@@ -55,7 +78,9 @@ const FindJobsDetail = () => {
 					</TitleBox>
 					<DdayContainer>
 						<SubTitle>첫 근무까지</SubTitle>
-						<Dday>D-7</Dday>
+						<Dday>
+							D-{dayLeftCalculator(mockData.work_detail[0].work_date)}
+						</Dday>
 					</DdayContainer>
 				</TitleContainer>
 				<SubTitleContainer>
@@ -91,20 +116,22 @@ const FindJobsDetail = () => {
 								<WorkingDetail>
 									<Menu2>
 										{data.work_date.substring(0, 4)}년&nbsp;
-										{data.work_date.substring(4, 6)}월&nbsp;
-										{data.work_date.substring(6, 8)}일
+										{data.work_date.substring(5, 7)}월&nbsp;
+										{data.work_date.substring(8, 10)}일
 									</Menu2>
-									<Menu2>00:00 ~ 00:00</Menu2>
+									<Menu2>{data.work_hour}</Menu2>
 									<Menu2>{Number(data.hourly_wage).toLocaleString()}원</Menu2>
 									<Menu2>
-										{Number(data.hourly_wage * data.work_hour).toLocaleString()}
+										{Number(
+											calculateWorkTime(data.work_hour) * data.hourly_wage
+										).toLocaleString()}
 										원
 									</Menu2>
 								</WorkingDetail>
 							</div>
 						))}
 						<TotalWage>
-							<div>총 급여 00,000원</div>
+							<div>총 급여 {totalSalary.toLocaleString()}원</div>
 						</TotalWage>
 					</InfoBox2>
 				</WorkingDateWage>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import temperature from '../../assets/icon/temperature.png';
 import { Surface_Primary } from '../../styles/color';
+import Temperature from '../../components/WorkersList/Temperature';
 
 const WorkersWriting = () => {
 	const [selectedTags, setSelectedTags] = useState([]);
@@ -55,9 +56,7 @@ const WorkersWriting = () => {
 								<SubP>서강대학교 컴퓨터공학과 24학번</SubP>
 							</SubInfo>
 						</PersonInfo>
-						<FixLocation>
-							<Temperature src={temperature}></Temperature>
-						</FixLocation>
+						<FixLocation></FixLocation>
 					</ProfileBox>
 				</Profile>
 				<FavoriteJob>
@@ -99,10 +98,7 @@ export default WorkersWriting;
 const FixLocation = styled.div`
 	padding-left: 150px;
 `;
-const Temperature = styled.img`
-	width: 80px;
-	height: 80px;
-`;
+
 const Layout = styled.div`
 	padding-top: 74px;
 	padding-left: 19%;

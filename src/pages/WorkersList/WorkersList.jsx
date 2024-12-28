@@ -13,7 +13,7 @@ const mockData1 = [
 		department: '글로벌한국학과',
 		student_id: '23학번',
 		birth_date: 'string',
-		manner_temperature: '39도',
+		manner_temperature: '55',
 		job_tag: ['학원', '과외', '카페']
 	},
 	{
@@ -24,7 +24,7 @@ const mockData1 = [
 		department: '경영학과',
 		student_id: '24학번',
 		birth_date: 'string',
-		manner_temperature: '40도',
+		manner_temperature: '40',
 		job_tag: ['식당', '주점', '카페']
 	},
 	{
@@ -35,7 +35,7 @@ const mockData1 = [
 		department: '미국문화학과',
 		student_id: '19학번',
 		birth_date: 'string',
-		manner_temperature: '41도',
+		manner_temperature: '77',
 		job_tag: ['식당', '주점', '편의점']
 	},
 	{
@@ -46,7 +46,7 @@ const mockData1 = [
 		department: '컴퓨터공학과',
 		student_id: '24학번',
 		birth_date: 'string',
-		manner_temperature: '42도',
+		manner_temperature: '42',
 		job_tag: ['식당', '편의점', '카페']
 	},
 	{
@@ -57,19 +57,8 @@ const mockData1 = [
 		department: '유럽문화학과',
 		student_id: '24학번',
 		birth_date: 'string',
-		manner_temperature: '43도',
+		manner_temperature: '90',
 		job_tag: ['식당', '주점', '카페']
-	},
-	{
-		job_search_id: '6',
-		profile: '사진',
-		gender: '여성',
-		uer_name: '서서강',
-		department: '글로벌한국학과',
-		student_id: '23학번',
-		birth_date: 'string',
-		manner_temperature: 'double',
-		job_tag: ['string']
 	}
 ];
 const WorkersList = () => {

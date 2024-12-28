@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import logo from '../../assets/icon/Man.png';
-import temperature from '../../assets/icon/temperature.png';
 import deleteImg from '../../assets/icon/delete.png';
+import Temperature from './Temperature';
+import Button from '../common/Button';
 
 const mockData = {
 	job_search_id: 'int',
@@ -12,7 +13,7 @@ const mockData = {
 	uer_name: '김동휘',
 	department: '글로벌한국학과',
 	student_id: '23학번',
-	manner_temperature: 'double',
+	manner_temperature: '70',
 	match_count: '4',
 	job_tag: ['과외', '학원'],
 	context: '안녕하세요 저는 서강대학교 글로벌한국학과 23학번 김동휘입니다.',
@@ -50,7 +51,7 @@ const WorkerInfo = ({ close }) => {
 							</JobTags>
 						</ProfileInfo>
 					</RowLayout1>
-					<Temperature src={temperature}></Temperature>
+					<Temperature data={mockData.manner_temperature}></Temperature>
 				</HeaderContainer>
 				<MainContainer>
 					<BasicInfo>
@@ -71,10 +72,18 @@ const WorkerInfo = ({ close }) => {
 						</LayoutForm>
 					</BasicInfo>
 					<SelfIntro>
-						<SubTitle>자기소개서서</SubTitle>
+						<SubTitle>자기소개서</SubTitle>
 						<LayoutForm>{mockData.context}</LayoutForm>
 					</SelfIntro>
 				</MainContainer>
+				<Button
+					mode="default"
+					textSize="16"
+					content="지원하기"
+					width="300px"
+					fontWeight={200}
+					isIcon={false}
+				></Button>
 			</Layout>
 		</Overlay>
 	);
@@ -111,16 +120,15 @@ const Layout = styled.div`
 	z-index: 1000; /* 다른 요소 위에 표시 */
 	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* 모달 느낌의 그림자 추가 */
 `;
-
 const HeaderContainer = styled.div`
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
-	gap: 10px;
+	gap: 110px;
 	padding-bottom: 19px;
 	border-bottom: 1px solid #c3c3c3;
 `;
 const Img = styled.img``;
+
 const FixLocation = styled.div`
 	display: flex;
 	justify-content: right;
@@ -131,11 +139,6 @@ const Delete = styled.img`
 	width: 20px;
 	height: 20px;
 `;
-const Temperature = styled.img`
-	width: 80px;
-	height: 80px;
-`;
-
 const ProfileInfo = styled.div`
 	display: flex;
 	flex-direction: column;
