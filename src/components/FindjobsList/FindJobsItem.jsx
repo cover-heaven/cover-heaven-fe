@@ -14,6 +14,7 @@ import academy from '../../assets/icon/academy.png';
 
 const Layout = styled.div`
 	display: flex;
+	align-items: center;
 	padding: 20px;
 	cursor: pointer;
 	width: 100%;
@@ -35,9 +36,8 @@ const TitleContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding-left: 2%;
-	padding-top: 6px;
 	width: 33%;
-	gap: 5px;
+	gap: 3px;
 	color: ${Text_Primary};
 	font-size: 20px;
 	font-style: normal;
@@ -46,19 +46,15 @@ const TitleContainer = styled.div`
 `;
 
 const AddressContainer = styled.div`
-	padding-top: 1.6%;
 	width: 21%;
 `;
 const HourlyWageContainer = styled.div`
-	padding-top: 1.6%;
 	width: 16%;
 `;
 const TotalWageContainer = styled.div`
-	padding-top: 1.6%;
 	width: 16.5%;
 `;
 const DdayContainer = styled.div`
-	padding-top: 0.9%;
 `;
 
 const Img = styled.img`
