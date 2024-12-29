@@ -3,6 +3,10 @@ import logo from '../../assets/icon/Man.png';
 import deleteImg from '../../assets/icon/delete.png';
 import Temperature from './Temperature';
 import Button from '../common/Button';
+import { instance } from '../../api/instance';
+import { useEffect, useState } from 'react';
+import Man from '../../assets/icon/Man.png';
+import Woman from '../../assets/icon/Woman.png';
 
 const mockData = {
 	job_search_id: 'int',
@@ -26,7 +30,27 @@ const colorMap = {
 	식당: '#B49EE8', // 보라색
 	주점: '#FFC65C'
 };
-const WorkerInfo = ({ close }) => {
+const WorkerInfo = ({ close, job_search_id }) => {
+	const [serverData, setServerData] = useState({});
+	console.log('test');
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const headers = {
+				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+			};
+			try {
+				const response = await instance.get(`/job-searches/${job_search_id}`, {
+					headers
+				});
+				setServerData(response.data);
+				console.log(response.data);
+			} catch (err) {
+				console.log('실패');
+			}
+		};
+		fetchData();
+	}, []);
 	return (
 		<Overlay>
 			<Layout>
@@ -35,15 +59,17 @@ const WorkerInfo = ({ close }) => {
 				</FixLocation>
 				<HeaderContainer>
 					<RowLayout1>
-						<Img src={logo}></Img>
+						<Img src={serverData?.gender === 'M' ? Man : Woman}></Img>
 						<ProfileInfo>
 							<RowLayout2>
-								<Name>{mockData.uer_name}</Name>
-								<Major>({mockData.department}</Major>
-								<StudentId>{mockData.student_id})</StudentId>
+								<Name>{serverData?.user_name}</Name>
+								<Major>({serverData?.department}</Major>
+								<StudentId>
+									{serverData?.student_id?.substring(2, 4)}학번)
+								</StudentId>
 							</RowLayout2>
 							<JobTags>
-								{mockData.job_tag.map((tag, index) => (
+								{serverData?.job_tag?.map((tag, index) => (
 									<Tag key={index} color={colorMap[tag] || '#CCCCCC'}>
 										{tag}
 									</Tag>
@@ -51,7 +77,7 @@ const WorkerInfo = ({ close }) => {
 							</JobTags>
 						</ProfileInfo>
 					</RowLayout1>
-					<Temperature data={mockData.manner_temperature}></Temperature>
+					<Temperature data={serverData?.manner_temperature}></Temperature>
 				</HeaderContainer>
 				<MainContainer>
 					<BasicInfo>
@@ -59,7 +85,7 @@ const WorkerInfo = ({ close }) => {
 						<LayoutForm>
 							<RowLayout3>
 								<InfoTitle>성별</InfoTitle>
-								<div>{mockData.gender}</div>
+								<div>{serverData?.gender === 'F' ? '여' : '남'}</div>
 							</RowLayout3>
 							<RowLayout3>
 								<InfoTitle>나이</InfoTitle>
@@ -67,16 +93,16 @@ const WorkerInfo = ({ close }) => {
 							</RowLayout3>
 							<RowLayout3>
 								<InfoTitle>매칭횟수</InfoTitle>
-								<div>{mockData.match_count}회</div>
+								<div>{serverData?.match_count}회</div>
 							</RowLayout3>
 						</LayoutForm>
 					</BasicInfo>
 					<SelfIntro>
 						<SubTitle>자기소개서</SubTitle>
-						<LayoutForm>{mockData.context}</LayoutForm>
+						<LayoutForm>{serverData?.context}</LayoutForm>
 					</SelfIntro>
 				</MainContainer>
-				<Button
+				{/* <Button
 					mode="default"
 					textSize="16"
 					content="1:1 채팅하기"
@@ -84,7 +110,7 @@ const WorkerInfo = ({ close }) => {
 					height="50px"
 					fontWeight={400}
 					isIcon={false}
-				></Button>
+				></Button> */}
 			</Layout>
 		</Overlay>
 	);

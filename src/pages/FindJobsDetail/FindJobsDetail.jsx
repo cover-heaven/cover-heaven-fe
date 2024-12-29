@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { instance } from '../../api/instance';
 
 const mockData = {
 	job_offer_id: '0',
@@ -33,11 +35,41 @@ const colorMap = {
 	주점: '#FFC65C'
 };
 const FindJobsDetail = () => {
-	const [serverData, setServerData] = useState(null);
+	const [serverData, setServerData] = useState({
+		job_offer_id: '',
+		offer_user_id: '',
+		offer_user_name: '',
+		title: '',
+		store_name: '',
+		job_tag: '',
+		address: '',
+		work_detail: [
+			{
+				work_date: '',
+				work_hour: '',
+				hourly_wage: 0
+			},
+			{
+				work_date: '',
+				work_hour: '',
+				hourly_wage: 0
+			}
+		],
+		context: '',
+		offer_date: ''
+	});
+
+	const { id } = useParams();
+	console.log(id);
 	useEffect(() => {
 		const fetchData = async () => {
+			const headers = {
+				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+			};
 			try {
-				const response = await axios.get('/job-offers/:job_offer_id');
+				const response = await instance.get(`/job-offers/${id}`, {
+					headers
+				});
 				setServerData(response.data);
 			} catch (err) {
 				console.log('잘못 받아왔습니다');
@@ -59,7 +91,7 @@ const FindJobsDetail = () => {
 		return totalMinutes / 60; // 시간으로 변환
 	};
 	// 총 급여 계산
-	const totalSalary = mockData.work_detail.reduce((acc, job) => {
+	const totalSalary = serverData.work_detail.reduce((acc, job) => {
 		const workTime = calculateWorkTime(job.work_hour);
 		return acc + workTime * job.hourly_wage;
 	}, 0);
@@ -79,15 +111,15 @@ const FindJobsDetail = () => {
 			<Header>
 				<TitleContainer>
 					<TitleBox>
-						<Title>{mockData.title}</Title>
-						<JobTag color={colorMap[mockData.job_tag] || '#CCCCCC'}>
-							{mockData.job_tag}
+						<Title>{serverData?.title}</Title>
+						<JobTag color={colorMap[serverData?.job_tag] || '#CCCCCC'}>
+							{serverData?.job_tag}
 						</JobTag>
 					</TitleBox>
 					<DdayContainer>
 						<SubTitle>첫 근무까지</SubTitle>
 						<Dday>
-							D-{dayLeftCalculator(mockData.work_detail[0].work_date)}
+							D-{dayLeftCalculator(serverData?.work_detail[0]?.work_date)}
 						</Dday>
 					</DdayContainer>
 				</TitleContainer>
@@ -102,11 +134,11 @@ const FindJobsDetail = () => {
 					<InfoBox>
 						<InnerInfoBox>
 							<InfoTitle>근무지명</InfoTitle>
-							<Place>{mockData.store_name}</Place>
+							<Place>{serverData?.store_name}</Place>
 						</InnerInfoBox>
 						<InnerInfoBox>
 							<InfoTitle>상세주소</InfoTitle>
-							<Place>{mockData.address}</Place>
+							<Place>{serverData?.address}</Place>
 						</InnerInfoBox>
 					</InfoBox>
 				</WorkingPlaceInfo>
@@ -119,19 +151,19 @@ const FindJobsDetail = () => {
 							<Menu1>시급</Menu1>
 							<Menu1>일급</Menu1>
 						</MenuTitle>
-						{mockData.work_detail.map((data) => (
+						{serverData?.work_detail?.map((data) => (
 							<div key={data.job_offer_id}>
 								<WorkingDetail>
 									<Menu2>
-										{data.work_date.substring(0, 4)}년&nbsp;
-										{data.work_date.substring(5, 7)}월&nbsp;
-										{data.work_date.substring(8, 10)}일
+										{data?.work_date.substring(0, 4)}년&nbsp;
+										{data?.work_date.substring(5, 7)}월&nbsp;
+										{data?.work_date.substring(8, 10)}일
 									</Menu2>
-									<Menu2>{data.work_hour}</Menu2>
-									<Menu2>{Number(data.hourly_wage).toLocaleString()}원</Menu2>
+									<Menu2>{data?.work_hour}</Menu2>
+									<Menu2>{Number(data?.hourly_wage).toLocaleString()}원</Menu2>
 									<Menu2>
 										{Number(
-											calculateWorkTime(data.work_hour) * data.hourly_wage
+											calculateWorkTime(data?.work_hour) * data?.hourly_wage
 										).toLocaleString()}
 										원
 									</Menu2>
@@ -145,7 +177,7 @@ const FindJobsDetail = () => {
 				</WorkingDateWage>
 				<DetailContent>
 					<div>상세 모집내용</div>
-					<InfoBox>{mockData.context}</InfoBox>
+					<InfoBox>{serverData?.context}</InfoBox>
 				</DetailContent>
 			</Detail>
 		</Layout>

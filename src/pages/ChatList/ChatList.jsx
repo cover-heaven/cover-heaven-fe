@@ -50,22 +50,22 @@ const dummyData = [
 const ChatList = () => {
 	const [listData, setListData] = useState(dummyData);
 	const navigate = useNavigate();
-	// useEffect(() => {
-	// 	const fetchListData = async () => {
-	// 		const headers = {
-	// 			Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-	// 		};
-	// 		try {
-	// 			const response = await instance.get('/chatting/list', { headers });
-	// 			if (response.status === 200) {
-	// 				setListData(response.data);
-	// 			}
-	// 		} catch (err) {
-	// 			alert(err);
-	// 		}
-	// 	};
-	// 	fetchListData();
-	// }, []);
+	useEffect(() => {
+		const fetchListData = async () => {
+			const headers = {
+				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+			};
+			try {
+				const response = await instance.get('/chatting/list', { headers });
+				if (response.status === 200) {
+					setListData(response.data);
+				}
+			} catch (err) {
+				alert(err);
+			}
+		};
+		fetchListData();
+	}, []);
 
 	const handleItemClick = (data) => {
 		navigate('/chat', {
