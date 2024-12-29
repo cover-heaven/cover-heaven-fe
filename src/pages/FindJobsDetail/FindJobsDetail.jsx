@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { instance } from '../../api/instance';
 
 const mockData = {
@@ -60,7 +60,7 @@ const FindJobsDetail = () => {
 	});
 
 	const { id } = useParams();
-	console.log(id);
+	const nav = useNavigate();
 	useEffect(() => {
 		const fetchData = async () => {
 			const headers = {
@@ -72,7 +72,7 @@ const FindJobsDetail = () => {
 				});
 				setServerData(response.data);
 			} catch (err) {
-				console.log('잘못 받아왔습니다');
+				// console.log('잘못 받아왔습니다');
 			}
 		};
 		fetchData();
@@ -106,6 +106,28 @@ const FindJobsDetail = () => {
 		const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
 		return diffInDays;
 	};
+
+	const moveToChat = async () => {
+		// const headers = {
+		// 	Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+		// };
+		// const body = {
+		// 	search_user_id: serverData.offer_user_id,
+		// 	offer_user_id: Number(serverData.offer_user_id),
+		// 	job_offer_id: Number(serverData.job_offer_id)
+		// };
+		// try {
+		// 	const response = await instance.post(`/chatting`, body, {
+		// 		headers
+		// 	});
+		// 	if (response.status === 201) {
+		// 		nav('/chatlist');
+		// 	}
+		// } catch (err) {
+		// 	alert(err);
+		// }
+		nav('/chatlist');
+	};
 	return (
 		<Layout>
 			<Header>
@@ -125,7 +147,7 @@ const FindJobsDetail = () => {
 				</TitleContainer>
 				<SubTitleContainer>
 					<WriitenDate>2024.11.25 12시 49분에 작성된 글입니다</WriitenDate>
-					<Inquiry>1:1 문의하기</Inquiry>
+					<Inquiry onClick={moveToChat}>1:1 문의하기</Inquiry>
 				</SubTitleContainer>
 			</Header>
 			<Detail>

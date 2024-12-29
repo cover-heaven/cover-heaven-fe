@@ -32,7 +32,6 @@ const colorMap = {
 };
 const WorkerInfo = ({ close, job_search_id }) => {
 	const [serverData, setServerData] = useState({});
-	console.log('test');
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -44,9 +43,8 @@ const WorkerInfo = ({ close, job_search_id }) => {
 					headers
 				});
 				setServerData(response.data);
-				console.log(response.data);
 			} catch (err) {
-				console.log('실패');
+				console.log('실패', err);
 			}
 		};
 		fetchData();

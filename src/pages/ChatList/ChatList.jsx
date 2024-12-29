@@ -48,7 +48,7 @@ const dummyData = [
 ];
 
 const ChatList = () => {
-	const [listData, setListData] = useState(dummyData);
+	const [listData, setListData] = useState([]);
 	const navigate = useNavigate();
 	useEffect(() => {
 		const fetchListData = async () => {
@@ -72,11 +72,11 @@ const ChatList = () => {
 			state: {
 				chatting_id: data.chatting_id,
 				job_offer_id: data.job_offer_id,
-				// opponent_user_name: data.opponent_user_name,
-				// opponent_user_gender: data.opponent_user_gender,
-				opponent_user_student_id: data.opponent_user_student_id
-				// oppenent_department: data.oppenent_department,
-				// opponent_profile: data.opponent_profile
+				opponent_user_name: data.opponent_user_name,
+				opponent_user_gender: data.opponent_user_gender,
+				opponent_user_student_id: data.opponent_user_student_id,
+				oppenent_department: data.oppenent_department,
+				opponent_profile: data.opponent_profile
 			}
 		});
 	};

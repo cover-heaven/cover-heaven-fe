@@ -275,7 +275,7 @@ const FindJobsWriting = () => {
 				}
 			);
 		} catch (err) {
-			console.log('실패', err);
+			// console.log('실패', err);
 		}
 		nav('/findjobslist');
 	};

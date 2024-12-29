@@ -304,9 +304,9 @@ const FindJobsList = () => {
 					}
 				);
 				setServerData(response.data);
-				console.log(response.data);
+				// console.log(response.data);
 			} catch (err) {
-				console.log('실패');
+				// console.log('실패');
 			}
 		};
 		fetchData();
@@ -356,8 +356,11 @@ const FindJobsList = () => {
 					.filter((data) => (selectedJob ? data.job_tag === selectedJob : true))
 					.filter((data) => {
 						if (!selectedDates.length) return true; // 선택된 날짜가 없으면 모든 데이터를 반환
+						const formattedWorkDates = data.work_date.map((date) =>
+							date.replace(/-/g, '')
+						); // 'YYYY-MM-DD' → 'YYYYMMDD'
 						return selectedDates.some((selectedDate) =>
-							data.work_date.includes(selectedDate)
+							formattedWorkDates.includes(selectedDate)
 						);
 					})
 					.filter((data) => {

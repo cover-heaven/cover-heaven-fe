@@ -29,9 +29,8 @@ const WorkersWriting = () => {
 					}
 				);
 				setServerData(response.data);
-				console.log(response.data);
 			} catch (err) {
-				console.log('실패');
+				// console.log('실패');
 			}
 		};
 		fetchData();
@@ -67,7 +66,7 @@ const WorkersWriting = () => {
 				}
 			);
 		} catch (err) {
-			console.log('실패', err);
+			// console.log('실패', err);
 		}
 		nav('/workerslist');
 	};

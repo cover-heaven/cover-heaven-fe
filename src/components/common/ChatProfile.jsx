@@ -7,7 +7,7 @@ import IconWoman from '../../assets/icon/icon_woman.svg';
 const ChatProfile = ({
 	opponent_user_gender,
 	opponent_user_name,
-	oppenent_department,
+	opponent_department,
 	opponent_user_student_id,
 	opponent_profile,
 	subText
@@ -18,7 +18,7 @@ const ChatProfile = ({
 				src={
 					opponent_profile
 						? opponent_profile
-						: opponent_user_gender === 'male'
+						: opponent_user_gender === 'M'
 							? IconMan
 							: IconWoman
 				}
@@ -26,9 +26,9 @@ const ChatProfile = ({
 			<ProfileTextWrapper>
 				<NameWrapper>
 					<Name>{opponent_user_name}</Name>
-					<SubInfo>{`(${oppenent_department} ${opponent_user_student_id}학번)`}</SubInfo>
+					<SubInfo>{`(${opponent_department} ${opponent_user_student_id ? opponent_user_student_id.slice(2, 4) : ''}학번)`}</SubInfo>
 				</NameWrapper>
-				<MessageText>{subText}</MessageText>
+				<MessageText>{subText ? subText : '대화 내역이 없습니다.'}</MessageText>
 			</ProfileTextWrapper>
 		</InfoWrapper>
 	);

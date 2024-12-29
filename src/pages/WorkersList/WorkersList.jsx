@@ -111,7 +111,7 @@ const WorkersList = () => {
 				});
 				setServerData(response.data);
 			} catch (err) {
-				console.log('실패');
+				// console.log('실패');
 			}
 		};
 		fetchData();
@@ -135,7 +135,6 @@ const WorkersList = () => {
 					.filter((data) => {
 						if (!age) return true; // 나이 필터가 선택되지 않은 경우 모든 데이터를 반환
 						const userAge = calculateAge(Number(data.birth_date)); // 생년월일로 나이 계산
-						console.log(data.birth_date);
 
 						if (age === '20-25') return userAge >= 20 && userAge <= 25;
 						if (age === '26-29') return userAge >= 26 && userAge <= 29;
