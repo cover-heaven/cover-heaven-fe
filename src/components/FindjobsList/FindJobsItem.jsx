@@ -129,12 +129,12 @@ const FindJobsItem = ({ data }) => {
 	const iconSrc = jobIcons[data.job_tag] || jobIcons.default;
 
 	return (
-		<Layout onClick={() => nav('/findjobsdetail')}>
+		<Layout onClick={() => nav(`/findjobsdetail/${data.job_offer_id}`)}>
 			<Img src={iconSrc} alt={`${data.job_tag} icon`} />
 			<TitleContainer>
 				<div>{data.title}</div>
 				<RowLayout>
-					{data.work_detail.map((detail, index) => (
+					{data.work_detail?.map((detail, index) => (
 						<DateBox key={`${data.job_offer_id}-${index}`}>
 							{detail.work_date.slice(5, 7)}/{detail.work_date.slice(8, 10)}
 						</DateBox>
@@ -146,7 +146,7 @@ const FindJobsItem = ({ data }) => {
 			</AddressContainer>
 			<HourlyWageContainer>
 				<div>
-					시급 {Number(data.work_detail[0].hourly_wage).toLocaleString()}원
+					시급 {Number(data.work_detail[0]?.hourly_wage).toLocaleString()}원
 				</div>
 			</HourlyWageContainer>
 			<TotalWageContainer>
@@ -154,7 +154,7 @@ const FindJobsItem = ({ data }) => {
 			</TotalWageContainer>
 			<DdayContainer>
 				<DdayText>
-					D - {dayLeftCalculator(data.work_detail[0].work_date)}
+					D - {dayLeftCalculator(data.work_detail[0]?.work_date)}
 				</DdayText>
 			</DdayContainer>
 		</Layout>

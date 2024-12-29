@@ -20,8 +20,8 @@ const WorkersItem = ({ data, openModal }) => {
 		주점: Icon_Bar
 	};
 	const gender = {
-		남성: Man,
-		여성: Woman
+		M: Man,
+		F: Woman
 	};
 	const genderSrc = gender[data.gender];
 
@@ -31,9 +31,9 @@ const WorkersItem = ({ data, openModal }) => {
 				<ProfileImage src={genderSrc}></ProfileImage>
 				<NameAndInfo>
 					<NameRow>
-						<Name>{data.uer_name}</Name>
+						<Name>{data.user_name}</Name>
 						<SubInfo>
-							({data.department} {data.student_id})
+							({data.department} {data?.student_id.substring(2, 4)}학번)
 						</SubInfo>
 					</NameRow>
 					<TagSection>

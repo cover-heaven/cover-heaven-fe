@@ -28,7 +28,7 @@ const WorkingTime = ({ setContent, upDateWorkingTime }) => {
 			setHour(0);
 			setMinute(0);
 			setWorkTime(0);
-			console.error('올바른 시간을 입력해주세요.');
+			// console.error('올바른 시간을 입력해주세요.');
 			return;
 		}
 

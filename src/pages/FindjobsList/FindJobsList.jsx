@@ -1,11 +1,12 @@
 import FindJobsItem from '../../components/FindjobsList/FindJobsItem';
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css'; // 캘린더 스타일 적용
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
 import ko from 'date-fns/locale/ko';
+import { useEffect, useState } from 'react';
+import { instance } from '../../api/instance';
 
 const Layout = styled.div`
 	display: flex;
@@ -281,20 +282,29 @@ const formatDate = (dateString) => {
 	return `${year}.${month}.${day}`;
 };
 
+// 상단에 추가
 const FindJobsList = () => {
 	const [searchData, setSearchData] = useState('');
 	const [selectedJob, setSelectedJob] = useState('');
 	const [serverData, setServerData] = useState(null);
 	const [selectedDates, setSelectedDates] = useState([]);
 	const [showCalendar, setShowCalendar] = useState(false);
+	const [urgentFilter, setUrgentFilter] = useState(false); // 급구 필터 상태 추가
 
 	useEffect(() => {
 		const fetchData = async () => {
+			const headers = {
+				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+			};
 			try {
 				const response = await axios.get(
-					'http://3.131.18.121/alumni_job/job-offers'
+					'https://3.131.18.121.nip.io/alumni_job/job-offers',
+					{
+						headers
+					}
 				);
 				setServerData(response.data);
+				console.log(response.data);
 			} catch (err) {
 				console.log('실패');
 			}
@@ -321,26 +331,42 @@ const FindJobsList = () => {
 		}
 	};
 
+	// 공고일까지 남은 날짜 계산 함수
+	const dayLeftCalculator = (time) => {
+		const targetDate = new Date(time); // 목표 날짜
+		const currentDate = new Date(); // 현재 날짜
+
+		// 밀리초 단위 차이 계산
+		const diffInMilliseconds = targetDate - currentDate;
+
+		// 밀리초를 일수로 변환
+		const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
+		return diffInDays;
+	};
+
+	// 필터링 함수 수정
 	const filteredData = () => {
-		return mockData
-			.filter((data) =>
-				searchData
-					? data.title.toLowerCase().includes(searchData.toLowerCase())
-					: true
-			)
-			.filter((data) => (selectedJob ? data.job_tag === selectedJob : true))
-			.filter((data) => {
-				if (!selectedDates.length) return true; // 선택된 날짜가 없으면 모든 데이터를 반환
-				const formattedWorkDates = data.work_date.map((date) => {
-					// mockData의 work_date(MM/DD)를 YYYYMMDD로 변환
-					const [month, day] = date.split('/');
-					return `2024${month.padStart(2, '0')}${day.padStart(2, '0')}`;
-				});
-				// selectedDates와 비교
-				return selectedDates.some((selectedDate) =>
-					formattedWorkDates.includes(selectedDate)
-				);
-			});
+		return serverData
+			? serverData
+					.filter((data) =>
+						searchData
+							? data.title.toLowerCase().includes(searchData.toLowerCase())
+							: true
+					)
+					.filter((data) => (selectedJob ? data.job_tag === selectedJob : true))
+					.filter((data) => {
+						if (!selectedDates.length) return true; // 선택된 날짜가 없으면 모든 데이터를 반환
+						return selectedDates.some((selectedDate) =>
+							data.work_date.includes(selectedDate)
+						);
+					})
+					.filter((data) => {
+						if (!urgentFilter) return true; // 급구 필터가 활성화되지 않았으면 모든 데이터 반환
+						return data.work_detail.some(
+							(detail) => dayLeftCalculator(detail.work_date) <= 3
+						); // 공고일까지 3일 이하인 데이터만 반환
+					})
+			: [];
 	};
 
 	return (
@@ -367,8 +393,8 @@ const FindJobsList = () => {
 							{showCalendar && (
 								<StyledDatePickerWrapper>
 									<DatePicker
-										dateFormat="yyyy-MM-dd" // 원하는 날짜 포맷
-										locale={ko} // 한글 로케일 적용
+										dateFormat="yyyy-MM-dd"
+										locale={ko}
 										selected={null}
 										onChange={toggleDate}
 										placeholderText="날짜를 선택하세요"
@@ -378,7 +404,6 @@ const FindJobsList = () => {
 								</StyledDatePickerWrapper>
 							)}
 						</StyledWrapper>
-
 						<ToggleJobs onChange={onChangeJob}>
 							<option value="">전체</option>
 							<option value="과외">과외</option>
@@ -396,6 +421,11 @@ const FindJobsList = () => {
 				</Filter>
 			</SubHeader>
 			<JobsListContainer>
+				<PageDivided>
+					<EntireItem onClick={() => setUrgentFilter(false)}>전체</EntireItem>
+					<div>&nbsp;|&nbsp;</div>
+					<UrgentItem onClick={() => setUrgentFilter(true)}>급구</UrgentItem>
+				</PageDivided>
 				<ItemList>
 					{filteredData().map((data) => (
 						<FindJobsItem data={data} key={data.job_offer_id} />
@@ -407,3 +437,13 @@ const FindJobsList = () => {
 };
 
 export default FindJobsList;
+
+const PageDivided = styled.div`
+	display: flex;
+`;
+const EntireItem = styled.div`
+	cursor: pointer;
+`;
+const UrgentItem = styled.div`
+	cursor: pointer;
+`;
