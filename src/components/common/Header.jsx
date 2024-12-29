@@ -4,7 +4,11 @@ import logoImg from '../../assets/icon/logo_header.svg';
 import { instance } from '../../api/instance';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Text_Primary } from '../../styles/color';
+import {
+	Border_Secondary,
+	Surface_Primary,
+	Text_Primary
+} from '../../styles/color';
 import chatIcon from '../../assets/icon/icon_chat_header2.png';
 import profileIcon from '../../assets/icon/icon_profile_header.svg';
 
@@ -67,7 +71,12 @@ const Header = () => {
 				<button
 					className={location.pathname === '/findjobslist' ? 'Selected' : ''}
 					onClick={() => {
-						nav('/findjobslist');
+						if (isLogin) {
+							nav('/findjobslist');
+						} else {
+							alert('로그인 후 이용 가능합니다!');
+							nav('/login');
+						}
 					}}
 				>
 					<p>단기알바 찾기</p>
@@ -75,7 +84,12 @@ const Header = () => {
 				<button
 					className={location.pathname === '/workerslist' ? 'Selected' : ''}
 					onClick={() => {
-						nav('/workerslist');
+						if (isLogin) {
+							nav('/workerslist');
+						} else {
+							alert('로그인 후 이용 가능합니다!');
+							nav('/login');
+						}
 					}}
 				>
 					<p>구직자 찾기</p>
@@ -83,7 +97,12 @@ const Header = () => {
 				<button
 					className={location.pathname === '/findjobswriting' ? 'Selected' : ''}
 					onClick={() => {
-						nav('/findjobswriting');
+						if (isLogin) {
+							nav('/findjobswriting');
+						} else {
+							alert('로그인 후 이용 가능합니다!');
+							nav('/login');
+						}
 					}}
 				>
 					<p>공고 글쓰기</p>
@@ -91,7 +110,12 @@ const Header = () => {
 				<button
 					className={location.pathname === '/workerswriting' ? 'Selected' : ''}
 					onClick={() => {
-						nav('/workerswriting');
+						if (isLogin) {
+							nav('/workerswriting');
+						} else {
+							alert('로그인 후 이용 가능합니다!');
+							nav('/login');
+						}
 					}}
 				>
 					<p>구직 글쓰기</p>
@@ -117,22 +141,13 @@ const Header = () => {
 					/>
 				</UserSection>
 			) : (
-				<div className="Icon">
-					<button
-						onClick={() => {
-							nav('/login');
-						}}
-					>
-						로그인
-					</button>
-					<button
-						onClick={() => {
-							nav('/signup');
-						}}
-					>
-						회원가입
-					</button>
-				</div>
+				<LoginBtn
+					onClick={() => {
+						nav('/login');
+					}}
+				>
+					로그인 / 회원가입
+				</LoginBtn>
 			)}
 		</div>
 	);
@@ -166,11 +181,43 @@ const ProfileText = styled.span`
 	font-style: normal;
 	font-weight: 600;
 	line-height: normal;
+	&:hover {
+		color: ${Surface_Primary};
+	}
 `;
 
 const ChatImg = styled.img`
 	width: calc(29 / 1512 * 100vw);
 	cursor: pointer;
+	&:hover {
+		filter: brightness(0) saturate(100%) invert(43%) sepia(48%) saturate(2574%)
+			hue-rotate(336deg) brightness(98%) contrast(106%);
+	}
+`;
+
+const LoginBtn = styled.button`
+	display: flex;
+	width: calc(211 / 1512 * 100vw);
+	height: calc(52 / 86 * 100%);
+	padding: calc(9 / 1512 * 100vw) 0;
+	justify-content: center;
+	align-items: center;
+	flex-shrink: 0;
+	border-radius: 30px;
+	background: ${Surface_Primary};
+	color: #fff;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	border: 1px solid ${Surface_Primary};
+	transition:
+		background 0.2s,
+		color 0.2s;
+	&:hover {
+		background: transparent;
+		color: ${Surface_Primary};
+	}
 `;
 
 // =======

@@ -80,12 +80,18 @@ const Login = () => {
 };
 
 const Layout = styled.div`
-	position: relative;
+	/* position: relative;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	display: flex;
+	flex-direction: column; */
+	width: 100vw;
+	height: calc(100vh - 2 * 86px);
+	display: flex;
 	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 `;
 const TitleContainer = styled.div`
 	display: flex;
