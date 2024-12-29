@@ -150,7 +150,7 @@ const Layout = styled.div`
 const HeaderContainer = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 110px;
+	gap: 15px;
 	padding-bottom: 19px;
 	border-bottom: 1px solid #c3c3c3;
 `;
@@ -174,21 +174,38 @@ const ProfileInfo = styled.div`
 const RowLayout1 = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 13px;
 `;
 const RowLayout2 = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 3px;
 `;
 const Name = styled.div`
+	width: 135px;
+	color: var(--text-text-primary, #464646);
+	font-family: Pretendard;
 	font-size: 32px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
 `;
 const Major = styled.div`
-	color: #787777;
+	width: 140px;
+	color: var(--text-text-secondary, #787777);
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
 `;
 const StudentId = styled.div`
-	color: #787777;
+	width: 80px;
+	color: var(--text-text-secondary, #787777);
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
 `;
 const JobTags = styled.div`
 	display: flex;
@@ -210,7 +227,6 @@ const Tag = styled.div`
 
 const MainContainer = styled.div`
 	padding-top: 40px;
-	padding-bottom: 30px;
 	display: flex;
 	flex-direction: column;
 	gap: 40px;

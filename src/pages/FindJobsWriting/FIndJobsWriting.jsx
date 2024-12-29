@@ -235,15 +235,6 @@ const FindJobsWriting = () => {
 	const [selectedTag, setSelectedTag] = useState('');
 	const [workDetail, setWorkDetail] = useState([]);
 	const nav = useNavigate();
-	const makeWorkDetail = () => {
-		setWorkDetail(
-			dateTimeInputs.map((input) => ({
-				work_date: input.date.toISOString().split('T')[0],
-				work_hour: input.timeData,
-				hourly_wage: input.hourlyWage
-			}))
-		);
-	};
 
 	// 서버 전송
 	const onSubmit = async () => {

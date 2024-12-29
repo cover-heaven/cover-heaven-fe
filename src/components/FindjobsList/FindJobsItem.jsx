@@ -6,6 +6,7 @@ import coffeeIcon from '../../assets/icon/coffeeIcon.png';
 import restaurantIcon from '../../assets/icon/restaurantIcon.png';
 import tutor from '../../assets/icon/tutor.png';
 import beer from '../../assets/icon/beer.png';
+import academy from '../../assets/icon/academy.png';
 
 const Layout = styled.div`
 	display: flex;
@@ -71,6 +72,7 @@ const jobIcons = {
 	과외: tutor,
 	식당: restaurantIcon,
 	술집: beer,
+	학원: academy,
 	default: '/images/default-icon.png' // 매칭되지 않을 경우 기본 아이콘
 };
 
