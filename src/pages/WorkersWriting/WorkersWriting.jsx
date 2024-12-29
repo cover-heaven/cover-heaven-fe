@@ -205,7 +205,7 @@ const Explain = styled.div`
 const Header = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 30px;
+	gap: 15px;
 	padding-bottom: 60px;
 `;
 

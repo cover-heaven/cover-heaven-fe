@@ -96,7 +96,7 @@ const SubHeader = styled.div`
 const TitleContainter = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 25px;
+	gap: 15px;
 `;
 
 const SearchInput = styled.input`

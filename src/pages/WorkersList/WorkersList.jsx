@@ -219,7 +219,7 @@ const TitleContainer = styled.div`
 	padding-left: 14.2%;
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 15px;
 `;
 
 const PageTitle = styled.div`

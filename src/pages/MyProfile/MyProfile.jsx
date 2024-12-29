@@ -8,22 +8,54 @@ import {
 	Text_Primary,
 	Text_Secondary
 } from '../../styles/color';
+import { instance } from '../../api/instance';
+import iconMan from '../../assets/icon/icon_man.svg';
+import iconWoman from '../../assets/icon/icon_woman.svg';
+import Temperature from '../../components/WorkersList/Temperature';
+import coffeeIcon from '../../assets/icon/coffeeIcon.png';
+import restaurantIcon from '../../assets/icon/restaurantIcon.png';
+import tutor from '../../assets/icon/tutor.png';
+import beer from '../../assets/icon/beer.png';
+import academy from '../../assets/icon/academy.png';
 
+const mockData = {
+	name: 'string',
+	gender: 'string',
+	phone: 'string',
+	birth_date: 'YYYYMMDD',
+	school: 'string',
+	department: 'string',
+	student_id: 'string',
+	profile: 'file (nullable)',
+	manner_temperature: 'double',
+	match_count: 'int',
+	certification: 'bool'
+};
+const jobIcons = {
+	카페: coffeeIcon,
+	과외: tutor,
+	식당: restaurantIcon,
+	술집: beer,
+	학원: academy,
+	default: '/images/default-icon.png' // 매칭되지 않을 경우 기본 아이콘
+};
 const MyProfile = () => {
 	const [profileData, setProfileData] = useState(null);
+	const [jobOfferData, setJobOfferData] = useState();
+	const [jobSearchData, setJobSearchData] = useState();
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		const fetchProfileData = async () => {
+			const headers = {
+				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+			};
 			try {
-				const token = localStorage.getItem('accessToken');
-				const response = await axios.get('/users/info', {
-					headers: {
-						Authorization: `Bearer ${token}`
-					}
+				const response = await instance.get('/users/info', {
+					headers
 				});
-				setProfileData(response.data.data);
+				setProfileData(response.data);
 				setLoading(false);
 			} catch (err) {
 				setError('프로필 정보를 불러오는 데 실패했습니다.');
@@ -34,6 +66,46 @@ const MyProfile = () => {
 		fetchProfileData();
 	}, []);
 
+	useEffect(() => {
+		const fetchJobOfferData = async () => {
+			const headers = {
+				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+			};
+			try {
+				const response = await instance.get('/job-offers/my', {
+					headers
+				});
+				setJobOfferData(response.data);
+				setLoading(false);
+			} catch (err) {
+				setError('내 구인글글 정보를 불러오는 데 실패했습니다.');
+				setLoading(true);
+			}
+		};
+
+		fetchJobOfferData();
+	}, []);
+
+	useEffect(() => {
+		const fetchJobSearchData = async () => {
+			const headers = {
+				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+			};
+			try {
+				const response = await instance.get('/job-searches/my', {
+					headers
+				});
+				setJobSearchData(response.data);
+				setLoading(false);
+			} catch (err) {
+				setError('내 구인글글 정보를 불러오는 데 실패했습니다.');
+				setLoading(true);
+			}
+		};
+
+		fetchJobSearchData();
+	}, []);
+
 	// if (loading) {
 	// 	return <div>로딩 중...</div>;
 	// }
@@ -41,36 +113,50 @@ const MyProfile = () => {
 	// if (error) {
 	// 	return <div>{error}</div>;
 	// }
-
 	return (
 		<MainContainer>
 			<HeadSection>
-				<Highlight></Highlight>
-				<PageTitle>마이페이지</PageTitle>
+				<PageTitle>
+					<Title>마이페이지</Title>
+					<Highlight></Highlight>
+				</PageTitle>
 				<PageSubTitle>
 					{profileData?.name} 님의 회원 정보를 확인해보세요.
 				</PageSubTitle>
 			</HeadSection>
 			<MainSection>
-				{/* 나의 프로필 */}
 				<Section>
 					<SectionTitle>나의 프로필</SectionTitle>
 					<ProfileBox>
 						<ProfileInfo>
-							<Avatar src={profileData?.profile || '/default-avatar.png'} />
+							<Avatar src={profileData?.gender === 'M' ? iconMan : iconWoman} />
 							<ProfileDetails>
 								<ProfileName>{profileData?.name}</ProfileName>
 								<ProfileDetail>
-									{profileData?.gender} | 만{' '}
+									{profileData?.gender === 'M' ? '남자' : '여자'} | 만&nbsp;
 									{profileData ? calculateAge(profileData?.birth_date) : 0}세
 								</ProfileDetail>
 								<ProfileDetail>
 									{profileData?.school} {profileData?.department}{' '}
-									{profileData?.student_id}학번
+									{profileData?.student_id.substring(2, 4)}학번
 								</ProfileDetail>
-								<ProfileDetail>{profileData?.phone}</ProfileDetail>
+								<ProfileDetail>
+									{profileData?.phone.substring(0, 3)}-
+									{profileData?.phone.substring(3, 7)}-
+									{profileData?.phone.substring(7, 11)}
+								</ProfileDetail>
 							</ProfileDetails>
 						</ProfileInfo>
+						<FixLocation>
+							<Temperature
+								outerWidth="100px"
+								outerHeight="100px"
+								innerWidth="80px"
+								innerHeight="80px"
+								fontSize="28px"
+								data={Math.round(profileData?.manner_temperature)}
+							/>
+						</FixLocation>
 						<MatchCount>매칭횟수 {profileData?.match_count} 회</MatchCount>
 					</ProfileBox>
 				</Section>
@@ -86,26 +172,21 @@ const MyProfile = () => {
 					</CoinBox>
 				</Section>
 
-				{/* 나의 구직글 */}
 				<Section>
 					<SectionTitle>나의 구직글</SectionTitle>
 					<JobBox>
 						<JobItem>
 							<ProfileImage
-								src={profileData?.profile || '/default-avatar.png'}
+								src={profileData?.gender === 'M' ? iconMan : iconWoman}
 								alt="프로필 이미지"
 							/>
 							<NameAndDepartment>
 								<JobName>{profileData?.name}</JobName>
 								<JobDepartment>
-									({profileData?.department} {profileData?.student_id}학번)
+									({profileData?.department}{' '}
+									{profileData?.student_id.substring(2, 4)}학번)
 								</JobDepartment>
 							</NameAndDepartment>
-							<TagWrapper>
-								<Tag>현재</Tag>
-								<Tag>과외</Tag>
-								<Tag>개발</Tag>
-							</TagWrapper>
 						</JobItem>
 					</JobBox>
 				</Section>
@@ -114,21 +195,31 @@ const MyProfile = () => {
 				<Section>
 					<SectionTitle>나의 공고</SectionTitle>
 					<AnnouncementBox>
-						<AnnouncementItem>
-							<span>광흥창 투썸 알바 급구</span>
-							<DateWrapper>
-								<Tag>11/23</Tag>
-								<Tag>11/23</Tag>
-							</DateWrapper>
-							<Status>매칭완료</Status>
-						</AnnouncementItem>
+						{jobOfferData?.map((data) => (
+							<AnnouncementItem key={data.job_offer_id}>
+								<img src={beer} />
+								<RowLayout>
+									<span>{data.title}</span>
+									{data.work_detail.map((detail, index) => (
+										<Tag key={index}>
+											{detail.work_date.slice(5, 7)}/
+											{detail.work_date.slice(8, 10)}
+										</Tag>
+									))}
+								</RowLayout>
+							</AnnouncementItem>
+						))}
 					</AnnouncementBox>
 				</Section>
 			</MainSection>
 		</MainContainer>
 	);
 };
-
+const RowLayout = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+`;
 // 나이 계산 함수
 const calculateAge = (birthDate) => {
 	const today = new Date();
@@ -138,50 +229,44 @@ const calculateAge = (birthDate) => {
 
 // 스타일 컴포넌트 정의
 const MainContainer = styled.div`
-	background-color: ${Surface_Background};
-	padding: 20px;
-`;
-
-const HeadSection = styled.section`
-	background-color: #fff;
 	width: 100vw;
-	border: 1px solid ${Border_Primary};
-	font-family: Pretendard;
-	position: relative;
-	padding-top: 200px;
-	margin-top: 150px;
+	padding-top: 74px;
 `;
 
-const PageTitle = styled.h1`
-	color: ${Text_Primary};
+const FixLocation = styled.div`
+	position: absolute;
+	left: 83.6%;
+	top: 17%;
+`;
+
+const HeadSection = styled.div`
+	padding-left: calc(300 / 1512 * 100%);
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	border-bottom: 1px solid var(--border-border-primary, #e8e8e8);
+	padding-bottom: 40px;
+`;
+
+const PageTitle = styled.div``;
+const Title = styled.div`
 	font-size: 40px;
-	font-style: normal;
-	font-weight: 800;
-	line-height: normal;
-	position: absolute;
-	left: calc(300 / 1512 * 100%);
-	top: 74px;
 `;
 
-const PageSubTitle = styled.h2`
-	color: ${Text_Secondary};
-	font-size: 17px;
+const PageSubTitle = styled.div`
+	color: var(--text-text-secondary, #787777);
+	font-family: Pretendard;
+	font-size: 15px;
 	font-style: normal;
 	font-weight: 800;
 	line-height: normal;
-	position: absolute;
-	left: calc(300 / 1512 * 100%);
-	top: 137px;
 `;
 
 const Highlight = styled.div`
 	background-color: ${Surface_Primary};
 	opacity: 70%;
-	width: 180px;
+	width: 200px;
 	height: 16px;
-	position: absolute;
-	left: calc(300 / 1512 * 100%);
-	top: 109px;
 `;
 
 const MainSection = styled.div`
@@ -197,7 +282,6 @@ const MainSection = styled.div`
 const Section = styled.section`
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
 	margin: 20px 0;
 `;
 
@@ -230,8 +314,6 @@ const Avatar = styled.img`
 	width: 120px;
 	height: 120px;
 	border-radius: 50%;
-	background: ${Surface_Primary};
-	object-fit: cover;
 `;
 
 const ProfileDetails = styled.div`
@@ -284,6 +366,7 @@ const CurrentCoin = styled.div`
 	line-height: normal;
 	left: 50px;
 	position: relative;
+	padding-bottom: 5px;
 	border-bottom: 3px solid var(--border-border-secondary, #c3c3c3);
 `;
 
@@ -313,7 +396,7 @@ const JobBox = styled.div`
 
 const JobItem = styled.div`
 	display: flex;
-	flex-direction: column;
+
 	gap: 10px;
 `;
 
@@ -355,24 +438,32 @@ const TagWrapper = styled.div`
 `;
 
 const Tag = styled.span`
-	background: ${Surface_Primary};
-	color: #fff;
-	padding: 5px 10px;
+	display: flex;
+	width: 44px;
+	height: 21.053px;
+	justify-content: center;
+	align-items: center;
 	border-radius: 5px;
-	font-size: 12px;
+	border: 1px solid #ff5238;
+	color: #ff5238;
+	font-size: 13px;
+	font-weight: 500;
 `;
 
 const AnnouncementBox = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+`;
+
+const AnnouncementItem = styled.div`
 	border-radius: 20px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
 	padding: 20px;
-`;
-
-const AnnouncementItem = styled.div`
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
+	gap: 17px;
 `;
 
 const DateWrapper = styled.div`
