@@ -68,6 +68,7 @@ const Login = () => {
 					value={pw}
 					placeholder="비밀번호를 입력해주세요"
 					onChange={handleInputChange}
+					type="password"
 				/>
 				<Button onClick={postLoginData}>로그인</Button>
 			</InputContainer>

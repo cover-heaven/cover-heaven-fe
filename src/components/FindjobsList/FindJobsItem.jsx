@@ -154,7 +154,7 @@ const FindJobsItem = ({ data }) => {
 			</TotalWageContainer>
 			<DdayContainer>
 				<DdayText>
-					D-{dayLeftCalculator(data.work_detail[0].work_date)}
+					D - {dayLeftCalculator(data.work_detail[0].work_date)}
 				</DdayText>
 			</DdayContainer>
 		</Layout>
