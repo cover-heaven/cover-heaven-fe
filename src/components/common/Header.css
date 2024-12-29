@@ -54,4 +54,12 @@ button {
 	font-style: normal;
 	font-weight: 900;
 	line-height: normal;
+	color: #989898;
+	&:hover {
+		color: #ff5238;
+	}
+}
+
+.NavBar > button.Selected > p {
+	color: #464646;
 }

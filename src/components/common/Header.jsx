@@ -5,7 +5,7 @@ import { instance } from '../../api/instance';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Text_Primary } from '../../styles/color';
-import chatIcon from '../../assets/icon/icon_chat_header.svg';
+import chatIcon from '../../assets/icon/icon_chat_header2.png';
 import profileIcon from '../../assets/icon/icon_profile_header.svg';
 
 const getUserInfo = async () => {
@@ -32,15 +32,26 @@ const Header = () => {
 	const location = useLocation();
 	const nav = useNavigate();
 	const [isLogin, setIsLogin] = useState(false);
-	const [userInfo, setUserInfo] = useState({});
+	const [userInfo, setUserInfo] = useState({
+		profile: null,
+		name: '',
+		school: ''
+	});
 
 	useEffect(() => {
-		if (localStorage.getItem('accessToken')) {
-			setUserInfo(getUserInfo());
-			setIsLogin(true);
-		} else {
-			setIsLogin(false);
-		}
+		const fetchUserInfo = async () => {
+			if (localStorage.getItem('accessToken')) {
+				const res = await getUserInfo();
+				if (res) {
+					setUserInfo(res);
+					setIsLogin(true);
+				}
+			} else {
+				setIsLogin(false);
+			}
+		};
+
+		fetchUserInfo();
 	}, [location.pathname]);
 
 	return (
@@ -54,6 +65,7 @@ const Header = () => {
 			/>
 			<div className="NavBar">
 				<button
+					className={location.pathname === '/findjobslist' ? 'Selected' : ''}
 					onClick={() => {
 						nav('/findjobslist');
 					}}
@@ -61,6 +73,7 @@ const Header = () => {
 					<p>단기알바 찾기</p>
 				</button>
 				<button
+					className={location.pathname === '/workerslist' ? 'Selected' : ''}
 					onClick={() => {
 						nav('/workerslist');
 					}}
@@ -68,6 +81,7 @@ const Header = () => {
 					<p>구직자 찾기</p>
 				</button>
 				<button
+					className={location.pathname === '/findjobswriting' ? 'Selected' : ''}
 					onClick={() => {
 						nav('/findjobswriting');
 					}}
@@ -75,6 +89,7 @@ const Header = () => {
 					<p>공고 글쓰기</p>
 				</button>
 				<button
+					className={location.pathname === '/workerswriting' ? 'Selected' : ''}
 					onClick={() => {
 						nav('/workerswriting');
 					}}
@@ -84,13 +99,22 @@ const Header = () => {
 			</div>
 			{isLogin ? (
 				<UserSection>
-					<ProfileWrapper>
+					<ProfileWrapper
+						onClick={() => {
+							nav('/myprofile');
+						}}
+					>
 						<ProfileImg
 							src={userInfo.profile ? userInfo.profile : profileIcon}
 						/>
-						<ProfileText>{`${userInfo.name} | ${userInfo.school}`}</ProfileText>
+						<ProfileText>{`${userInfo.name} | ${userInfo.school.slice(0, -2)}`}</ProfileText>
 					</ProfileWrapper>
-					<ChatImg src={chatIcon} />
+					<ChatImg
+						src={chatIcon}
+						onClick={() => {
+							nav('/chatlist');
+						}}
+					/>
 				</UserSection>
 			) : (
 				<div className="Icon">
@@ -118,18 +142,19 @@ export default Header;
 
 const UserSection = styled.section`
 	display: flex;
-	gap: calc(17 / 1512 * 100vw);
+	gap: calc(27 / 1512 * 100vw);
 	align-items: center;
 `;
 
 const ProfileWrapper = styled.div`
 	display: flex;
-	gap: calc(16 / 1512 * 100vw);
+	gap: calc(12 / 1512 * 100vw);
 	align-items: center;
+	cursor: pointer;
 `;
 
 const ProfileImg = styled.img`
-	width: calc(32 / 1512 * 100vw);
+	width: calc(40 / 1512 * 100vw);
 	border-radius: 50%;
 	background-image: url(${(props) => props.bgImg});
 	object-fit: cover;
@@ -144,8 +169,8 @@ const ProfileText = styled.span`
 `;
 
 const ChatImg = styled.img`
-	width: calc(24 / 1512 * 100vw);
-	/* margin: calc(8 / 1512 * 100vw); */
+	width: calc(29 / 1512 * 100vw);
+	cursor: pointer;
 `;
 
 // =======
