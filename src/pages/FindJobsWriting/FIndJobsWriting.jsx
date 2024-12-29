@@ -71,7 +71,6 @@ const Input = styled.input`
 	background: #fff;
 	padding: 10px;
 	&:focus {
-		border: 1px solid ${Surface_Primary};
 		scale: 1.01;
 		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
@@ -84,7 +83,6 @@ const InputBox = styled.input`
 	background: #fff;
 	padding: 10px;
 	&:focus {
-		border: 1px solid ${Surface_Primary};
 		scale: 1.01;
 		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
@@ -104,7 +102,6 @@ const DetailInput = styled.textarea`
 	}
 	&:focus {
 		outline: none;
-		border: 1px solid ${Surface_Primary};
 		scale: 1.01;
 		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
@@ -214,7 +211,6 @@ const StyledDatePicker = styled(DatePicker)`
 	border-radius: 15px;
 	text-align: center;
 	&:focus {
-		border: 1px solid ${Surface_Primary};
 		scale: 1.01;
 		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
