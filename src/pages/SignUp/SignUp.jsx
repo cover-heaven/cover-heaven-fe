@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { Surface_Primary } from '../../styles/color';
 
 const SignUp = () => {
 	const initialFormData = {
@@ -47,7 +48,7 @@ const SignUp = () => {
 		<Layout>
 			<LeftLayout>
 				<TitleBox>
-					<ServiceTitle>동문서잡</ServiceTitle>
+					{/* <ServiceTitle>동문서잡</ServiceTitle> */}
 					<Explanation>
 						<SubTitle>
 							<div>학생증 인증 가입 후</div>
@@ -269,26 +270,31 @@ const Layout = styled.div`
 	display: flex;
 	width: 100%;
 	height: auto;
-	padding-left: 12.5%;
-	padding-top: 5%;
-	gap: 7%;
+	padding: 0 calc(100 / 1512 * 100vw);
+	/* padding-top: 5%; */
+	gap: calc(100 / 1512 * 100vw);
+	position: relative;
 `;
 const LeftLayout = styled.div`
 	display: flex;
 	padding: 4%;
 	flex-direction: column;
-	gap: 70px;
-	width: 72%;
-	height: 52%;
+	gap: 30px;
+	width: calc(606 / 1512 * 100vw);
+	height: calc(791 / 982 * 100vh);
 	border-radius: 30px;
 	background: linear-gradient(
 		202deg,
 		rgba(255, 82, 56, 0.6) 5.5%,
 		#ff5238 37.69%
 	);
+	position: fixed;
 `;
 const RightLayout = styled.div`
-	width: 100%;
+	/* width: 50%; */
+	position: absolute;
+	left: 50%;
+	padding-left: calc(50 / 1512 * 100vw);
 `;
 const FirstLayout = styled.div`
 	display: flex;
@@ -328,7 +334,7 @@ const P = styled.div`
 	font-size: 18px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: 150%;
+	line-height: 100%;
 `;
 const GenderBox = styled.div`
 	display: flex;
@@ -350,7 +356,7 @@ const Stroke = styled.div`
 	font-family: Pretendard;
 	font-size: 18px;
 	font-style: normal;
-	font-weight: 900;
+	font-weight: 700;
 	line-height: 150%; /* 27px */
 `;
 const ServiceTitle = styled.div`
@@ -364,23 +370,27 @@ const ServiceTitle = styled.div`
 const ExplanationBox = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 60px;
+	justify-content: space-between;
+	height: 100%;
 `;
 const TitleBox = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 70px;
+	/* gap: 20px; */
+	margin-bottom: 10%;
 `;
 const ContentBox = styled.div`
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	gap: 3%;
+	height: 50%;
 `;
 const LineContainer = styled.div`
 	display: flex;
 	flex-direction: column; /* 세로 방향 정렬 */
 	align-items: center; /* 수평 중앙 정렬 */
 	gap: 0; /* 간격 없이 선과 원을 연결 */
+	height: 100%;
 `;
 const Dot = styled.div`
 	width: 15px; /* 원의 너비 */
@@ -397,7 +407,8 @@ const AbstractLine = styled.div`
 `;
 const Line = styled.div`
 	width: 2px; /* 선의 너비 */
-	height: 73px; /* 선의 높이 */
+	/* height: 73px; 선의 높이 */
+	height: 27%;
 	background-color: white; /* 선의 색상 */
 `;
 const Title = styled.div`
@@ -422,6 +433,11 @@ const Input = styled.input`
 	width: 464px;
 	height: 49px;
 	margin-top: 1%;
+	&:hover {
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+	}
 `;
 const BirthInput = styled.input`
 	width: 262px;
@@ -431,6 +447,11 @@ const BirthInput = styled.input`
 	background: #fff;
 	margin-top: 3%;
 	padding: 10px;
+	&:hover {
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+	}
 `;
 const Button = styled.button`
 	width: 464px;

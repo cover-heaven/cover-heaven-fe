@@ -2,6 +2,36 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const mockData = {
+	job_offer_id: '0',
+	offer_user_id: 'string',
+	offer_user_name: 'string',
+	title: '신촌역 나무카페 알바 급구합니다',
+	store_name: '나무카페',
+	job_tag: '학원',
+	address: '서울시 마포구 광흥창역',
+	work_detail: [
+		{
+			work_date: '2025-01-09',
+			work_hour: '10:00-18:00',
+			hourly_wage: 14000
+		},
+		{
+			work_date: '2025-01-19',
+			work_hour: '13:00-18:00',
+			hourly_wage: 14000
+		}
+	],
+	context: '안녕하세요. 광흥창 투썸 알바 급구합니다.',
+	offer_date: 'date'
+};
+const colorMap = {
+	학원: '#A5E09C', // 초록색
+	과외: '#9CD2EA', // 파랑색
+	카페: '#F49C9C', // 빨강색
+	식당: '#B49EE8', // 보라색
+	주점: '#FFC65C'
+};
 const FindJobsDetail = () => {
 	const [serverData, setServerData] = useState(null);
 	useEffect(() => {
@@ -15,18 +45,50 @@ const FindJobsDetail = () => {
 		};
 		fetchData();
 	}, []);
+	const calculateWorkTime = (workHour) => {
+		if (!workHour) return 0;
+		const [start, end] = workHour.split('-');
+		const [startHour, startMinute] = start.split(':').map(Number);
+		const [endHour, endMinute] = end.split(':').map(Number);
 
+		const startInMinutes = startHour * 60 + startMinute;
+		const endInMinutes = endHour * 60 + endMinute;
+
+		// 24시간을 기준으로 차이를 계산 (야간 근무 고려)
+		const totalMinutes = (endInMinutes - startInMinutes + 24 * 60) % (24 * 60);
+		return totalMinutes / 60; // 시간으로 변환
+	};
+	// 총 급여 계산
+	const totalSalary = mockData.work_detail.reduce((acc, job) => {
+		const workTime = calculateWorkTime(job.work_hour);
+		return acc + workTime * job.hourly_wage;
+	}, 0);
+	const dayLeftCalculator = (time) => {
+		const targetDate = new Date(time); // 목표 날짜
+		const currentDate = new Date(); // 현재 날짜
+
+		// 밀리초 단위 차이 계산
+		const diffInMilliseconds = targetDate - currentDate;
+
+		// 밀리초를 일수로 변환
+		const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
+		return diffInDays;
+	};
 	return (
 		<Layout>
 			<Header>
 				<TitleContainer>
 					<TitleBox>
-						<Title>광흥창 투썸 알바 급구</Title>
-						<JobTag>카페</JobTag>
+						<Title>{mockData.title}</Title>
+						<JobTag color={colorMap[mockData.job_tag] || '#CCCCCC'}>
+							{mockData.job_tag}
+						</JobTag>
 					</TitleBox>
 					<DdayContainer>
 						<SubTitle>첫 근무까지</SubTitle>
-						<Dday>D-7</Dday>
+						<Dday>
+							D-{dayLeftCalculator(mockData.work_detail[0].work_date)}
+						</Dday>
 					</DdayContainer>
 				</TitleContainer>
 				<SubTitleContainer>
@@ -40,11 +102,11 @@ const FindJobsDetail = () => {
 					<InfoBox>
 						<InnerInfoBox>
 							<InfoTitle>근무지명</InfoTitle>
-							<Place>투썸플레이스 광흥창역점</Place>
+							<Place>{mockData.store_name}</Place>
 						</InnerInfoBox>
 						<InnerInfoBox>
 							<InfoTitle>상세주소</InfoTitle>
-							<Place>서울 마포구 신수로 8길 16</Place>
+							<Place>{mockData.address}</Place>
 						</InnerInfoBox>
 					</InfoBox>
 				</WorkingPlaceInfo>
@@ -57,23 +119,33 @@ const FindJobsDetail = () => {
 							<Menu1>시급</Menu1>
 							<Menu1>일급</Menu1>
 						</MenuTitle>
-						<WorkingDetail>
-							<Menu2>2024년 11월 25일 (화)</Menu2>
-							<Menu2>00:00 ~ 00:00</Menu2>
-							<Menu2>00,000원</Menu2>
-							<Menu2>00,000원</Menu2>
-						</WorkingDetail>
+						{mockData.work_detail.map((data) => (
+							<div key={data.job_offer_id}>
+								<WorkingDetail>
+									<Menu2>
+										{data.work_date.substring(0, 4)}년&nbsp;
+										{data.work_date.substring(5, 7)}월&nbsp;
+										{data.work_date.substring(8, 10)}일
+									</Menu2>
+									<Menu2>{data.work_hour}</Menu2>
+									<Menu2>{Number(data.hourly_wage).toLocaleString()}원</Menu2>
+									<Menu2>
+										{Number(
+											calculateWorkTime(data.work_hour) * data.hourly_wage
+										).toLocaleString()}
+										원
+									</Menu2>
+								</WorkingDetail>
+							</div>
+						))}
 						<TotalWage>
-							<div>총 급여 00,000원</div>
+							<div>총 급여 {totalSalary.toLocaleString()}원</div>
 						</TotalWage>
 					</InfoBox2>
 				</WorkingDateWage>
 				<DetailContent>
 					<div>상세 모집내용</div>
-					<InfoBox>
-						안녕하세요, 서강대학교 글로벌한국학&융합소프트웨어 전공 23학번
-						김동휘입니다.
-					</InfoBox>
+					<InfoBox>{mockData.context}</InfoBox>
 				</DetailContent>
 			</Detail>
 		</Layout>
@@ -145,7 +217,7 @@ const Menu2 = styled.div`
 const TitleBox = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 15px;
 `;
 const SubTitleContainer = styled.div`
 	display: flex;
@@ -158,18 +230,13 @@ const JobTag = styled.div`
 	display: flex;
 	width: 71.732px;
 	height: 31px;
-	padding: 1px 11px;
+	padding: 1px 13px;
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
 	flex-shrink: 0;
 	border-radius: 5px;
-	background: linear-gradient(
-			0deg,
-			rgba(255, 255, 255, 0.7) 0%,
-			rgba(255, 255, 255, 0.7) 100%
-		),
-		var(--icon-, #a5e09c);
+	background-color: ${(props) => props.color || '#CCCCCC'};
 `;
 const SubTitle = styled.div`
 	color: #787777;
@@ -192,10 +259,10 @@ const DdayContainer = styled.div`
 	align-items: center;
 	gap: 9px;
 `;
+
 const WorkingDetail = styled.div`
 	display: flex;
 	padding-bottom: 13px;
-	border-bottom: 1px solid #c3c3c3;
 `;
 const InfoBox = styled.div`
 	display: flex;
@@ -212,13 +279,15 @@ const InfoBox2 = styled.div`
 	border: 1px solid #c3c3c3;
 	border-radius: 10px;
 	padding: 3%;
-	gap: 15px;
+	gap: 17px;
 	width: 100%;
 `;
 const TotalWage = styled.div`
+	border-top: 1px solid #c3c3c3;
 	display: flex;
 	justify-content: right;
-	padding: 5px;
+	margin: 0 30px;
+	padding: 20px 10px 0 0;
 	color: var(--surface-surface-primary, #ff5238);
 	text-align: right;
 	font-family: Pretendard;

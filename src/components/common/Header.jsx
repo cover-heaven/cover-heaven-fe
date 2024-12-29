@@ -1,9 +1,63 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
 import logoImg from '../../assets/icon/logo_header.svg';
+import { instance } from '../../api/instance';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import {
+	Border_Secondary,
+	Surface_Primary,
+	Text_Primary
+} from '../../styles/color';
+import chatIcon from '../../assets/icon/icon_chat_header2.png';
+import profileIcon from '../../assets/icon/icon_profile_header.svg';
+
+const getUserInfo = async () => {
+	const headers = {
+		Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+	};
+	try {
+		const response = await instance.get(`/users/info`, {
+			headers
+		});
+		if (response.status === 200) {
+			return {
+				name: response.data.name,
+				school: response.data.school,
+				profile: response.data.profile
+			};
+		}
+	} catch (err) {
+		alert(err);
+	}
+};
+
 const Header = () => {
 	const location = useLocation();
 	const nav = useNavigate();
+	const [isLogin, setIsLogin] = useState(false);
+	const [userInfo, setUserInfo] = useState({
+		profile: null,
+		name: '',
+		school: ''
+	});
+
+	useEffect(() => {
+		const fetchUserInfo = async () => {
+			if (localStorage.getItem('accessToken')) {
+				const res = await getUserInfo();
+				if (res) {
+					setUserInfo(res);
+					setIsLogin(true);
+				}
+			} else {
+				setIsLogin(false);
+			}
+		};
+
+		fetchUserInfo();
+	}, [location.pathname]);
+
 	return (
 		<div className={`Header ${location.pathname === '/' ? 'IsLanding' : ''}`}>
 			<img
@@ -15,55 +69,156 @@ const Header = () => {
 			/>
 			<div className="NavBar">
 				<button
+					className={location.pathname === '/findjobslist' ? 'Selected' : ''}
 					onClick={() => {
-						nav('/findjobslist');
+						if (isLogin) {
+							nav('/findjobslist');
+						} else {
+							alert('로그인 후 이용 가능합니다!');
+							nav('/login');
+						}
 					}}
 				>
 					<p>단기알바 찾기</p>
 				</button>
 				<button
+					className={location.pathname === '/workerslist' ? 'Selected' : ''}
 					onClick={() => {
-						nav('/workerslist');
+						if (isLogin) {
+							nav('/workerslist');
+						} else {
+							alert('로그인 후 이용 가능합니다!');
+							nav('/login');
+						}
 					}}
 				>
 					<p>구직자 찾기</p>
 				</button>
 				<button
+					className={location.pathname === '/findjobswriting' ? 'Selected' : ''}
 					onClick={() => {
-						nav('/findjobswriting');
+						if (isLogin) {
+							nav('/findjobswriting');
+						} else {
+							alert('로그인 후 이용 가능합니다!');
+							nav('/login');
+						}
 					}}
 				>
 					<p>공고 글쓰기</p>
 				</button>
 				<button
+					className={location.pathname === '/workerswriting' ? 'Selected' : ''}
 					onClick={() => {
-						nav('/workerswriting');
+						if (isLogin) {
+							nav('/workerswriting');
+						} else {
+							alert('로그인 후 이용 가능합니다!');
+							nav('/login');
+						}
 					}}
 				>
 					<p>구직 글쓰기</p>
 				</button>
 			</div>
-			<div className="Icon">
-				<button
+			{isLogin ? (
+				<UserSection>
+					<ProfileWrapper
+						onClick={() => {
+							nav('/myprofile');
+						}}
+					>
+						<ProfileImg
+							src={userInfo.profile ? userInfo.profile : profileIcon}
+						/>
+						<ProfileText>{`${userInfo.name} | ${userInfo.school.slice(0, -2)}`}</ProfileText>
+					</ProfileWrapper>
+					<ChatImg
+						src={chatIcon}
+						onClick={() => {
+							nav('/chatlist');
+						}}
+					/>
+				</UserSection>
+			) : (
+				<LoginBtn
 					onClick={() => {
 						nav('/login');
 					}}
 				>
-					로그인
-				</button>
-				<button
-					onClick={() => {
-						nav('/signup');
-					}}
-				>
-					회원가입
-				</button>
-			</div>
+					로그인 / 회원가입
+				</LoginBtn>
+			)}
 		</div>
 	);
 };
 
 export default Header;
+
+const UserSection = styled.section`
+	display: flex;
+	gap: calc(27 / 1512 * 100vw);
+	align-items: center;
+`;
+
+const ProfileWrapper = styled.div`
+	display: flex;
+	gap: calc(12 / 1512 * 100vw);
+	align-items: center;
+	cursor: pointer;
+`;
+
+const ProfileImg = styled.img`
+	width: calc(40 / 1512 * 100vw);
+	border-radius: 50%;
+	background-image: url(${(props) => props.bgImg});
+	object-fit: cover;
+`;
+
+const ProfileText = styled.span`
+	color: ${Text_Primary};
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	&:hover {
+		color: ${Surface_Primary};
+	}
+`;
+
+const ChatImg = styled.img`
+	width: calc(29 / 1512 * 100vw);
+	cursor: pointer;
+	&:hover {
+		filter: brightness(0) saturate(100%) invert(43%) sepia(48%) saturate(2574%)
+			hue-rotate(336deg) brightness(98%) contrast(106%);
+	}
+`;
+
+const LoginBtn = styled.button`
+	display: flex;
+	width: calc(211 / 1512 * 100vw);
+	height: calc(52 / 86 * 100%);
+	padding: calc(9 / 1512 * 100vw) 0;
+	justify-content: center;
+	align-items: center;
+	flex-shrink: 0;
+	border-radius: 30px;
+	background: ${Surface_Primary};
+	color: #fff;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	border: 1px solid ${Surface_Primary};
+	transition:
+		background 0.2s,
+		color 0.2s;
+	&:hover {
+		background: transparent;
+		color: ${Surface_Primary};
+	}
+`;
 
 // =======
 // import styled from 'styled-components';

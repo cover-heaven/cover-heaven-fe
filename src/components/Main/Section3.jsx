@@ -28,9 +28,9 @@ const Section3 = () => {
 			// 	setTextFill([true, false, false]);
 			// }
 			setTextFill([
-				window.scrollY > window.innerHeight * 1.55,
-				window.scrollY > window.innerHeight * 1.7,
-				window.scrollY > window.innerHeight * 1.87
+				window.scrollY > window.innerHeight * 1.65,
+				window.scrollY > window.innerHeight * 1.8,
+				window.scrollY > window.innerHeight * 1.97
 			]);
 		};
 		window.addEventListener('scroll', handleScroll);
