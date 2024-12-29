@@ -17,6 +17,7 @@ import restaurantIcon from '../../assets/icon/restaurantIcon.png';
 import tutor from '../../assets/icon/tutor.png';
 import beer from '../../assets/icon/beer.png';
 import academy from '../../assets/icon/academy.png';
+import WarningModal from '../../components/MyProfile/WarningModal';
 
 const mockData = {
 	name: 'string',
@@ -45,6 +46,7 @@ const MyProfile = () => {
 	const [jobSearchData, setJobSearchData] = useState();
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [status, setStatus] = useState(false);
 
 	useEffect(() => {
 		const fetchProfileData = async () => {
@@ -105,7 +107,13 @@ const MyProfile = () => {
 
 		fetchJobSearchData();
 	}, []);
-
+	const onChangeTrue = () => {
+		setStatus(true);
+		console.log(status);
+	};
+	const onChangeFalse = () => {
+		setStatus(false);
+	};
 	// if (loading) {
 	// 	return <div>로딩 중...</div>;
 	// }
@@ -168,7 +176,10 @@ const MyProfile = () => {
 						<CurrentCoin>
 							현재 코인 잔액: <strong>{profileData?.coin_balance} P</strong>
 						</CurrentCoin>
-						<CoinButton>코인 충전하기</CoinButton>
+						<CoinButton onClick={onChangeTrue}>코인 충전하기</CoinButton>
+						{status && (
+							<WarningModal onChangeFalse={onChangeFalse}></WarningModal>
+						)}
 					</CoinBox>
 				</Section>
 
@@ -392,11 +403,15 @@ const JobBox = styled.div`
 	border: 1px solid #e8e8e8;
 	background: #fff;
 	padding: 20px;
+	cursor: pointer;
+	&:hover {
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+	}
 `;
 
 const JobItem = styled.div`
 	display: flex;
-
 	gap: 10px;
 `;
 
@@ -464,6 +479,11 @@ const AnnouncementItem = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 17px;
+	cursor: pointer;
+	&:hover {
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+	}
 `;
 
 const DateWrapper = styled.div`
