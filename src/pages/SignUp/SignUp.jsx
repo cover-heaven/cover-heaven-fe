@@ -3,35 +3,53 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Surface_Primary } from '../../styles/color';
+import { instance } from '../../api/instance';
 
 const SignUp = () => {
-	const initialFormData = {
-		user_id: '',
-		name: '',
-		gender: '',
-		phone: '',
-		birth_date: '',
-		school: '',
-		department: '',
-		student_id: '',
-		profile: '',
-		password: '',
-		student_card: ''
-	};
-	const [formData, setFormData] = useState(initialFormData);
+	// const initialFormData = {
+	// 	user_id: '',
+	// 	name: '',
+	// 	gender: '',
+	// 	phone: '',
+	// 	birth_date: '',
+	// 	school: '',
+	// 	department: '',
+	// 	student_id: '',
+	// 	profile: null,
+	// 	password: '',
+	// 	student_card: null
+	// };
+	// const [formData, setFormData] = useState(initialFormData);
+	const [data, setData] = useState(new FormData());
 	const [isPendingRequest, setIsPedingRequest] = useState(false);
 	const nav = useNavigate();
+
+	const onChangeData = (e) => {
+		const newFormData = new FormData();
+		for (let [key, value] of data.entries()) {
+			newFormData.append(key, value);
+		}
+		newFormData.delete(e.target.name);
+		if (e.target.name === 'sutdent_card') {
+			newFormData.append(
+				'student_card',
+				e.target.files[0],
+				e.target.files[0].name
+			);
+		} else if (e.target.name === 'gender') {
+			newFormData.append(e.target.name, e.target.value);
+		} else {
+			newFormData.append(e.target.name, e.target.value);
+		}
+		setData(newFormData);
+	};
 
 	const postSignUpData = async () => {
 		if (isPendingRequest) return; // 중복 클릭 방지.
 		try {
 			setIsPedingRequest(true);
-			await axios.post(
-				'http://3.131.18.121/alumni_job/users/register',
-				formData
-			);
-			alert('회원가입 성공');
-			setFormData(initialFormData);
+			await instance.post('/users/register', data);
+			// setFormData(initialFormData);
 			nav('/login');
 		} catch (err) {
 			alert('회원가입 실패');
@@ -40,9 +58,9 @@ const SignUp = () => {
 		}
 	};
 
-	const fileUpload = (e) => {
-		setFormData({ ...formData, student_card: e.target.files[0] });
-	};
+	// const fileUpload = (e) => {
+	// 	setFormData({ ...formData, student_card: e.target.files[0] });
+	// };
 
 	return (
 		<Layout>
@@ -93,13 +111,14 @@ const SignUp = () => {
 							<Input
 								name="name"
 								placeholder="ex) 홍길동"
-								value={formData.name}
-								onChange={(e) =>
-									setFormData({
-										...formData,
-										name: e.target.value
-									})
-								}
+								// value={formData.name}
+								// onChange={(e) =>
+								// 	setFormData({
+								// 		...formData,
+								// 		name: e.target.value
+								// 	})
+								// }
+								onChange={onChangeData}
 							/>
 						</div>
 						<div>
@@ -107,13 +126,14 @@ const SignUp = () => {
 							<Input
 								name="phone"
 								placeholder="번호만 입력해주세요 ex) 01012345678"
-								value={formData.phone}
-								onChange={(e) =>
-									setFormData({
-										...formData,
-										phone: e.target.value
-									})
-								}
+								// value={formData.phone}
+								// onChange={(e) =>
+								// 	setFormData({
+								// 		...formData,
+								// 		phone: e.target.value
+								// 	})
+								// }
+								onChange={onChangeData}
 							/>
 						</div>
 						<RowLayout>
@@ -122,25 +142,31 @@ const SignUp = () => {
 								<GenderBox>
 									<GenderMan>
 										<input
+											name="gender"
+											value="M"
 											type="radio"
-											onChange={() =>
-												setFormData({
-													...formData,
-													gender: '남자'
-												})
-											}
+											// onChange={() =>
+											// 	setFormData({
+											// 		...formData,
+											// 		gender: 'M'
+											// 	})
+											// }
+											onChange={onChangeData}
 										></input>
 										남자
 									</GenderMan>
 									<GenderWoman>
 										<input
+											name="gender"
+											value="F"
 											type="radio"
-											onChange={() =>
-												setFormData({
-													...formData,
-													gender: '여자'
-												})
-											}
+											// onChange={() =>
+											// 	setFormData({
+											// 		...formData,
+											// 		gender: 'F'
+											// 	})
+											// }
+											onChange={onChangeData}
 										></input>
 										여자
 									</GenderWoman>
@@ -151,13 +177,14 @@ const SignUp = () => {
 								<BirthInput
 									name="birth_date"
 									placeholder="YYYY/MM/DD"
-									value={formData.birth_date}
-									onChange={(e) =>
-										setFormData({
-											...formData,
-											birth_date: e.target.value
-										})
-									}
+									// value={formData.birth_date}
+									// onChange={(e) =>
+									// 	setFormData({
+									// 		...formData,
+									// 		birth_date: e.target.value
+									// 	})
+									// }
+									onChange={onChangeData}
 								/>
 							</div>
 						</RowLayout>
@@ -171,27 +198,29 @@ const SignUp = () => {
 							<div>학교</div>
 							<Input
 								name="school"
-								value={formData.school}
-								onChange={(e) =>
-									setFormData({
-										...formData,
-										school: e.target.value
-									})
-								}
+								// value={formData.school}
+								// onChange={(e) =>
+								// 	setFormData({
+								// 		...formData,
+								// 		school: e.target.value
+								// 	})
+								// }
+								onChange={onChangeData}
 							/>
 						</div>
 						<div>
 							<div>학과</div>
 							<Input
 								name="department"
-								placeholder="ex) 융합소프트웨어"
-								value={formData.department}
-								onChange={(e) =>
-									setFormData({
-										...formData,
-										department: e.target.value
-									})
-								}
+								placeholder="ex) 컴퓨터공학과"
+								// value={formData.department}
+								// onChange={(e) =>
+								// 	setFormData({
+								// 		...formData,
+								// 		department: e.target.value
+								// 	})
+								// }
+								onChange={onChangeData}
 							/>
 						</div>
 						<div>
@@ -199,18 +228,24 @@ const SignUp = () => {
 							<Input
 								name="student_id"
 								placeholder="ex) 20240000"
-								value={formData.student_id}
-								onChange={(e) =>
-									setFormData({
-										...formData,
-										student_id: e.target.value
-									})
-								}
+								// value={formData.student_id}
+								// onChange={(e) =>
+								// 	setFormData({
+								// 		...formData,
+								// 		student_id: e.target.value
+								// 	})
+								// }
+								onChange={onChangeData}
 							/>
 						</div>
 						<div>
 							<div>학생증 인증</div>
-							<input type="file" onChange={fileUpload}></input>
+							<input
+								name="sutdent_card"
+								type="file"
+								// onChange={fileUpload}
+								onChange={onChangeData}
+							></input>
 						</div>
 					</SecondLayout>
 					<ThirdLayout>
@@ -221,34 +256,40 @@ const SignUp = () => {
 						<div>
 							<div>아이디</div>
 							<Input
-								name="id"
+								name="user_id"
 								placeholder="아이디를 입력해주세요"
-								value={formData.user_id}
-								onChange={(e) =>
-									setFormData({
-										...formData,
-										user_id: e.target.value
-									})
-								}
+								// value={formData.user_id}
+								// onChange={(e) =>
+								// 	setFormData({
+								// 		...formData,
+								// 		user_id: e.target.value
+								// 	})
+								// }
+								onChange={onChangeData}
 							/>
 						</div>
 						<div>
 							<div>비밀번호</div>
 							<Input
 								name="password"
+								type="password"
 								placeholder="8자~20자 사이의 비밀번호를 입력해주세요."
-								value={formData.password}
-								onChange={(e) =>
-									setFormData({
-										...formData,
-										password: e.target.value
-									})
-								}
+								// value={formData.password}
+								// onChange={(e) =>
+								// 	setFormData({
+								// 		...formData,
+								// 		password: e.target.value
+								// 	})
+								// }
+								onChange={onChangeData}
 							/>
 						</div>
 						<div>
 							<div>비밀번호 확인</div>
-							<Input placeholder="8자~20자 사이의 비밀번호를 다시 입력해주세요." />
+							<Input
+								type="password"
+								placeholder="8자~20자 사이의 비밀번호를 다시 입력해주세요."
+							/>
 						</div>
 					</ThirdLayout>
 				</InputContainer>
