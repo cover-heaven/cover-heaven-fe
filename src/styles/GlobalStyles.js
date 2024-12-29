@@ -14,9 +14,9 @@ export const GlobalStyle = createGlobalStyle`
     font-family:"Pretendard";
     font-weight: 800;
   }
-  /* ::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     display: none;
-  } */
+  }
   input {
     border: none;
     outline: none;  

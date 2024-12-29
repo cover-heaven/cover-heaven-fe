@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const mockData = {
 	job_offer_id: '0',
@@ -37,7 +38,7 @@ const FindJobsDetail = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await axios.get('/job-offers/:job_offer_id');
+				const response = await axios.get(`/job-offers/:id`);
 				setServerData(response.data);
 			} catch (err) {
 				console.log('잘못 받아왔습니다');

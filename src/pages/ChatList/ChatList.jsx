@@ -48,35 +48,35 @@ const dummyData = [
 ];
 
 const ChatList = () => {
-	const [listData, setListData] = useState(dummyData);
+	const [listData, setListData] = useState([]);
 	const navigate = useNavigate();
-	// useEffect(() => {
-	// 	const fetchListData = async () => {
-	// 		const headers = {
-	// 			Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-	// 		};
-	// 		try {
-	// 			const response = await instance.get('/chatting/list', { headers });
-	// 			if (response.status === 200) {
-	// 				setListData(response.data);
-	// 			}
-	// 		} catch (err) {
-	// 			alert(err);
-	// 		}
-	// 	};
-	// 	fetchListData();
-	// }, []);
+	useEffect(() => {
+		const fetchListData = async () => {
+			const headers = {
+				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+			};
+			try {
+				const response = await instance.get('/chatting/list', { headers });
+				if (response.status === 200) {
+					setListData(response.data);
+				}
+			} catch (err) {
+				alert(err);
+			}
+		};
+		fetchListData();
+	}, []);
 
 	const handleItemClick = (data) => {
 		navigate('/chat', {
 			state: {
 				chatting_id: data.chatting_id,
 				job_offer_id: data.job_offer_id,
-				// opponent_user_name: data.opponent_user_name,
-				// opponent_user_gender: data.opponent_user_gender,
-				opponent_user_student_id: data.opponent_user_student_id
-				// oppenent_department: data.oppenent_department,
-				// opponent_profile: data.opponent_profile
+				opponent_user_name: data.opponent_user_name,
+				opponent_user_gender: data.opponent_user_gender,
+				opponent_user_student_id: data.opponent_user_student_id,
+				oppenent_department: data.oppenent_department,
+				opponent_profile: data.opponent_profile
 			}
 		});
 	};

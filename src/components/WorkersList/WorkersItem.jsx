@@ -2,14 +2,22 @@ import styled from 'styled-components';
 import Man from '../../assets/icon/Man.png';
 import Woman from '../../assets/icon/Woman.png';
 import Temperature from './Temperature';
+import {
+	Icon_Academy,
+	Icon_Bar,
+	Icon_Cafe,
+	Icon_Restaurant,
+	Icon_Tutor,
+	Text_Secondary
+} from '../../styles/color';
 
 const WorkersItem = ({ data, openModal }) => {
 	const colorMap = {
-		학원: '#A5E09C', // 초록색
-		과외: '#9CD2EA', // 파랑색
-		카페: '#F49C9C', // 빨강색
-		식당: '#B49EE8', // 보라색
-		주점: '#FFC65C'
+		학원: Icon_Academy, // 초록색
+		과외: Icon_Tutor, // 파랑색
+		카페: Icon_Cafe, // 빨강색
+		식당: Icon_Restaurant, // 보라색
+		주점: Icon_Bar
 	};
 	const gender = {
 		남성: Man,
@@ -95,8 +103,11 @@ const Name = styled.div`
 `;
 
 const SubInfo = styled.div`
+	color: ${Text_Secondary};
 	font-size: 14px;
-	color: #888;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
 `;
 
 const TagSection = styled.div`
@@ -107,11 +118,16 @@ const TagSection = styled.div`
 
 const Tag = styled.div`
 	padding: 5px 10px;
-	background-color: ${(props) => props.color || '#CCCCCC'};
-	color: #fff;
-	border-radius: 4px;
+	color: rgba(0, 0, 0, 0.4);
 	font-size: 14px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	font-weight: 600;
+	background: linear-gradient(
+			0deg,
+			rgba(255, 255, 255, 0.7) 0%,
+			rgba(255, 255, 255, 0.7) 100%
+		),
+		${(props) => props.color};
 `;
 
 const FixLocation = styled.div`
