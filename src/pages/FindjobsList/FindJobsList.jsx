@@ -295,19 +295,16 @@ const FindJobsList = () => {
 	const [selectedDates, setSelectedDates] = useState([]);
 	const [showCalendar, setShowCalendar] = useState(false);
 	const [urgentFilter, setUrgentFilter] = useState(false); // 급구 필터 상태 추가
-
+	const [selectedFilter, setSelectedFilter] = useState('전체'); // 전체 or 급구 필터 상태 추가
 	useEffect(() => {
 		const fetchData = async () => {
 			const headers = {
 				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
 			};
 			try {
-				const response = await axios.get(
-					'https://3.131.18.121.nip.io/alumni_job/job-offers',
-					{
-						headers
-					}
-				);
+				const response = await instance.get('/job-offers', {
+					headers
+				});
 				setServerData(response.data);
 				// console.log(response.data);
 			} catch (err) {
@@ -337,15 +334,12 @@ const FindJobsList = () => {
 	};
 
 	// 공고일까지 남은 날짜 계산 함수
-	const dayLeftCalculator = (time) => {
-		const targetDate = new Date(time); // 목표 날짜
+	const dayLeftCalculator = (dateString) => {
+		const targetDate = new Date(dateString); // 입력된 날짜를 Date 객체로 변환
 		const currentDate = new Date(); // 현재 날짜
 
-		// 밀리초 단위 차이 계산
-		const diffInMilliseconds = targetDate - currentDate;
-
-		// 밀리초를 일수로 변환
-		const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
+		const diffInMilliseconds = targetDate - currentDate; // 밀리초 단위로 차이 계산
+		const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24)); // 일수로 변환
 		return diffInDays;
 	};
 
@@ -370,9 +364,12 @@ const FindJobsList = () => {
 					})
 					.filter((data) => {
 						if (!urgentFilter) return true; // 급구 필터가 활성화되지 않았으면 모든 데이터 반환
-						return data.work_detail.some(
-							(detail) => dayLeftCalculator(detail.work_date) <= 3
-						); // 공고일까지 3일 이하인 데이터만 반환
+
+						// work_detail의 각 날짜를 순회하며 확인
+						return data.work_detail.some((detail) => {
+							const daysLeft = dayLeftCalculator(detail.work_date); // 남은 일수 계산
+							return daysLeft <= 3; // 남은 일수가 3일 이하
+						});
 					})
 			: [];
 	};
@@ -430,9 +427,25 @@ const FindJobsList = () => {
 			</SubHeader>
 			<JobsListContainer>
 				<PageDivided>
-					<EntireItem onClick={() => setUrgentFilter(false)}>전체</EntireItem>
-					<div>&nbsp;|&nbsp;</div>
-					<UrgentItem onClick={() => setUrgentFilter(true)}>급구</UrgentItem>
+					<EntireItem
+						isSelected={selectedFilter === '전체'}
+						onClick={() => {
+							setUrgentFilter(false);
+							setSelectedFilter('전체');
+						}}
+					>
+						전체
+					</EntireItem>
+					<DivideLine>&nbsp;|&nbsp;</DivideLine>
+					<UrgentItem
+						isSelected={selectedFilter === '급구'}
+						onClick={() => {
+							setUrgentFilter(true);
+							setSelectedFilter('급구');
+						}}
+					>
+						급구
+					</UrgentItem>
 				</PageDivided>
 				<ItemList>
 					{filteredData().map((data) => (
@@ -451,7 +464,20 @@ const PageDivided = styled.div`
 `;
 const EntireItem = styled.div`
 	cursor: pointer;
+	font-family: Pretendard;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	color: ${(props) => (props.isSelected ? 'black' : '#989898')};
 `;
-const UrgentItem = styled.div`
-	cursor: pointer;
+
+const UrgentItem = styled(EntireItem)``;
+const DivideLine = styled.div`
+	color: var(--text-text-tertiary, #989898);
+	font-family: Pretendard;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
 `;
