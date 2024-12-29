@@ -1,7 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Surface_Primary } from '../../styles/color';
+import {
+	Surface_Primary,
+	Text_Primary,
+	Text_Secondary
+} from '../../styles/color';
 import coffeeIcon from '../../assets/icon/coffeeIcon.png';
 import restaurantIcon from '../../assets/icon/restaurantIcon.png';
 import tutor from '../../assets/icon/tutor.png';
@@ -20,6 +24,11 @@ const Layout = styled.div`
 		scale: 1.01;
 		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
+	color: ${Text_Secondary};
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
 `;
 
 const TitleContainer = styled.div`
@@ -29,6 +38,11 @@ const TitleContainer = styled.div`
 	padding-top: 6px;
 	width: 33%;
 	gap: 5px;
+	color: ${Text_Primary};
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
 `;
 
 const AddressContainer = styled.div`
@@ -61,6 +75,8 @@ const DateBox = styled.div`
 	border-radius: 5px;
 	border: 1px solid #ff5238;
 	color: #ff5238;
+	font-size: 13px;
+	font-weight: 500;
 `;
 const RowLayout = styled.div`
 	display: flex;
@@ -113,12 +129,12 @@ const FindJobsItem = ({ data }) => {
 	const iconSrc = jobIcons[data.job_tag] || jobIcons.default;
 
 	return (
-		<Layout onClick={() => nav('/findjobsdetail')}>
+		<Layout onClick={() => nav(`/findjobsdetail/${data.job_offer_id}`)}>
 			<Img src={iconSrc} alt={`${data.job_tag} icon`} />
 			<TitleContainer>
 				<div>{data.title}</div>
 				<RowLayout>
-					{data.work_detail.map((detail, index) => (
+					{data.work_detail?.map((detail, index) => (
 						<DateBox key={`${data.job_offer_id}-${index}`}>
 							{detail.work_date.slice(5, 7)}/{detail.work_date.slice(8, 10)}
 						</DateBox>
@@ -130,7 +146,7 @@ const FindJobsItem = ({ data }) => {
 			</AddressContainer>
 			<HourlyWageContainer>
 				<div>
-					시급 {Number(data.work_detail[0].hourly_wage).toLocaleString()}원
+					시급 {Number(data.work_detail[0]?.hourly_wage).toLocaleString()}원
 				</div>
 			</HourlyWageContainer>
 			<TotalWageContainer>
@@ -138,7 +154,7 @@ const FindJobsItem = ({ data }) => {
 			</TotalWageContainer>
 			<DdayContainer>
 				<DdayText>
-					D-{dayLeftCalculator(data.work_detail[0].work_date)}
+					D - {dayLeftCalculator(data.work_detail[0]?.work_date)}
 				</DdayText>
 			</DdayContainer>
 		</Layout>

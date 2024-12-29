@@ -4,6 +4,30 @@ import WorkersItem from '../../components/WorkersList/WorkersItem';
 import { useState } from 'react';
 import WorkerInfo from '../../components/WorkersList/WorkerInfo';
 import axios from 'axios';
+import { instance } from '../../api/instance';
+
+export const calculateAge = (birthDate) => {
+	const today = new Date();
+
+	// birthDate가 숫자인 경우 문자열로 변환
+	const birthDateString = birthDate.toString();
+
+	// YYYYMMDD 형식의 문자열을 YYYY-MM-DD로 변환
+	const formattedBirthDate = birthDateString.replace(
+		/^(\d{4})(\d{2})(\d{2})$/,
+		'$1-$2-$3'
+	);
+
+	const birth = new Date(formattedBirthDate);
+	let age = today.getFullYear() - birth.getFullYear();
+	const monthDiff = today.getMonth() - birth.getMonth();
+
+	if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+		age--; // 생일이 아직 안 지났다면 한 살 빼기
+	}
+
+	return age;
+};
 
 const mockData1 = [
 	{
@@ -67,24 +91,27 @@ const WorkersList = () => {
 	const [gender, setGender] = useState('');
 	const [job, setJob] = useState('');
 	const [serverData, setServerData] = useState(null);
-	const [modal, setModal] = useState(false);
+	const [modal, setModal] = useState({ isOpen: false, id: null });
 
-	const openModal = () => {
-		setModal(true);
+	const openModal = (jobid) => {
+		setModal({ isOpen: true, id: jobid });
 	};
 
 	const closeModal = () => {
-		setModal(false);
+		setModal({ isOpen: false, id: null });
 	};
 	useEffect(() => {
 		const fetchData = async () => {
+			const headers = {
+				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+			};
 			try {
-				const response = await axios.get(
-					'http://3.131.18.121/alumni_job/job-searches'
-				);
+				const response = await instance.get('/job-searches', {
+					headers
+				});
 				setServerData(response.data);
 			} catch (err) {
-				console.log('실패');
+				// console.log('실패');
 			}
 		};
 		fetchData();
@@ -100,32 +127,21 @@ const WorkersList = () => {
 		setAge(e.target.value); // 선택된 나이 범위를 설정
 	};
 
-	const calculateAge = (birthDate) => {
-		const today = new Date();
-		const birth = new Date(birthDate);
-		let age = today.getFullYear() - birth.getFullYear();
-		const monthDiff = today.getMonth() - birth.getMonth();
-		if (
-			monthDiff < 0 ||
-			(monthDiff === 0 && today.getDate() < birth.getDate())
-		) {
-			age--; // 생일이 아직 안 지났다면 한 살 빼기
-		}
-		return age;
-	};
-
 	const filteredData = () => {
-		return mockData1 // api 연결 후 serverData로 수정.
-			.filter((data) => (gender ? data.gender === gender : true)) // 성별 필터
-			.filter((data) => (job ? data.job_tag.includes(job) : true)) // 직업 필터
-			.filter((data) => {
-				if (!age) return true; // 나이 필터가 선택되지 않은 경우 모든 데이터를 반환
-				const userAge = calculateAge(data.birth_date); // 생년월일로 나이 계산
-				if (age === '20-25') return userAge >= 20 && userAge <= 25;
-				if (age === '26-29') return userAge >= 26 && userAge <= 29;
-				if (age === '30+') return userAge >= 30;
-				return true;
-			});
+		return serverData
+			? serverData // api 연결 후 serverData로 수정.
+					.filter((data) => (gender ? data?.gender === gender : true)) // 성별 필터
+					.filter((data) => (job ? data.job_tag.includes(job) : true)) // 직업 필터
+					.filter((data) => {
+						if (!age) return true; // 나이 필터가 선택되지 않은 경우 모든 데이터를 반환
+						const userAge = calculateAge(Number(data.birth_date)); // 생년월일로 나이 계산
+
+						if (age === '20-25') return userAge >= 20 && userAge <= 25;
+						if (age === '26-29') return userAge >= 26 && userAge <= 29;
+						if (age === '30+') return userAge >= 30;
+						return true;
+					})
+			: [];
 	};
 
 	return (
@@ -150,8 +166,8 @@ const WorkersList = () => {
 
 					<ToggleBox onChange={onChangeGender}>
 						<option value="">성별</option>
-						<option value="남성">남성</option>
-						<option value="여성">여성</option>
+						<option value="M">남성</option>
+						<option value="F">여성</option>
 					</ToggleBox>
 					<ToggleBox onChange={onChangeJob}>
 						<option value="">전체</option>
@@ -167,9 +183,18 @@ const WorkersList = () => {
 			<MainSection>
 				<WorkersContainer>
 					{filteredData().map((data, index) => (
-						<WorkersItem openModal={openModal} key={index} data={data} />
+						<WorkersItem
+							openModal={() => openModal(data.job_search_id)}
+							key={index}
+							data={data}
+						/>
 					))}
-					{modal && <WorkerInfo close={closeModal}></WorkerInfo>}
+					{modal.isOpen && (
+						<WorkerInfo
+							job_search_id={modal.id}
+							close={closeModal}
+						></WorkerInfo>
+					)}
 				</WorkersContainer>
 			</MainSection>
 		</Layout>

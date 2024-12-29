@@ -1,15 +1,40 @@
 import styled from 'styled-components';
 import iconMan from '../../assets/icon/icon_man.svg';
-import { useState } from 'react';
+import iconWoman from '../../assets/icon/icon_woman.svg';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import temperature from '../../assets/icon/temperature.png';
 import { Surface_Primary } from '../../styles/color';
 import Temperature from '../../components/WorkersList/Temperature';
+import { instance } from '../../api/instance';
+import { calculateAge } from '../WorkersList/WorkersList';
+import { useNavigate } from 'react-router-dom';
 
 const WorkersWriting = () => {
 	const [selectedTags, setSelectedTags] = useState([]);
 	const [message, setMessage] = useState();
+	const [serverData, setServerData] = useState(null);
+	const nav = useNavigate();
 
+	useEffect(() => {
+		const fetchData = async () => {
+			const headers = {
+				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+			};
+			try {
+				const response = await axios.get(
+					'https://3.131.18.121.nip.io/alumni_job/users/info',
+					{
+						headers
+					}
+				);
+				setServerData(response.data);
+			} catch (err) {
+				// console.log('실패');
+			}
+		};
+		fetchData();
+	}, []);
 	const handleTagChange = (job) => {
 		if (selectedTags.includes(job)) {
 			setSelectedTags(selectedTags.filter((tag) => tag !== job));
@@ -19,22 +44,33 @@ const WorkersWriting = () => {
 			alert('최대 3개까지만 선택 가능합니다.');
 		}
 	};
-	const Jobs = ['학원', '과외', '주점', '식당', '카페'];
+	const Jobs = ['학원', '과외', '술집', '식당', '카페'];
 
 	const onSubmit = async () => {
 		if (!selectedTags || !message) {
 			alert('모든 필수 정보를 입력해주세요.');
 			return;
 		}
+		const headers = {
+			Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+		};
 		try {
-			await axios.post('http://3.131.18.121/alumni_job/job-searches', {
-				job_tag: selectedTags,
-				context: message
-			});
+			await instance.post(
+				'/job-searches',
+				{
+					job_tag: selectedTags,
+					context: message
+				},
+				{
+					headers
+				}
+			);
 		} catch (err) {
-			console.log('실패', err);
+			// console.log('실패', err);
 		}
+		nav('/workerslist');
 	};
+
 	return (
 		<Layout>
 			<Header>
@@ -48,15 +84,26 @@ const WorkersWriting = () => {
 				<Profile>
 					<SubTitle>나의 프로필</SubTitle>
 					<ProfileBox>
-						<Img src={iconMan}></Img>
+						<Img src={serverData?.gender === 'M' ? iconMan : iconWoman}></Img>
 						<PersonInfo>
-							<SubTitle>김서강</SubTitle>
+							<SubTitle>{serverData?.name}</SubTitle>
 							<SubInfo>
-								<SubP>남자 | 만 24세</SubP>
-								<SubP>서강대학교 컴퓨터공학과 24학번</SubP>
+								<SubP>
+									{serverData?.gender === 'M' ? '남자' : '여자'}&nbsp;|&nbsp;
+									{serverData?.birth_date
+										? calculateAge(Number(serverData.birth_date))
+										: '알 수 없음'}
+									세
+								</SubP>
+								<SubP>
+									{serverData?.school}&nbsp;{serverData?.department}
+									&nbsp;{serverData?.student_id.substring(2, 4)}학번
+								</SubP>
 							</SubInfo>
 						</PersonInfo>
-						<FixLocation></FixLocation>
+						<FixLocation>
+							<Temperature data={serverData?.manner_temperature}></Temperature>
+						</FixLocation>
 					</ProfileBox>
 				</Profile>
 				<FavoriteJob>
@@ -96,6 +143,7 @@ const WorkersWriting = () => {
 
 export default WorkersWriting;
 const FixLocation = styled.div`
+	padding-top: 10px;
 	padding-left: 150px;
 `;
 

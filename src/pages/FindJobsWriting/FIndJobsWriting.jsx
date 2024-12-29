@@ -6,6 +6,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
 import { Surface_Primary } from '../../styles/color';
 import TrashCan from '../../assets/icon/TrashCan.png';
+import { instance } from '../../api/instance';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 // Styled Components
 const TitleBox = styled.div`
@@ -232,11 +234,11 @@ const FindJobsWriting = () => {
 	const [message, setMessage] = useState('');
 	const [selectedTag, setSelectedTag] = useState('');
 	const [workDetail, setWorkDetail] = useState([]);
-
+	const nav = useNavigate();
 	const makeWorkDetail = () => {
 		setWorkDetail(
 			dateTimeInputs.map((input) => ({
-				work_date: input.date,
+				work_date: input.date.toISOString().split('T')[0],
 				work_hour: input.timeData,
 				hourly_wage: input.hourlyWage
 			}))
@@ -245,26 +247,49 @@ const FindJobsWriting = () => {
 
 	// 서버 전송
 	const onSubmit = async () => {
-		if (!title || !storeName || !address || workDetail.length === 0) {
+		if (
+			!title ||
+			!storeName ||
+			!address ||
+			message.length === 0 ||
+			dateTimeInputs.length === 0 ||
+			(dateTimeInputs.length === 1 && dateTimeInputs[0].timeData === '') ||
+			(dateTimeInputs.length === 1 && dateTimeInputs[0].hourlyWage === '') ||
+			(dateTimeInputs.length === 1 && dateTimeInputs[0].date === null)
+		) {
 			alert('모든 필수 정보를 입력해주세요.');
 			return;
 		}
+		const headers = {
+			Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+		};
 		try {
-			makeWorkDetail();
-			await axios.post('http://3.131.18.121/alumni_job/job-offers', {
-				title: title,
-				store_name: storeName,
-				job_tag: selectedTag,
-				address: address,
-				work_detail: workDetail,
-				context: message
-			});
+			// makeWorkDetail();
+			await instance.post(
+				'/job-offers',
+				{
+					title: title,
+					store_name: storeName,
+					job_tag: selectedTag,
+					address: address,
+					work_detail: dateTimeInputs.map((input) => ({
+						work_date: input.date.toISOString().split('T')[0],
+						work_hour: input.timeData,
+						hourly_wage: input.hourlyWage
+					})),
+					context: message
+				},
+				{
+					headers
+				}
+			);
 		} catch (err) {
-			console.log('실패', err);
+			// console.log('실패', err);
 		}
+		nav('/findjobslist');
 	};
 
-	const tags = ['학원', '과외', '주점', '식당', '카페'];
+	const tags = ['학원', '과외', '술집', '식당', '카페'];
 	// 근무일자 추가
 	const onClickAddButton = () => {
 		setDateTimeInputs((prev) => [

@@ -28,7 +28,8 @@ const getUserInfo = async () => {
 			};
 		}
 	} catch (err) {
-		alert(err);
+		// alert(err);
+		return false;
 	}
 };
 
@@ -105,7 +106,7 @@ const Header = () => {
 						}
 					}}
 				>
-					<p>공고 글쓰기</p>
+					<p>공고글쓰기</p>
 				</button>
 				<button
 					className={location.pathname === '/workerswriting' ? 'Selected' : ''}
@@ -118,7 +119,7 @@ const Header = () => {
 						}
 					}}
 				>
-					<p>구직 글쓰기</p>
+					<p>구직글쓰기</p>
 				</button>
 			</div>
 			{isLogin ? (
