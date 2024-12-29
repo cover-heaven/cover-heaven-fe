@@ -378,7 +378,6 @@ const FindJobsList = () => {
 								</StyledDatePickerWrapper>
 							)}
 						</StyledWrapper>
-
 						<ToggleJobs onChange={onChangeJob}>
 							<option value="">전체</option>
 							<option value="과외">과외</option>
