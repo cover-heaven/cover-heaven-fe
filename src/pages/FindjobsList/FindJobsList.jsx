@@ -6,12 +6,11 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
 import ko from 'date-fns/locale/ko';
-import { Text_Secondary } from '../../styles/color';
 
 const Layout = styled.div`
 	display: flex;
 	flex-direction: column;
-	padding-top: 148px;
+	padding-top: 74px;
 	padding-bottom: 50px;
 	gap: 45px;
 `;
@@ -31,7 +30,19 @@ const ItemList = styled.div`
 `;
 
 const MainTitle = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
+const Title = styled.div`
 	font-size: 40px;
+`;
+
+const Highlight = styled.div`
+	background-color: red;
+	opacity: 60%;
+	width: 250px;
+	height: 16px;
 `;
 
 const SubTitle = styled.div`
@@ -160,15 +171,6 @@ const SelectedDate = styled.div`
 	}
 `;
 
-const Highlight = styled.div`
-	background-color: red;
-	opacity: 60%;
-	width: 250px;
-	height: 16px;
-	position: absolute;
-	left: calc(223 / 1512 * 100%);
-`;
-
 const mockData = [
 	{
 		job_offer_id: 4,
@@ -176,12 +178,19 @@ const mockData = [
 		store_name: '투썸 플레이스',
 		job_tag: '술집',
 		address: '서울시 마포구 광흥창역',
-		work_detail: {
-			work_date: '20241211',
-			work_hour: '4',
-			hourly_wage: '10000'
-		},
-		work_date: ['11/1', '11/2']
+		work_detail: [
+			{
+				work_date: '2025-01-09',
+				work_hour: '10:00-18:00',
+				hourly_wage: 15000
+			},
+			{
+				work_date: '2025-01-10',
+				work_hour: '10:00-18:00',
+				hourly_wage: 15000
+			}
+		],
+		work_date: ['2024-12-09', '2024-12-10']
 	},
 	{
 		job_offer_id: 3,
@@ -189,12 +198,19 @@ const mockData = [
 		store_name: '투썸 플레이스',
 		job_tag: '카페',
 		address: '서울시 마포구 광흥창역',
-		work_detail: {
-			work_date: '20241211',
-			work_hour: '4',
-			hourly_wage: '10000'
-		},
-		work_date: ['11/1', '11/2']
+		work_detail: [
+			{
+				work_date: '2025-01-07',
+				work_hour: '10:00-18:00',
+				hourly_wage: 12000
+			},
+			{
+				work_date: '2025-01-08',
+				work_hour: '10:00-18:00',
+				hourly_wage: 12000
+			}
+		],
+		work_date: ['2024-12-07', '2024-12-08']
 	},
 	{
 		job_offer_id: 2,
@@ -202,12 +218,19 @@ const mockData = [
 		store_name: '수학과외',
 		job_tag: '과외',
 		address: '서울시 서대구문구 연세로',
-		work_detail: {
-			work_date: '20241212',
-			work_hour: '2',
-			hourly_wage: '30000'
-		},
-		work_date: ['11/4', '11/6']
+		work_detail: [
+			{
+				work_date: '2025-01-05',
+				work_hour: '10:00-18:00',
+				hourly_wage: 12000
+			},
+			{
+				work_date: '2025-01-06',
+				work_hour: '10:00-18:00',
+				hourly_wage: 12000
+			}
+		],
+		work_date: ['2024-12-05', '2024-12-06']
 	},
 	{
 		job_offer_id: 1,
@@ -215,12 +238,19 @@ const mockData = [
 		store_name: '고기마니밥마니',
 		job_tag: '식당',
 		address: '서울시 마포구 백범로',
-		work_detail: {
-			work_date: '20241213',
-			work_hour: '7',
-			hourly_wage: '11000'
-		},
-		work_date: ['12/13', '12/15']
+		work_detail: [
+			{
+				work_date: '2025-01-03',
+				work_hour: '10:00-18:00',
+				hourly_wage: 12000
+			},
+			{
+				work_date: '2025-01-04',
+				work_hour: '10:00-18:00',
+				hourly_wage: 12000
+			}
+		],
+		work_date: ['2024-12-03', '2024-12-04']
 	},
 	{
 		job_offer_id: 0,
@@ -228,12 +258,19 @@ const mockData = [
 		store_name: '나무카페',
 		job_tag: '카페',
 		address: '서울시 서대구문구 연세로',
-		work_detail: {
-			work_date: '20241201',
-			work_hour: '7',
-			hourly_wage: '9000'
-		},
-		work_date: ['12/1', '12/2', '12/4', '12/8']
+		work_detail: [
+			{
+				work_date: '2025-01-01',
+				work_hour: '10:00-18:00',
+				hourly_wage: 12000
+			},
+			{
+				work_date: '2025-01-02',
+				work_hour: '10:00-18:00',
+				hourly_wage: 12000
+			}
+		],
+		work_date: ['2024-12-01', '2024-12-02']
 	}
 ];
 
@@ -310,10 +347,10 @@ const FindJobsList = () => {
 		<Layout>
 			<SubHeader>
 				<TitleContainter>
-					<div>
-						<MainTitle>단기알바 찾기</MainTitle>
+					<MainTitle>
+						<Title>단기알바 찾기</Title>
 						<Highlight></Highlight>
-					</div>
+					</MainTitle>
 					<SubTitle>
 						단기로 일할 수 있는 아르바이트 공고를 한눈에 확인해 보세요
 					</SubTitle>
@@ -361,7 +398,7 @@ const FindJobsList = () => {
 			<JobsListContainer>
 				<ItemList>
 					{filteredData().map((data) => (
-						<FindJobsItem data={data} key={data.id} />
+						<FindJobsItem data={data} key={data.job_offer_id} />
 					))}
 				</ItemList>
 			</JobsListContainer>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { Surface_Primary } from '../../styles/color';
 
 const SignUp = () => {
 	const initialFormData = {
@@ -422,6 +423,11 @@ const Input = styled.input`
 	width: 464px;
 	height: 49px;
 	margin-top: 1%;
+	&:hover {
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+	}
 `;
 const BirthInput = styled.input`
 	width: 262px;
@@ -431,6 +437,11 @@ const BirthInput = styled.input`
 	background: #fff;
 	margin-top: 3%;
 	padding: 10px;
+	&:hover {
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+	}
 `;
 const Button = styled.button`
 	width: 464px;

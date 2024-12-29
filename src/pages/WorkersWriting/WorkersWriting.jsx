@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import iconMan from '../../assets/icon/icon_man.svg';
 import { useState } from 'react';
 import axios from 'axios';
+import temperature from '../../assets/icon/temperature.png';
+import { Surface_Primary } from '../../styles/color';
+import Temperature from '../../components/WorkersList/Temperature';
 
 const WorkersWriting = () => {
 	const [selectedTags, setSelectedTags] = useState([]);
@@ -35,10 +38,10 @@ const WorkersWriting = () => {
 	return (
 		<Layout>
 			<Header>
-				<div>
+				<MainTitle>
 					<Title>구직글 작성하기</Title>
 					<Highlight></Highlight>
-				</div>
+				</MainTitle>
 				<P>대타 제안을 받기 위한 구직글을 작성해 보세요!</P>
 			</Header>
 			<Body>
@@ -53,6 +56,7 @@ const WorkersWriting = () => {
 								<SubP>서강대학교 컴퓨터공학과 24학번</SubP>
 							</SubInfo>
 						</PersonInfo>
+						<FixLocation></FixLocation>
 					</ProfileBox>
 				</Profile>
 				<FavoriteJob>
@@ -91,14 +95,27 @@ const WorkersWriting = () => {
 };
 
 export default WorkersWriting;
+const FixLocation = styled.div`
+	padding-left: 150px;
+`;
 
 const Layout = styled.div`
-	padding-top: 148px;
+	padding-top: 74px;
 	padding-left: 19%;
 `;
 
+const MainTitle = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
 const Title = styled.div`
 	font-size: 40px;
+`;
+const Highlight = styled.div`
+	background-color: red;
+	opacity: 60%;
+	width: 290px;
+	height: 16px;
 `;
 
 const SubTitle = styled.div`
@@ -135,15 +152,6 @@ const Explain = styled.div`
 	gap: 14px;
 `;
 
-const Highlight = styled.div`
-	background-color: red;
-	opacity: 60%;
-	width: 290px;
-	height: 16px;
-	position: absolute;
-	left: calc(295 / 1512 * 100%);
-`;
-
 const Header = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -161,7 +169,7 @@ const Body = styled.div`
 
 const Profile = styled.div`
 	display: flex;
-	gap: 17%;
+	gap: 16.3%;
 `;
 
 const Img = styled.img`
@@ -183,12 +191,12 @@ const SubInfo = styled.div`
 
 const ProfileBox = styled.div`
 	display: flex;
-	gap: 4%;
 	width: 679px;
 	height: 135px;
 	border: 1px solid #e8e8e8;
 	border-radius: 20px;
 	padding: 27px 39px;
+	gap: 3%;
 `;
 
 const FavoriteJob = styled.div`
@@ -217,8 +225,12 @@ const InputBox = styled.textarea`
 	padding: 20px;
 	font-size: 14px;
 	line-height: 1.5;
+
 	&:focus {
 		outline: none;
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
 `;
 

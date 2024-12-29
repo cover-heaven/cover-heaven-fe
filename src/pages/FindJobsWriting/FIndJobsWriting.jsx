@@ -4,6 +4,8 @@ import WorkingTime from '../../components/FindJobsWriting/WorkingTime';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
+import { Surface_Primary } from '../../styles/color';
+import TrashCan from '../../assets/icon/TrashCan.png';
 
 // Styled Components
 const TitleBox = styled.div`
@@ -49,9 +51,10 @@ const Layout = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 40px;
-	padding-top: 148px;
+	padding-top: 74px;
 	padding-left: 20%;
 	padding-right: 20%;
+	padding-bottom: 50px;
 `;
 const RowLayout = styled.div`
 	display: flex;
@@ -65,6 +68,11 @@ const Input = styled.input`
 	border: 1px solid #e8e8e8;
 	background: #fff;
 	padding: 10px;
+	&:focus {
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+	}
 `;
 const InputBox = styled.input`
 	width: 80%;
@@ -72,11 +80,18 @@ const InputBox = styled.input`
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
+	padding: 10px;
+	&:focus {
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+	}
 `;
 const DetailInput = styled.textarea`
 	width: 100%;
+	height: auto;
+	min-height: 240px;
 	padding: 10px;
-	height: 202px;
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
@@ -87,6 +102,9 @@ const DetailInput = styled.textarea`
 	}
 	&:focus {
 		outline: none;
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
 `;
 
@@ -119,7 +137,17 @@ const AddButton = styled.button`
 	color: #ff5238;
 `;
 const MainTitle = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+const Title = styled.div`
 	font-size: 40px;
+`;
+const Highlight = styled.div`
+	background-color: red;
+	opacity: 60%;
+	width: 345px;
+	height: 16px;
 `;
 const SubTitle = styled.div`
 	font-size: 15px;
@@ -147,12 +175,7 @@ const TimeBox = styled.div`
 const TotalWage = styled.div`
 	padding-left: 85.5%;
 `;
-const DeleteBox = styled.button`
-	width: 49px;
-	height: 49px;
-	border-radius: 15px;
-	background: var(--border-border-secondary, #c3c3c3);
-`;
+
 const StyledWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -162,12 +185,17 @@ const StyledWrapper = styled.div`
 		margin-bottom: 16px;
 		color: #333;
 	}
-
 	p {
 		margin-top: 12px;
 		font-size: 18px;
 		color: #555;
 	}
+`;
+
+const DeleteBox = styled.img`
+	cursor: pointer;
+	width: 49px;
+	height: 49px;
 `;
 
 // DatePicker에 커스텀 스타일 적용
@@ -178,18 +206,11 @@ const StyledDatePicker = styled(DatePicker)`
 	border: 1px solid #e8e8e8;
 	border-radius: 15px;
 	text-align: center;
-
 	&:focus {
-		outline: none;
+		border: 1px solid ${Surface_Primary};
+		scale: 1.01;
+		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
-`;
-const Highlight = styled.div`
-	background-color: red;
-	opacity: 60%;
-	width: 345px;
-	height: 16px;
-	position: absolute;
-	left: calc(310 / 1512 * 100%);
 `;
 
 // Main Component
@@ -331,10 +352,10 @@ const FindJobsWriting = () => {
 	return (
 		<Layout>
 			<TitleContainter>
-				<div>
-					<MainTitle>대타 공고 작성하기</MainTitle>
+				<MainTitle>
+					<Title>대타 공고 작성하기</Title>
 					<Highlight></Highlight>
-				</div>
+				</MainTitle>
 				<SubTitle>
 					구직자들이 읽을 아르바이트 대타 공고를 작성해 주세요.
 				</SubTitle>
@@ -426,7 +447,10 @@ const FindJobsWriting = () => {
 									placeholder="시급 00,000원"
 									value={input.hourlyWage}
 								/>
-								<DeleteBox onClick={() => onDelete(input.id)}>X</DeleteBox>
+								<DeleteBox
+									src={TrashCan}
+									onClick={() => onDelete(input.id)}
+								></DeleteBox>
 							</RowLayout>
 							<div>
 								<TotalWage>
