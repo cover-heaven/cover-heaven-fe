@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import {
 	Surface_Background,
 	Surface_Primary,
@@ -9,10 +9,35 @@ import {
 import mannerTemp from '../../assets/icon/landing_mannertemp.svg';
 import faceInfo from '../../assets/icon/landing_faceinfo.svg';
 import billTransfer from '../../assets/icon/landing_billtransfer.svg';
-import lockUnfill from '../../assets/icon/landing_lockunfill.svg';
-import lockFill from '../../assets/icon/landing_lockfill.svg';
+// import lockUnfill from '../../assets/icon/landing_lockunfill.svg';
+// import lockFill from '../../assets/icon/landing_lockfill.svg';
+import lockLeftBottomFill from '../../assets/icon/landing_lockLeftBottomFill.svg';
+import lockLeftBottomUnfill from '../../assets/icon/landing_lockLeftBottomUnfill.svg';
+import lockLeftTopFill from '../../assets/icon/landing_lockLeftTopFill.svg';
+import lockLeftTopUnfill from '../../assets/icon/landing_lockLeftTopUnfill.svg';
+import lockRightBottomFill from '../../assets/icon/landing_lockRightBottomFill.svg';
+import lockRightBottomUnfill from '../../assets/icon/landing_lockRightBottomUnfill.svg';
+import lockRightTopFill from '../../assets/icon/landing_lockRightTopFill.svg';
+import lockRightTopUnfill from '../../assets/icon/landing_lockRightTopUnfill.svg';
 
 const Section4 = () => {
+	const [isLock, setIsLock] = useState([false, false]);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			setIsLock([
+				window.scrollY > window.innerHeight * 3,
+				window.scrollY > window.innerHeight * 2.8
+			]);
+		};
+		window.addEventListener('scroll', handleScroll);
+
+		// 컴포넌트 언마운트 시 이벤트 리스너 제거
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
+	}, []);
+
 	return (
 		<SectionWrapper>
 			<ContentBox>
@@ -48,8 +73,28 @@ const Section4 = () => {
 					</FunctionBox>
 				</FunctionWrapper>
 			</ContentBox>
-			<LockFillImg src={lockFill} />
-			<LockUnfillImg src={lockUnfill} />
+			{isLock[0] ? (
+				<>
+					<LockLeftTopUnfillIn src={lockLeftTopUnfill} />
+					<LockLeftTopFill src={lockLeftTopFill} />
+					<LockLeftBottomFill src={lockLeftBottomFill} />
+				</>
+			) : (
+				<LockLeftTopUnfillOut src={lockLeftTopUnfill} />
+			)}
+			{isLock[1] ? (
+				<>
+					<LockRightTopUnfillIn src={lockRightTopUnfill} />
+					<LockRightTopFill src={lockRightTopFill} />
+					<LockRightBottomFill src={lockRightBottomFill} />
+				</>
+			) : (
+				<LockRightTopUnfillOut src={lockRightTopUnfill} />
+			)}
+			<LockLeftBottomUnfill src={lockLeftBottomUnfill} />
+			<LockRightBottomUnfill src={lockRightBottomUnfill} />
+			{/* <LockFillImg src={lockFill} /> */}
+			{/* <LockUnfillImg src={lockUnfill} /> */}
 		</SectionWrapper>
 	);
 };
@@ -118,7 +163,7 @@ const Highlight = styled.div`
 	background-color: red;
 	opacity: 60%;
 	width: 100%;
-	height: 16px;
+	height: 12px;
 	margin-top: -15px;
 	position: absolute;
 	top: 50px;
@@ -157,4 +202,93 @@ const LockUnfillImg = styled.img`
 	position: absolute;
 	right: 0;
 	top: 5%;
+`;
+
+const lockDown = keyframes`
+	0%{
+		transform:translateY(0);
+	}
+	100%{
+		transform:translateY(30%);
+	}
+`;
+
+const lockUp = keyframes`
+	0%{
+		transform:translateY(30%);
+	}
+	100%{
+		transform:translateY();
+	}
+`;
+
+const fadeIn = keyframes`
+	0%{
+		opacity:0;
+	}
+	100%{
+		opacity:1;
+	}
+`;
+
+const LockLeftTopFill = styled.img`
+	position: absolute;
+	left: 0;
+	top: 37%;
+	transform: translateY(30%);
+	opacity: 0;
+	animation: ${fadeIn} 0.3s 0.3s ease-in-out forwards;
+`;
+const LockLeftTopUnfillIn = styled.img`
+	position: absolute;
+	left: 0;
+	top: 37%;
+	animation: ${lockDown} 0.3s ease-in-out forwards;
+`;
+const LockLeftTopUnfillOut = styled.img`
+	position: absolute;
+	left: 0;
+	top: 37%;
+	animation: ${lockUp} 0.3s ease-in-out forwards;
+`;
+const LockLeftBottomUnfill = styled.img`
+	position: absolute;
+	left: 0;
+	top: 60%;
+`;
+
+const LockLeftBottomFill = styled(LockLeftBottomUnfill)`
+	opacity: 0;
+	animation: ${fadeIn} 0.3s 0.3s ease-in-out forwards;
+`;
+
+const LockRightTopFill = styled.img`
+	position: absolute;
+	right: 0;
+	top: 10%;
+	transform: translateY(30%);
+	opacity: 0;
+	animation: ${fadeIn} 0.3s 0.3s ease-in-out forwards;
+`;
+const LockRightTopUnfillIn = styled.img`
+	position: absolute;
+	right: 0;
+	top: 10%;
+	animation: ${lockDown} 0.3s ease-in-out forwards;
+`;
+const LockRightTopUnfillOut = styled.img`
+	position: absolute;
+	right: 0;
+	top: 10%;
+	animation: ${lockUp} 0.3s ease-in-out forwards;
+`;
+const LockRightBottomUnfill = styled.img`
+	position: absolute;
+	right: 0;
+	top: 33%;
+`;
+
+const LockRightBottomFill = styled(LockRightBottomUnfill)`
+	opacity: 0;
+	animation: ${fadeIn} 0.3s 0.3s ease-in-out forwards;
 `;

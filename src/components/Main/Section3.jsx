@@ -20,13 +20,6 @@ const Section3 = () => {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			// if (window.scrollY > window.innerHeight * 2.0) {
-			// 	setTextFill([true, true, true]);
-			// } else if (window.scrollY > window.innerHeight * 1.85) {
-			// 	setTextFill([true, true, false]);
-			// } else if (window.scrollY > window.innerHeight * 1.7) {
-			// 	setTextFill([true, false, false]);
-			// }
 			setTextFill([
 				window.scrollY > window.innerHeight * 1.65,
 				window.scrollY > window.innerHeight * 1.8,
@@ -162,7 +155,7 @@ const Highlight = styled.div`
 	background-color: red;
 	opacity: 60%;
 	width: 100%;
-	height: 16px;
+	height: 12px;
 	margin-top: -15px;
 	position: absolute;
 	top: 50px;

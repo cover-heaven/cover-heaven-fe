@@ -70,6 +70,7 @@ const Layout = styled.div`
 		scale: 1.01;
 		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
+	transition: all 0.2s ease-in-out;
 `;
 
 const ProfileSection = styled.div`

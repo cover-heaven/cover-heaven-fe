@@ -74,6 +74,13 @@ const LoginBtn = styled.button`
 	font-style: normal;
 	font-weight: 700;
 	line-height: normal;
+	border: 1px solid ${Surface_Primary};
+	transition: all 0.2s ease-in-out;
+	&:hover {
+		color: #fff;
+		background-color: ${Surface_Primary};
+		border: 1px solid #fff;
+	}
 `;
 
 const LoginImg = styled.img`

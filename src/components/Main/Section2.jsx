@@ -216,7 +216,7 @@ const Highlight = styled.div`
 	background-color: red;
 	opacity: 60%;
 	width: 100%;
-	height: 16px;
+	height: 12px;
 	margin-top: -15px;
 	position: absolute;
 	top: 50px;

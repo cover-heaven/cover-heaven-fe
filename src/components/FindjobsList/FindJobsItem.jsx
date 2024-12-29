@@ -19,6 +19,7 @@ const Layout = styled.div`
 	border-radius: 30px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
+	transition: all 0.2s ease-in-out;
 	&:hover {
 		border: 1px solid ${Surface_Primary};
 		scale: 1.01;
