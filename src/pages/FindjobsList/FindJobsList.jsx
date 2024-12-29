@@ -47,7 +47,12 @@ const Highlight = styled.div`
 `;
 
 const SubTitle = styled.div`
+	color: var(--text-text-secondary, #787777);
+	font-family: Pretendard;
 	font-size: 15px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: normal;
 `;
 
 const ToggleJobs = styled.select`

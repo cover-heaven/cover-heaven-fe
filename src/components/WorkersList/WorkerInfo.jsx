@@ -61,10 +61,10 @@ const WorkerInfo = ({ close, job_search_id }) => {
 						<ProfileInfo>
 							<RowLayout2>
 								<Name>{serverData?.user_name}</Name>
-								<Major>({serverData?.department}</Major>
-								<StudentId>
+								<Major>
+									({serverData?.department}&nbsp;
 									{serverData?.student_id?.substring(2, 4)}학번)
-								</StudentId>
+								</Major>
 							</RowLayout2>
 							<JobTags>
 								{serverData?.job_tag?.map((tag, index) => (
@@ -75,7 +75,9 @@ const WorkerInfo = ({ close, job_search_id }) => {
 							</JobTags>
 						</ProfileInfo>
 					</RowLayout1>
-					<Temperature data={serverData?.manner_temperature}></Temperature>
+					<FixLocation2>
+						<Temperature data={Math.round(serverData?.manner_temperature)} />
+					</FixLocation2>
 				</HeaderContainer>
 				<MainContainer>
 					<BasicInfo>
@@ -114,6 +116,10 @@ const WorkerInfo = ({ close, job_search_id }) => {
 	);
 };
 
+const FixLocation2 = styled.div`
+	position: absolute;
+	left: 78%;
+`;
 const Overlay = styled.div`
 	position: fixed;
 	top: 0;
@@ -148,7 +154,6 @@ const Layout = styled.div`
 const HeaderContainer = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 15px;
 	padding-bottom: 19px;
 	border-bottom: 1px solid #c3c3c3;
 `;
@@ -177,9 +182,9 @@ const RowLayout1 = styled.div`
 const RowLayout2 = styled.div`
 	display: flex;
 	align-items: center;
+	gap: 5px;
 `;
 const Name = styled.div`
-	width: 135px;
 	color: var(--text-text-primary, #464646);
 	font-family: Pretendard;
 	font-size: 32px;
@@ -188,16 +193,6 @@ const Name = styled.div`
 	line-height: normal;
 `;
 const Major = styled.div`
-	width: 140px;
-	color: var(--text-text-secondary, #787777);
-	font-family: Pretendard;
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 500;
-	line-height: normal;
-`;
-const StudentId = styled.div`
-	width: 80px;
 	color: var(--text-text-secondary, #787777);
 	font-family: Pretendard;
 	font-size: 16px;
