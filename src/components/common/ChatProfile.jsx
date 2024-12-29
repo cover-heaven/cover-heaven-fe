@@ -26,7 +26,7 @@ const ChatProfile = ({
 			<ProfileTextWrapper>
 				<NameWrapper>
 					<Name>{opponent_user_name}</Name>
-					<SubInfo>{`(${opponent_department} ${opponent_user_student_id.slice(2, 4)}학번)`}</SubInfo>
+					<SubInfo>{`(${opponent_department} ${opponent_user_student_id ? opponent_user_student_id.slice(2, 4) : ''}학번)`}</SubInfo>
 				</NameWrapper>
 				<MessageText>{subText ? subText : '대화 내역이 없습니다.'}</MessageText>
 			</ProfileTextWrapper>

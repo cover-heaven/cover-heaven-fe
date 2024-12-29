@@ -304,9 +304,9 @@ const FindJobsList = () => {
 					}
 				);
 				setServerData(response.data);
-				console.log(response.data);
+				// console.log(response.data);
 			} catch (err) {
-				console.log('실패');
+				// console.log('실패');
 			}
 		};
 		fetchData();

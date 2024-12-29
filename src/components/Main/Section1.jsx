@@ -92,7 +92,7 @@ const StyledLine1 = styled(L1)`
 	position: absolute;
 	stroke-dasharray: 135; /* 총 길이 */
 	stroke-dashoffset: 135; /* 처음에 선을 숨김 */
-	animation: ${drawLeftOrDown} 0.4s 1.5s ease-in forwards;
+	animation: ${drawLeftOrDown} 0.4s 0.5s ease-in forwards;
 `;
 
 const StyledLine2 = styled(L2)`
@@ -101,7 +101,7 @@ const StyledLine2 = styled(L2)`
 	position: absolute;
 	stroke-dasharray: 135; /* 총 길이 */
 	stroke-dashoffset: 135; /* 처음에 선을 숨김 */
-	animation: ${drawLeftOrDown} 0.4s 1.9s linear forwards;
+	animation: ${drawLeftOrDown} 0.4s 0.9s linear forwards;
 `;
 
 const StyledLine3 = styled(L3)`
@@ -110,7 +110,7 @@ const StyledLine3 = styled(L3)`
 	position: absolute;
 	stroke-dasharray: 135; /* 총 길이 */
 	stroke-dashoffset: 135; /* 처음에 선을 숨김 */
-	animation: ${drawRightOrUp} 0.5s 2.3s ease-out forwards;
+	animation: ${drawRightOrUp} 0.5s 1.3s ease-out forwards;
 `;
 
 const StyledLine4 = styled(L4)`
@@ -118,7 +118,7 @@ const StyledLine4 = styled(L4)`
 	position: absolute;
 	stroke-dasharray: 135; /* 총 길이 */
 	stroke-dashoffset: 135; /* 처음에 선을 숨김 */
-	animation: ${drawLeftOrDown} 0.4s 1.9s ease-in forwards;
+	animation: ${drawLeftOrDown} 0.4s 0.9s ease-in forwards;
 `;
 
 const StyledLine5 = styled(L5)`
@@ -126,7 +126,7 @@ const StyledLine5 = styled(L5)`
 	position: absolute;
 	stroke-dasharray: 135; /* 총 길이 */
 	stroke-dashoffset: 135; /* 처음에 선을 숨김 */
-	animation: ${drawLeftOrDown} 0.4s 2.3s linear forwards;
+	animation: ${drawLeftOrDown} 0.4s 1.3s linear forwards;
 `;
 
 const StyledLine6 = styled(L6)`
@@ -135,7 +135,7 @@ const StyledLine6 = styled(L6)`
 	position: absolute;
 	stroke-dasharray: 135; /* 총 길이 */
 	stroke-dashoffset: 135; /* 처음에 선을 숨김 */
-	animation: ${drawRightOrUp} 0.4s 2.7s linear forwards;
+	animation: ${drawRightOrUp} 0.4s 1.7s linear forwards;
 `;
 
 const StyledLine7 = styled(L7)`
@@ -144,7 +144,7 @@ const StyledLine7 = styled(L7)`
 	position: absolute;
 	stroke-dasharray: 135; /* 총 길이 */
 	stroke-dashoffset: 135; /* 처음에 선을 숨김 */
-	animation: ${drawRightOrUp} 0.5s 3s ease-out forwards;
+	animation: ${drawRightOrUp} 0.5s 2s ease-out forwards;
 `;
 
 const StyledLine8 = styled(L8)`
@@ -153,7 +153,7 @@ const StyledLine8 = styled(L8)`
 	position: absolute;
 	stroke-dasharray: 189; /* 총 길이 */
 	stroke-dashoffset: 189; /* 처음에 선을 숨김 */
-	animation: ${drawDiagonal} 0.5s 2.3s ease-in forwards;
+	animation: ${drawDiagonal} 0.5s 1.3s ease-in forwards;
 `;
 
 const StyledLine9 = styled(L9)`
@@ -162,7 +162,7 @@ const StyledLine9 = styled(L9)`
 	position: absolute;
 	stroke-dasharray: 135; /* 총 길이 */
 	stroke-dashoffset: 135; /* 처음에 선을 숨김 */
-	animation: ${drawLeftOrDown} 0.5s 2.8s ease-out forwards;
+	animation: ${drawLeftOrDown} 0.5s 1.8s ease-out forwards;
 `;
 
 const StyledLine10 = styled(L10)`
@@ -171,7 +171,7 @@ const StyledLine10 = styled(L10)`
 	position: absolute;
 	stroke-dasharray: 135; /* 총 길이 */
 	stroke-dashoffset: 135; /* 처음에 선을 숨김 */
-	animation: ${drawLeftOrDown} 0.4s 2.8s ease-out forwards;
+	animation: ${drawLeftOrDown} 0.4s 1.8s ease-out forwards;
 `;
 
 const StyledLine11 = styled(L11)`
@@ -180,7 +180,7 @@ const StyledLine11 = styled(L11)`
 	position: absolute;
 	stroke-dasharray: 189; /* 총 길이 */
 	stroke-dashoffset: 189; /* 처음에 선을 숨김 */
-	animation: ${drawDiagonal} 0.5s 3.2s ease-out forwards;
+	animation: ${drawDiagonal} 0.5s 2.2s ease-out forwards;
 `;
 const StyledLine12 = styled(L12)`
 	left: 332px;
@@ -188,7 +188,7 @@ const StyledLine12 = styled(L12)`
 	position: absolute;
 	stroke-dasharray: 135; /* 총 길이 */
 	stroke-dashoffset: 135; /* 처음에 선을 숨김 */
-	animation: ${drawLeftOrDown} 0.5s 3.7s ease-out forwards;
+	animation: ${drawLeftOrDown} 0.5s 2.7s ease-out forwards;
 `;
 
 const fadeInSub = keyframes`
@@ -223,7 +223,7 @@ const SubText = styled.span`
 	top: 520px;
 	opacity: 0%;
 	position: absolute;
-	animation: ${fadeInSub} 0.8s 4.3s ease-in-out forwards;
+	animation: ${fadeInSub} 0.8s 3.3s ease-in-out forwards;
 `;
 
 const TitleText = styled(SubText)`
@@ -231,7 +231,7 @@ const TitleText = styled(SubText)`
 	top: 560px;
 	opacity: 0%;
 	position: absolute;
-	animation: ${fadeInTitle} 0.8s 4.3s ease-in-out forwards;
+	animation: ${fadeInTitle} 0.8s 3.3s ease-in-out forwards;
 `;
 
 const FocusText = styled.span`

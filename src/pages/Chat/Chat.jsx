@@ -9,7 +9,7 @@ import {
 	Text_Primary,
 	Text_Secondary,
 	Text_Tertiary
-} from '../../styles/color'; 
+} from '../../styles/color';
 import arrowIcon from '../../assets/icon/icon_arrow_before.svg';
 import ChatProfile from '../../components/common/ChatProfile';
 import { useEffect, useRef, useState } from 'react';
@@ -82,7 +82,7 @@ const Chat = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const defaultData = { ...location.state };
-	const [matchStatus, setMatchStatus] = useState('beforeFeedback');
+	const [matchStatus, setMatchStatus] = useState('before');
 	const [openMatch, setOpenMatch] = useState(false);
 	const [openMatchDone, setOpenMatchDone] = useState({
 		animation: false,
@@ -145,7 +145,7 @@ const Chat = () => {
 			opponent_user_gender: chatData.opponent_user_gender,
 			opponent_user_name: chatData.opponent_user_name,
 			oppenent_department: chatData.oppenent_department,
-			opponent_user_student_id: chatData.opponent_user_student_id.slice(2, 4),
+			opponent_user_student_id: chatData.opponent_user_student_id?.slice(2, 4),
 			opponent_profile: chatData.opponent_profile
 		}));
 	}, [chatData]);
@@ -163,7 +163,11 @@ const Chat = () => {
 		) {
 			setProfileProps((prev) => ({
 				...prev,
-				subText: `학번 : ${chatData.opponent_user_student_id} | 전화번호 : ${chatData.opponent_user_phone?.slice(0, 3)}-${chatData.opponent_user_phone?.slice(3, 7)}-${chatData.opponent_user_phone?.slice(7, 11)}`
+				subText: `학번 : ${chatData.opponent_user_student_id} | 전화번호 :${
+					chatData.opponent_user_phone
+						? `${chatData.opponent_user_phone.slice(0, 3)}-${chatData.opponent_user_phone.slice(3, 7)}-${chatData.opponent_user_phone.slice(7, 11)}`
+						: '정보 없음'
+				}`
 			})); // 피드백 전 상태일 경우에도 백으로부터 매칭된 날짜 배열 받자!
 		}
 	}, [matchStatus, chatData]);
