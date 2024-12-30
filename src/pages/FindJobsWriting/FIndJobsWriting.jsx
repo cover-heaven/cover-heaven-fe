@@ -146,12 +146,17 @@ const Highlight = styled.div`
 	height: 16px;
 `;
 const SubTitle = styled.div`
+	color: var(--text-text-secondary, #787777);
+	font-family: Pretendard;
 	font-size: 15px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: normal;
 `;
 const TitleContainter = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 25px;
+	gap: 15px;
 	padding: 0 0 3% 0;
 `;
 const AddButtonLayout = styled.div`
@@ -227,15 +232,6 @@ const FindJobsWriting = () => {
 	const [selectedTag, setSelectedTag] = useState('');
 	const [workDetail, setWorkDetail] = useState([]);
 	const nav = useNavigate();
-	const makeWorkDetail = () => {
-		setWorkDetail(
-			dateTimeInputs.map((input) => ({
-				work_date: input.date.toISOString().split('T')[0],
-				work_hour: input.timeData,
-				hourly_wage: input.hourlyWage
-			}))
-		);
-	};
 
 	// 서버 전송
 	const onSubmit = async () => {

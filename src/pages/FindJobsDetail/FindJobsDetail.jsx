@@ -3,6 +3,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { instance } from '../../api/instance';
+import {
+	Icon_Academy,
+	Icon_Bar,
+	Icon_Cafe,
+	Icon_Restaurant,
+	Icon_Tutor,
+	Text_Secondary
+} from '../../styles/color';
 
 const mockData = {
 	job_offer_id: '0',
@@ -28,11 +36,11 @@ const mockData = {
 	offer_date: 'date'
 };
 const colorMap = {
-	학원: '#A5E09C', // 초록색
-	과외: '#9CD2EA', // 파랑색
-	카페: '#F49C9C', // 빨강색
-	식당: '#B49EE8', // 보라색
-	주점: '#FFC65C'
+	학원: Icon_Academy, // 초록색
+	과외: Icon_Tutor, // 파랑색
+	카페: Icon_Cafe, // 빨강색
+	식당: Icon_Restaurant, // 보라색
+	주점: Icon_Bar
 };
 const FindJobsDetail = () => {
 	const [serverData, setServerData] = useState({
@@ -290,7 +298,14 @@ const JobTag = styled.div`
 	gap: 10px;
 	flex-shrink: 0;
 	border-radius: 5px;
-	background-color: ${(props) => props.color || '#CCCCCC'};
+	color: rgba(0, 0, 0, 0.4);
+
+	background: linear-gradient(
+			0deg,
+			rgba(255, 255, 255, 0.7) 0%,
+			rgba(255, 255, 255, 0.7) 100%
+		),
+		${(props) => props.color};
 `;
 const SubTitle = styled.div`
 	color: #787777;

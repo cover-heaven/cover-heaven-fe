@@ -102,7 +102,9 @@ const WorkersWriting = () => {
 							</SubInfo>
 						</PersonInfo>
 						<FixLocation>
-							<Temperature data={serverData?.manner_temperature}></Temperature>
+							<Temperature
+								data={Math.round(serverData?.manner_temperature)}
+							></Temperature>
 						</FixLocation>
 					</ProfileBox>
 				</Profile>
@@ -203,7 +205,7 @@ const Explain = styled.div`
 const Header = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 30px;
+	gap: 15px;
 	padding-bottom: 60px;
 `;
 

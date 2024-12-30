@@ -219,7 +219,7 @@ const TitleContainer = styled.div`
 	padding-left: 14.2%;
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 15px;
 `;
 
 const PageTitle = styled.div`
@@ -239,7 +239,12 @@ const Highlight = styled.div`
 `;
 
 const PageSubTitle = styled.div`
+	color: var(--text-text-secondary, #787777);
+	font-family: Pretendard;
 	font-size: 15px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: normal;
 `;
 
 const ToggleContainer = styled.div`

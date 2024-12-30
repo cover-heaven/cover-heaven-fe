@@ -10,9 +10,11 @@ import coffeeIcon from '../../assets/icon/coffeeIcon.png';
 import restaurantIcon from '../../assets/icon/restaurantIcon.png';
 import tutor from '../../assets/icon/tutor.png';
 import beer from '../../assets/icon/beer.png';
+import academy from '../../assets/icon/academy.png';
 
 const Layout = styled.div`
 	display: flex;
+	align-items: center;
 	padding: 20px;
 	cursor: pointer;
 	width: 100%;
@@ -21,7 +23,6 @@ const Layout = styled.div`
 	background: #fff;
 	transition: all 0.2s ease-in-out;
 	&:hover {
-		border: 1px solid ${Surface_Primary};
 		scale: 1.01;
 		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
 	}
@@ -36,9 +37,8 @@ const TitleContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding-left: 2%;
-	padding-top: 6px;
 	width: 33%;
-	gap: 5px;
+	gap: 3px;
 	color: ${Text_Primary};
 	font-size: 20px;
 	font-style: normal;
@@ -47,19 +47,15 @@ const TitleContainer = styled.div`
 `;
 
 const AddressContainer = styled.div`
-	padding-top: 1.6%;
 	width: 21%;
 `;
 const HourlyWageContainer = styled.div`
-	padding-top: 1.6%;
 	width: 16%;
 `;
 const TotalWageContainer = styled.div`
-	padding-top: 1.6%;
 	width: 16.5%;
 `;
 const DdayContainer = styled.div`
-	padding-top: 0.9%;
 `;
 
 const Img = styled.img`
@@ -88,6 +84,7 @@ const jobIcons = {
 	과외: tutor,
 	식당: restaurantIcon,
 	술집: beer,
+	학원: academy,
 	default: '/images/default-icon.png' // 매칭되지 않을 경우 기본 아이콘
 };
 
