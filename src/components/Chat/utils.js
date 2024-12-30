@@ -7,11 +7,12 @@ export const formattedTime = (date) => {
 };
 
 export const formattedDate = (date) => {
-	const year = date.getFullYear();
-	const month = (date.getMonth() + 1).toString().padStart(2, '0');
-	const day = date.getDate().toString().padStart(2, '0');
+	const newDate = new Date(date);
+	const year = newDate.getFullYear();
+	const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+	const day = newDate.getDate().toString().padStart(2, '0');
 	const days = ['일', '월', '화', '수', '목', '금', '토'];
-	const dayName = days[date.getDay()];
+	const dayName = days[newDate.getDay()];
 
 	return `${year}.${month}.${day}(${dayName})`;
 };

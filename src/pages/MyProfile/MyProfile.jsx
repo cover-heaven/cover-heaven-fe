@@ -404,6 +404,7 @@ const JobBox = styled.div`
 	background: #fff;
 	padding: 20px;
 	cursor: pointer;
+	transition: all 0.2s ease-in-out;
 	&:hover {
 		scale: 1.01;
 		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);

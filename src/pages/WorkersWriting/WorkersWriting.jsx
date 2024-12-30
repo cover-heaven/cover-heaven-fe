@@ -4,7 +4,7 @@ import iconWoman from '../../assets/icon/icon_woman.svg';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import temperature from '../../assets/icon/temperature.png';
-import { Surface_Primary } from '../../styles/color';
+import { Surface_Primary, Text_Tertiary } from '../../styles/color';
 import Temperature from '../../components/WorkersList/Temperature';
 import { instance } from '../../api/instance';
 import { calculateAge } from '../WorkersList/WorkersList';
@@ -73,72 +73,76 @@ const WorkersWriting = () => {
 
 	return (
 		<Layout>
-			<Header>
-				<MainTitle>
-					<Title>구직글 작성하기</Title>
-					<Highlight></Highlight>
-				</MainTitle>
-				<P>대타 제안을 받기 위한 구직글을 작성해 보세요!</P>
-			</Header>
-			<Body>
-				<Profile>
-					<SubTitle>나의 프로필</SubTitle>
-					<ProfileBox>
-						<Img src={serverData?.gender === 'M' ? iconMan : iconWoman}></Img>
-						<PersonInfo>
-							<SubTitle>{serverData?.name}</SubTitle>
-							<SubInfo>
-								<SubP>
-									{serverData?.gender === 'M' ? '남자' : '여자'}&nbsp;|&nbsp;
-									{serverData?.birth_date
-										? calculateAge(Number(serverData.birth_date))
-										: '알 수 없음'}
-									세
-								</SubP>
-								<SubP>
-									{serverData?.school}&nbsp;{serverData?.department}
-									&nbsp;{serverData?.student_id.substring(2, 4)}학번
-								</SubP>
-							</SubInfo>
-						</PersonInfo>
-						<FixLocation>
-							<Temperature
-								data={Math.round(serverData?.manner_temperature)}
-							></Temperature>
-						</FixLocation>
-					</ProfileBox>
-				</Profile>
-				<FavoriteJob>
-					<Explain>
-						<SubTitle>선호 직종</SubTitle>
-						<SubP>최대 3개까지 선택 가능합니다.</SubP>
-					</Explain>
-					<RowLayout>
-						{Jobs.map((job, index) => (
-							<Toggle key={index}>
-								<input
-									type="checkbox"
-									onChange={() => handleTagChange(job)}
-									checked={selectedTags.includes(job)}
-								/>
-								{job}
-							</Toggle>
-						))}
-					</RowLayout>
-				</FavoriteJob>
-				<Introduction>
-					<SelfIntro>
-						<SubTitle>자기소개서</SubTitle>
-						<InputBox
-							placeholder="자기소개서를 입력해주세요."
-							onChange={(e) => setMessage(e.target.value)}
-						></InputBox>
-					</SelfIntro>
-					<Location>
-						<Button onClick={onSubmit}>작성 완료</Button>
-					</Location>
-				</Introduction>
-			</Body>
+			<InnerLayout>
+				<Header>
+					<MainTitle>
+						<Title>
+							<Highlight />
+							구직글 작성하기
+						</Title>
+					</MainTitle>
+					<P>대타 제안을 받기 위한 구직글을 작성해 보세요!</P>
+				</Header>
+				<Body>
+					<Profile>
+						<SubTitle>나의 프로필</SubTitle>
+						<ProfileBox>
+							<Img src={serverData?.gender === 'M' ? iconMan : iconWoman}></Img>
+							<PersonInfo>
+								<SubTitle>{serverData?.name}</SubTitle>
+								<SubInfo>
+									<SubP>
+										{serverData?.gender === 'M' ? '남자' : '여자'}&nbsp;|&nbsp;
+										{serverData?.birth_date
+											? calculateAge(Number(serverData.birth_date))
+											: '알 수 없음'}
+										세
+									</SubP>
+									<SubP>
+										{serverData?.school}&nbsp;{serverData?.department}
+										&nbsp;{serverData?.student_id.substring(2, 4)}학번
+									</SubP>
+								</SubInfo>
+							</PersonInfo>
+							<FixLocation>
+								<Temperature
+									data={Math.round(serverData?.manner_temperature)}
+								></Temperature>
+							</FixLocation>
+						</ProfileBox>
+					</Profile>
+					<FavoriteJob>
+						<Explain>
+							<SubTitle>선호 직종</SubTitle>
+							<SubP>최대 3개까지 선택 가능합니다.</SubP>
+						</Explain>
+						<RowLayout>
+							{Jobs.map((job, index) => (
+								<Toggle key={index}>
+									<StyledRadio
+										type="checkbox"
+										onChange={() => handleTagChange(job)}
+										checked={selectedTags.includes(job)}
+									/>
+									<span>{job}</span>
+								</Toggle>
+							))}
+						</RowLayout>
+					</FavoriteJob>
+					<Introduction>
+						<SelfIntro>
+							<SubTitle>자기소개서</SubTitle>
+							<InputBox
+								placeholder="자기소개서를 입력해주세요."
+								onChange={(e) => setMessage(e.target.value)}
+							></InputBox>
+						</SelfIntro>
+						<Location>
+							<Button onClick={onSubmit}>작성 완료</Button>
+						</Location>
+					</Introduction>
+				</Body>
+			</InnerLayout>
 		</Layout>
 	);
 };
@@ -150,22 +154,31 @@ const FixLocation = styled.div`
 `;
 
 const Layout = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	padding-top: 74px;
-	padding-left: 19%;
+`;
+
+const InnerLayout = styled.div`
+	width: 912;
 `;
 
 const MainTitle = styled.div`
-	display: flex;
-	flex-direction: column;
+	/* display: flex;
+	flex-direction: column; */
 `;
-const Title = styled.div`
+const Title = styled.span`
 	font-size: 40px;
+	position: relative;
 `;
 const Highlight = styled.div`
-	background-color: red;
-	opacity: 60%;
-	width: 290px;
-	height: 16px;
+	background-color: ${Surface_Primary};
+	opacity: 70%;
+	width: 100%;
+	height: 12px;
+	position: absolute;
+	top: 70%;
 `;
 
 const SubTitle = styled.div`
@@ -205,7 +218,7 @@ const Explain = styled.div`
 const Header = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
+	gap: 20px;
 	padding-bottom: 60px;
 `;
 
@@ -219,7 +232,8 @@ const Body = styled.div`
 
 const Profile = styled.div`
 	display: flex;
-	gap: 16.3%;
+	/* gap: 16.3%; */
+	justify-content: space-between;
 `;
 
 const Img = styled.img`
@@ -251,15 +265,45 @@ const ProfileBox = styled.div`
 
 const FavoriteJob = styled.div`
 	display: flex;
-	gap: 3%;
+	/* gap: 3%; */
+	justify-content: space-between;
 `;
 
 const Toggle = styled.div`
 	flex: 1;
+	color: #464646;
+	text-align: center;
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	display: flex;
+	align-items: center;
 `;
+
+const StyledRadio = styled.input`
+	vertical-align: middle;
+	appearance: none;
+	border: 2px solid ${Text_Tertiary};
+	border-radius: 50%;
+	width: 18px;
+	height: 18px;
+	transition: border 0.1s ease-in-out;
+	&:checked {
+		border: 6px solid ${Surface_Primary};
+	}
+	&:focus {
+		outline: 2px dotted ${Surface_Primary};
+		outline-offset: 2px;
+	}
+	margin-right: 14px;
+`;
+
 const SelfIntro = styled.div`
 	display: flex;
-	gap: 17%;
+	/* gap: 17%; */
+	justify-content: space-between;
 `;
 const Introduction = styled.div`
 	display: flex;
@@ -275,7 +319,12 @@ const InputBox = styled.textarea`
 	padding: 20px;
 	font-size: 14px;
 	line-height: 1.5;
-
+	color: #464646;
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	resize: none;
 	&:focus {
 		outline: none;
 		border: 1px solid ${Surface_Primary};
@@ -292,7 +341,8 @@ const Button = styled.button`
 
 const RowLayout = styled.div`
 	display: flex;
-	width: 100%;
+	width: 679px;
+	justify-content: space-between;
 `;
 
 const Location = styled.div`

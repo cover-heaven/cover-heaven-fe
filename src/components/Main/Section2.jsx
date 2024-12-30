@@ -56,7 +56,9 @@ const Section2 = () => {
 		const handleScroll = () => {
 			setDotPos([
 				{
-					x: (706 / 1512) * window.innerWidth,
+					x:
+						(706 / 1512) * window.innerWidth -
+						Math.sin(-(window.scrollY * Math.PI) / 720) * 30,
 					y:
 						(315 / 1512) * window.innerHeight +
 						Math.sin((window.scrollY * Math.PI) / 720) * 30
@@ -65,10 +67,14 @@ const Section2 = () => {
 					x:
 						(1131 / 1512) * window.innerWidth +
 						Math.sin((window.scrollY * Math.PI) / 720) * 30,
-					y: (400 / 1512) * window.innerHeight
+					y:
+						(400 / 1512) * window.innerHeight -
+						Math.sin((window.scrollY * Math.PI) / 720) * 30
 				},
 				{
-					x: (1046 / 1512) * window.innerWidth,
+					x:
+						(1046 / 1512) * window.innerWidth +
+						Math.sin(-(window.scrollY * Math.PI) / 720) * 30,
 					y:
 						(1160 / 1512) * window.innerHeight +
 						Math.sin(-(window.scrollY * Math.PI) / 720) * 30

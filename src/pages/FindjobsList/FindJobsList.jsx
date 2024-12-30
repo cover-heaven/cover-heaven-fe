@@ -7,13 +7,14 @@ import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져�
 import ko from 'date-fns/locale/ko';
 import { useEffect, useState } from 'react';
 import { instance } from '../../api/instance';
+import { Surface_Background, Surface_Primary } from '../../styles/color';
 
 const Layout = styled.div`
 	display: flex;
 	flex-direction: column;
-	padding-top: 74px;
 	padding-bottom: 50px;
 	gap: 45px;
+	background-color: ${Surface_Background};
 `;
 
 const JobsListContainer = styled.div`
@@ -31,19 +32,22 @@ const ItemList = styled.div`
 `;
 
 const MainTitle = styled.div`
-	display: flex;
-	flex-direction: column;
+	/* display: flex;
+	flex-direction: column; */
 `;
 
-const Title = styled.div`
+const Title = styled.span`
 	font-size: 40px;
+	position: relative;
 `;
 
 const Highlight = styled.div`
-	background-color: red;
-	opacity: 60%;
-	width: 250px;
-	height: 16px;
+	background-color: ${Surface_Primary};
+	opacity: 70%;
+	width: 100%;
+	height: 12px;
+	position: absolute;
+	top: 70%;
 `;
 
 const SubTitle = styled.div`
@@ -91,6 +95,8 @@ const SubHeader = styled.div`
 	gap: 20px;
 	border-bottom: 1px solid #c3c3c3;
 	padding-bottom: 1.5%;
+	background-color: #fff;
+	padding-top: 74px;
 `;
 
 const TitleContainter = styled.div`
@@ -379,8 +385,10 @@ const FindJobsList = () => {
 			<SubHeader>
 				<TitleContainter>
 					<MainTitle>
-						<Title>단기알바 찾기</Title>
-						<Highlight></Highlight>
+						<Title>
+							<Highlight />
+							단기알바 찾기
+						</Title>
 					</MainTitle>
 					<SubTitle>
 						단기로 일할 수 있는 아르바이트 공고를 한눈에 확인해 보세요
@@ -412,7 +420,7 @@ const FindJobsList = () => {
 						<ToggleJobs onChange={onChangeJob}>
 							<option value="">전체</option>
 							<option value="과외">과외</option>
-							<option value="주점">주점</option>
+							<option value="술집">주점</option>
 							<option value="식당">식당</option>
 							<option value="카페">카페</option>
 							<option value="학원">학원</option>
@@ -436,7 +444,7 @@ const FindJobsList = () => {
 					>
 						전체
 					</EntireItem>
-					<DivideLine>&nbsp;|&nbsp;</DivideLine>
+					<DivideLine>&nbsp;&nbsp;|&nbsp;&nbsp;</DivideLine>
 					<UrgentItem
 						isSelected={selectedFilter === '급구'}
 						onClick={() => {

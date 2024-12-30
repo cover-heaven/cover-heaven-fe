@@ -48,7 +48,7 @@ const chatDataDummy = {
 			send_date: new Date('2024-12/05 10:14:10')
 		},
 		{
-			context: '안녕하세요 반가워요ddddddddddddddddddddddfdffdfddddddd\n하하!',
+			context: '안녕하세요~~ 대타 관심 있으실까요?\n',
 			is_mine: true,
 			send_date: new Date('2024/12/05 10:18:20')
 		},
@@ -113,30 +113,35 @@ const Chat = () => {
 	const inputRef = useRef(null);
 
 	useEffect(() => {
-		// const chatRes = getChatData(chatData.chatting_id);
-		// if (chatRes !== null) {
-		// 	setMatchStatus(chatRes.data.status);
-		// 	setChatData((prev) => {
-		// 		return {
-		// 			...prev,
-		// 			status: chatRes.data.status,
-		// 			opponent_user_student_id: chatRes.data.opponent_user_student_id,
-		// 			opponent_phone: chatRes.data.opponent_phone,
-		// 			messages: chatRes.data.messages
-		// 		};
-		// 	});
-		// }
-		// const workRes = getWorkData(chatData.job_offer_id);
-		// if (workRes !== null) {
-		// 	setJobPostData(workRes.data);
-		// 	setWorkDay(workRes.data.work_detail);
-		// }
-		setChatData((prev) => {
-			return {
-				...prev,
-				...chatDataDummy
-			};
-		}); //api 연동 후 해당 구문 삭제
+		const fetchChatData = async () => {
+			const chatRes = await getChatData(chatData.chatting_id);
+			console.log(chatRes.data.status);
+
+			if (chatRes !== null) {
+				setMatchStatus(chatRes.data.status);
+				setChatData((prev) => {
+					return {
+						...prev,
+						status: chatRes.data.status,
+						opponent_user_student_id: chatRes.data.opponent_user_student_id,
+						opponent_phone: chatRes.data.opponent_phone,
+						messages: chatRes.data.messages
+					};
+				});
+			}
+			const workRes = await getWorkData(chatData.job_offer_id);
+			if (workRes !== null) {
+				setJobPostData(workRes.data);
+				setWorkDay(workRes.data.work_detail);
+			}
+		};
+		fetchChatData();
+		// setChatData((prev) => {
+		// 	return {
+		// 		...prev,
+		// 		...chatDataDummy
+		// 	};
+		// }); //api 연동 후 해당 구문 삭제
 	}, []);
 
 	useEffect(() => {
@@ -144,19 +149,14 @@ const Chat = () => {
 			...prev,
 			opponent_user_gender: chatData.opponent_user_gender,
 			opponent_user_name: chatData.opponent_user_name,
-			oppenent_department: chatData.oppenent_department,
-			opponent_user_student_id: chatData.opponent_user_student_id?.slice(2, 4),
+			opponent_department: chatData.opponent_department,
+			opponent_user_student_id: chatData.opponent_user_student_id,
 			opponent_profile: chatData.opponent_profile
 		}));
 	}, [chatData]);
 
 	useEffect(() => {
-		if (matchStatus === 'before' || matchStatus === 'processing') {
-			setProfileProps((prev) => ({
-				...prev,
-				subText: '학번 및 전화번호는 매칭 확정 시 공개됩니다.'
-			})); //채팅 입장 시 매칭 중일 경우 백에서부터 매칭 요청된 근무일자 정보를 받자!!!
-		} else if (
+		if (
 			matchStatus === 'accepted' ||
 			matchStatus === 'beforeFeedback' ||
 			matchStatus === 'afterFeedback'
@@ -169,6 +169,16 @@ const Chat = () => {
 						: '정보 없음'
 				}`
 			})); // 피드백 전 상태일 경우에도 백으로부터 매칭된 날짜 배열 받자!
+		} else if (matchStatus === 'before' || matchStatus === 'processing') {
+			setProfileProps((prev) => ({
+				...prev,
+				subText: '학번 및 전화번호는 매칭 확정 시 공개됩니다.'
+			})); //채팅 입장 시 매칭 중일 경우 백에서부터 매칭 요청된 근무일자 정보를 받자!!!
+		} else {
+			setProfileProps((prev) => ({
+				...prev,
+				subText: '학번 및 전화번호는 매칭 확정 시 공개됩니다.'
+			}));
 		}
 	}, [matchStatus, chatData]);
 
@@ -407,7 +417,7 @@ const Chat = () => {
 											isIcon={false}
 											onClick={handleOpenFeedback}
 										></Button>
-									) : (
+									) : matchStatus === 'afterFeedback' ? (
 										<Button
 											mode="activated"
 											textSize="16"
@@ -415,6 +425,16 @@ const Chat = () => {
 											width="116px"
 											fontWeight="600"
 											isIcon={false}
+										></Button>
+									) : (
+										<Button
+											mode="default"
+											textSize="16"
+											content="매칭하기"
+											width="116px"
+											fontWeight="600"
+											isIcon={false}
+											onClick={handleOpenMatch}
 										></Button>
 									)}
 									<Button

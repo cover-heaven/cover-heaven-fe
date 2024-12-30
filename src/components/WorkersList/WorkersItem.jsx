@@ -8,6 +8,7 @@ import {
 	Icon_Cafe,
 	Icon_Restaurant,
 	Icon_Tutor,
+	Surface_Primary,
 	Text_Secondary
 } from '../../styles/color';
 
@@ -68,6 +69,7 @@ const Layout = styled.div`
 	&:hover {
 		scale: 1.01;
 		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+		/* border: 1px solid ${Surface_Primary}; */
 	}
 	transition: all 0.2s ease-in-out;
 `;

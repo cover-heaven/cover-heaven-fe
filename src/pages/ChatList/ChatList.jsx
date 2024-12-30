@@ -18,7 +18,7 @@ const dummyData = [
 		opponent_user_name: '김서강',
 		opponent_user_gender: 'male',
 		opponent_user_student_id: '19',
-		oppenent_department: '경제학과',
+		opponent_department: '경제학과',
 		opponent_profile: null,
 		last_message: '안녕하세요^^~',
 		unread_messages: '3'
@@ -29,7 +29,7 @@ const dummyData = [
 		opponent_user_name: '김스깡',
 		opponent_user_gender: 'male',
 		opponent_user_student_id: '21',
-		oppenent_department: '물리학과',
+		opponent_department: '물리학과',
 		opponent_profile: null,
 		last_message: '안녕하세요 안녕하세요~',
 		unread_messages: '1'
@@ -40,7 +40,7 @@ const dummyData = [
 		opponent_user_name: '김성강',
 		opponent_user_gender: 'female',
 		opponent_user_student_id: '22',
-		oppenent_department: '화학과',
+		opponent_department: '화학과',
 		opponent_profile: null,
 		last_message: '단기 알바 관심있어요',
 		unread_messages: '0'
@@ -75,7 +75,7 @@ const ChatList = () => {
 				opponent_user_name: data.opponent_user_name,
 				opponent_user_gender: data.opponent_user_gender,
 				opponent_user_student_id: data.opponent_user_student_id,
-				oppenent_department: data.oppenent_department,
+				opponent_department: data.opponent_department,
 				opponent_profile: data.opponent_profile
 			}
 		});

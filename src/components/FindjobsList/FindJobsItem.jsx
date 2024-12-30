@@ -25,6 +25,7 @@ const Layout = styled.div`
 	&:hover {
 		scale: 1.01;
 		box-shadow: 1px 1px 23.3px 0px rgba(0, 0, 0, 0.11);
+		/* border: 1px solid ${Surface_Primary}; */
 	}
 	color: ${Text_Secondary};
 	font-size: 14px;

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import WorkerInfo from '../../components/WorkersList/WorkerInfo';
 import axios from 'axios';
 import { instance } from '../../api/instance';
+import { Surface_Background, Surface_Primary } from '../../styles/color';
 
 export const calculateAge = (birthDate) => {
 	const today = new Date();
@@ -149,8 +150,10 @@ const WorkersList = () => {
 			<HeadSection>
 				<TitleContainer>
 					<PageTitle>
-						<Title>구직자 찾기</Title>
-						<Highlight></Highlight>
+						<Title>
+							<Highlight />
+							구직자 찾기
+						</Title>
 					</PageTitle>
 					<PageSubTitle>
 						믿고 맡길 수 있는 동문 구직자를 찾아보세요!
@@ -203,10 +206,11 @@ const WorkersList = () => {
 
 const Layout = styled.div`
 	width: 100vw;
-	padding-top: 74px;
+
 	display: flex;
 	flex-direction: column;
 	gap: 45px;
+	background-color: ${Surface_Background};
 `;
 const HeadSection = styled.div`
 	padding-bottom: 1.5%;
@@ -214,6 +218,8 @@ const HeadSection = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 25px;
+	padding-top: 74px;
+	background-color: #fff;
 `;
 const TitleContainer = styled.div`
 	padding-left: 14.2%;
@@ -223,19 +229,22 @@ const TitleContainer = styled.div`
 `;
 
 const PageTitle = styled.div`
-	display: flex;
-	flex-direction: column;
+	/* display: flex;
+	flex-direction: column; */
 `;
 
-const Title = styled.div`
+const Title = styled.span`
 	font-size: 40px;
+	position: relative;
 `;
 
 const Highlight = styled.div`
-	background-color: red;
-	opacity: 60%;
-	width: 210px;
-	height: 16px;
+	background-color: ${Surface_Primary};
+	opacity: 70%;
+	width: 100%;
+	height: 12px;
+	position: absolute;
+	top: 70%;
 `;
 
 const PageSubTitle = styled.div`

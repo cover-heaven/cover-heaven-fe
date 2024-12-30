@@ -4,7 +4,12 @@ import WorkingTime from '../../components/FindJobsWriting/WorkingTime';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
-import { Surface_Primary } from '../../styles/color';
+import {
+	Border_Secondary,
+	Surface_Primary,
+	Text_Primary,
+	Text_Tertiary
+} from '../../styles/color';
 import TrashCan from '../../assets/icon/TrashCan.png';
 import { instance } from '../../api/instance';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -12,27 +17,27 @@ import { Navigate, useNavigate } from 'react-router-dom';
 // Styled Components
 const TitleBox = styled.div`
 	display: flex;
-	gap: 3%;
+	gap: 15%;
 `;
 const StoreNameBox = styled.div`
 	display: flex;
-	gap: 3%;
+	gap: 15%;
 `;
 const JobTypeBox = styled.div`
 	display: flex;
-	gap: 3%;
+	gap: 15%;
 `;
 const AddressBox = styled.div`
 	display: flex;
-	gap: 3%;
+	gap: 15%;
 `;
 const WorkConditionBox = styled.div`
 	display: flex;
-	gap: 3%;
+	gap: 15%;
 `;
 const DetailBox = styled.div`
 	display: flex;
-	gap: 3%;
+	gap: 15%;
 `;
 const AddressInput = styled.div`
 	display: flex;
@@ -43,7 +48,12 @@ const AddressInput = styled.div`
 const P = styled.div`
 	width: 120px;
 	padding-right: 1%;
-	margin: 0;
+	margin-top: 10px;
+	color: ${Text_Primary};
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
 `;
 const ButtonLayout = styled.div`
 	display: flex;
@@ -69,9 +79,18 @@ const Input = styled.input`
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
-	padding: 10px;
+	padding: 10px 20px;
+	color: ${Text_Primary};
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
 	&:focus {
 		border: 1px solid ${Surface_Primary};
+	}
+	&::placeholder {
+		color: ${Border_Secondary};
 	}
 `;
 const InputBox = styled.input`
@@ -80,9 +99,18 @@ const InputBox = styled.input`
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
-	padding: 10px;
+	padding: 10px 20px;
+	color: ${Text_Primary};
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
 	&:focus {
 		border: 1px solid ${Surface_Primary};
+	}
+	&::placeholder {
+		color: ${Border_Secondary};
 	}
 `;
 const DetailInput = styled.textarea`
@@ -95,8 +123,16 @@ const DetailInput = styled.textarea`
 	background: #fff;
 	font-size: 14px;
 	line-height: 1.5;
+	padding: 20px 30px;
+	color: ${Text_Primary};
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	resize: none;
 	&::placeholder {
 		white-space: pre-line; /* 줄바꿈 허용 */
+		color: ${Border_Secondary};
 	}
 	&:focus {
 		outline: none;
@@ -133,17 +169,21 @@ const AddButton = styled.button`
 	color: #ff5238;
 `;
 const MainTitle = styled.div`
-	display: flex;
-	flex-direction: column;
+	/* display: flex;
+	flex-direction: column; */
 `;
-const Title = styled.div`
+const Title = styled.span`
 	font-size: 40px;
+	position: relative;
 `;
 const Highlight = styled.div`
-	background-color: red;
-	opacity: 60%;
-	width: 345px;
+	background-color: ${Surface_Primary};
+	opacity: 70%;
 	height: 16px;
+	width: 100%;
+	height: 12px;
+	position: absolute;
+	top: 70%;
 `;
 const SubTitle = styled.div`
 	color: var(--text-text-secondary, #787777);
@@ -166,15 +206,48 @@ const AddButtonLayout = styled.div`
 const Tag = styled.div`
 	width: 100%;
 	display: flex;
+	color: ${Text_Primary};
+	text-align: left;
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	display: flex;
+	align-items: center;
 `;
 const Label = styled.label`
 	flex: 1;
 `;
+
+const StyledRadio = styled.input`
+	vertical-align: middle;
+	appearance: none;
+	border: 2px solid ${Text_Tertiary};
+	border-radius: 50%;
+	width: 18px;
+	height: 18px;
+	transition: border 0.1s ease-in-out;
+	&:checked {
+		border: 6px solid ${Surface_Primary};
+	}
+	&:focus {
+		outline: 2px dotted ${Surface_Primary};
+		outline-offset: 2px;
+	}
+	margin-right: 14px;
+`;
+
 const TimeBox = styled.div`
 	width: 80%;
 `;
 const TotalWage = styled.div`
-	padding-left: 85.5%;
+	text-align: right;
+	color: ${Text_Primary};
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
 `;
 
 const StyledWrapper = styled.div`
@@ -366,8 +439,10 @@ const FindJobsWriting = () => {
 		<Layout>
 			<TitleContainter>
 				<MainTitle>
-					<Title>대타 공고 작성하기</Title>
-					<Highlight></Highlight>
+					<Title>
+						<Highlight />
+						대타 공고 작성하기
+					</Title>
 				</MainTitle>
 				<SubTitle>
 					구직자들이 읽을 아르바이트 대타 공고를 작성해 주세요.
@@ -392,7 +467,7 @@ const FindJobsWriting = () => {
 				<Tag>
 					{tags.map((tag, index) => (
 						<Label key={tag} htmlFor={`tag-${index}`}>
-							<input
+							<StyledRadio
 								id={`tag-${index}`}
 								type="radio"
 								onChange={() => handleTagChange(tag)}
