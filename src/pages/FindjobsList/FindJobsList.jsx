@@ -456,8 +456,11 @@ const FindJobsList = () => {
 					</UrgentItem>
 				</PageDivided>
 				<ItemList>
-					{filteredData().map((data) => (
-						<FindJobsItem data={data} key={data.job_offer_id} />
+					{filteredData().map((_, index, original) => (
+						<FindJobsItem
+							data={original[original.length - 1 - index]}
+							key={original[original.length - 1 - index].job_offer_id}
+						/>
 					))}
 				</ItemList>
 			</JobsListContainer>

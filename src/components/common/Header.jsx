@@ -199,11 +199,11 @@ const ChatImg = styled.img`
 const LoginBtn = styled.button`
 	display: flex;
 	width: calc(211 / 1512 * 100vw);
-	height: calc(52 / 86 * 100%);
+	height: calc(42 / 86 * 100%);
 	padding: calc(9 / 1512 * 100vw) 0;
 	justify-content: center;
 	align-items: center;
-	flex-shrink: 0;
+	flex-shrink: 0; 
 	border-radius: 30px;
 	background: ${Surface_Primary};
 	color: #fff;

@@ -185,11 +185,13 @@ const WorkersList = () => {
 			</HeadSection>
 			<MainSection>
 				<WorkersContainer>
-					{filteredData().map((data, index) => (
+					{filteredData().map((_, index, original) => (
 						<WorkersItem
-							openModal={() => openModal(data.job_search_id)}
+							openModal={() =>
+								openModal(original[original.length - 1 - index].job_search_id)
+							}
 							key={index}
-							data={data}
+							data={original[original.length - 1 - index]}
 						/>
 					))}
 					{modal.isOpen && (

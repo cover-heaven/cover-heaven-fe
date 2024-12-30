@@ -19,7 +19,7 @@
 }
 
 .Title {
-	width: calc(140 / 1512 * 100%);
+	width: calc(140 / 1512 * 100vw);
 	cursor: pointer;
 }
 
