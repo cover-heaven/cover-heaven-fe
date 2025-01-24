@@ -102,7 +102,7 @@ const WorkersWriting = () => {
 							</SubInfo>
 						</PersonInfo>
 						<FixLocation>
-							<Temperature data={serverData?.manner_temperature}></Temperature>
+							<Temperature data={Math.round(serverData?.manner_temperature)}></Temperature>
 						</FixLocation>
 					</ProfileBox>
 				</Profile>

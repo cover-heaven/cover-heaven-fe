@@ -18,6 +18,7 @@ import tutor from '../../assets/icon/tutor.png';
 import beer from '../../assets/icon/beer.png';
 import academy from '../../assets/icon/academy.png';
 import WarningModal from '../../components/MyProfile/WarningModal';
+import { useNavigate } from 'react-router-dom';
 
 const mockData = {
 	name: 'string',
@@ -47,6 +48,7 @@ const MyProfile = () => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [status, setStatus] = useState(false);
+	const nav = useNavigate();
 
 	useEffect(() => {
 		const fetchProfileData = async () => {
@@ -114,6 +116,14 @@ const MyProfile = () => {
 	const onChangeFalse = () => {
 		setStatus(false);
 	};
+
+	const logout = () => {
+		// 로컬 스토리지 전체 삭제
+		localStorage.removeItem('accessToken');
+		localStorage.removeItem('refreshToken');
+		nav('/login');
+	};
+
 	// if (loading) {
 	// 	return <div>로딩 중...</div>;
 	// }
@@ -182,7 +192,6 @@ const MyProfile = () => {
 						)}
 					</CoinBox>
 				</Section>
-
 				<Section>
 					<SectionTitle>나의 구직글</SectionTitle>
 					<JobBox>
@@ -223,9 +232,19 @@ const MyProfile = () => {
 					</AnnouncementBox>
 				</Section>
 			</MainSection>
+			<LogoutButton onClick={logout}>로그아웃</LogoutButton>
 		</MainContainer>
 	);
 };
+const LogoutButton = styled.button`
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	padding-top: 15px;
+	padding-bottom: 60px;
+	font-size: 15px;
+	text-decoration: underline;
+`;
 const RowLayout = styled.div`
 	display: flex;
 	flex-direction: column;

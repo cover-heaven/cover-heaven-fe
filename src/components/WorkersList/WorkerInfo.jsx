@@ -75,7 +75,9 @@ const WorkerInfo = ({ close, job_search_id }) => {
 							</JobTags>
 						</ProfileInfo>
 					</RowLayout1>
-					<Temperature data={serverData?.manner_temperature}></Temperature>
+					<Temperature
+						data={Math.round(serverData?.manner_temperature)}
+					></Temperature>
 				</HeaderContainer>
 				<MainContainer>
 					<BasicInfo>

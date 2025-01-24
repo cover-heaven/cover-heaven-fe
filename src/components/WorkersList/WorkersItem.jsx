@@ -50,7 +50,7 @@ const WorkersItem = ({ data, openModal }) => {
 				</NameAndInfo>
 			</ProfileSection>
 			<FixLocation>
-				<Temperature data={data.manner_temperature} />
+				<Temperature data={Math.round(data.manner_temperature)} />
 			</FixLocation>
 		</Layout>
 	);
