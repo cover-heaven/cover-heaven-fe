@@ -92,7 +92,6 @@ const NameAndInfo = styled.div`
 
 const NameRow = styled.div`
 	display: flex;
-	align-items: baseline; /* 이름과 학과/학번 간 정렬 */
 `;
 
 const Name = styled.div`

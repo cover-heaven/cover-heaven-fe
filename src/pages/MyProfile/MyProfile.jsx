@@ -9,8 +9,8 @@ import {
 	Text_Secondary
 } from '../../styles/color';
 import { instance } from '../../api/instance';
-import iconMan from '../../assets/icon/icon_man.svg';
-import iconWoman from '../../assets/icon/icon_woman.svg';
+import iconMan from '../../assets/icon/Man.png';
+import iconWoman from '../../assets/icon/Woman.png';
 import Temperature from '../../components/WorkersList/Temperature';
 import coffeeIcon from '../../assets/icon/coffeeIcon.png';
 import restaurantIcon from '../../assets/icon/restaurantIcon.png';
@@ -20,19 +20,6 @@ import academy from '../../assets/icon/academy.png';
 import WarningModal from '../../components/MyProfile/WarningModal';
 import { useNavigate } from 'react-router-dom';
 
-const mockData = {
-	name: 'string',
-	gender: 'string',
-	phone: 'string',
-	birth_date: 'YYYYMMDD',
-	school: 'string',
-	department: 'string',
-	student_id: 'string',
-	profile: 'file (nullable)',
-	manner_temperature: 'double',
-	match_count: 'int',
-	certification: 'bool'
-};
 const jobIcons = {
 	카페: coffeeIcon,
 	과외: tutor,
@@ -80,9 +67,10 @@ const MyProfile = () => {
 					headers
 				});
 				setJobOfferData(response.data);
+				console.log(jobOfferData);
 				setLoading(false);
 			} catch (err) {
-				setError('내 구인글글 정보를 불러오는 데 실패했습니다.');
+				setError('내 구인글 정보를 불러오는 데 실패했습니다.');
 				setLoading(true);
 			}
 		};
@@ -123,6 +111,9 @@ const MyProfile = () => {
 		localStorage.removeItem('refreshToken');
 		nav('/login');
 	};
+
+	// 아이콘 매칭
+	const iconSrc = jobIcons[jobOfferData?.job_tag] || jobIcons.default;
 
 	// if (loading) {
 	// 	return <div>로딩 중...</div>;
@@ -167,11 +158,11 @@ const MyProfile = () => {
 						</ProfileInfo>
 						<FixLocation>
 							<Temperature
-								outerWidth="100px"
-								outerHeight="100px"
-								innerWidth="80px"
-								innerHeight="80px"
-								fontSize="28px"
+								outerWidth="80px"
+								outerHeight="80px"
+								innerWidth="65px"
+								innerHeight="65px"
+								fontSize="22px"
 								data={Math.round(profileData?.manner_temperature)}
 							/>
 						</FixLocation>
@@ -215,7 +206,7 @@ const MyProfile = () => {
 					<AnnouncementBox>
 						{jobOfferData?.map((data) => (
 							<AnnouncementItem key={data.job_offer_id}>
-								<img src={beer} />
+								<Img src={jobIcons[data?.job_tag] || jobIcons.default} />
 								<RowLayout>
 									<span>{data.title}</span>
 									<RowLayout2>
@@ -236,11 +227,14 @@ const MyProfile = () => {
 		</MainContainer>
 	);
 };
+const Img = styled.img`
+	width: 50px;
+`;
+
 const LogoutButton = styled.button`
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
-	padding-top: 15px;
 	padding-bottom: 60px;
 	font-size: 15px;
 	text-decoration: underline;
@@ -269,8 +263,8 @@ const MainContainer = styled.div`
 
 const FixLocation = styled.div`
 	position: absolute;
-	left: 83.6%;
-	top: 17%;
+	left: 86.2%;
+	top: 19%;
 `;
 
 const HeadSection = styled.div`
@@ -310,7 +304,6 @@ const MainSection = styled.div`
 	padding: 20px;
 	padding-left: calc(300 / 1512 * 100%);
 	padding-right: calc(301 / 1512 * 100%);
-	background-color: ${Surface_Background};
 `;
 
 const Section = styled.section`

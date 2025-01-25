@@ -245,6 +245,7 @@ const FindJobsList = () => {
 	const filteredData = () => {
 		return serverData
 			? serverData
+					.filter((data) => dayLeftCalculator(data.work_date) >= 0)
 					.filter((data) =>
 						searchData
 							? data.title.toLowerCase().includes(searchData.toLowerCase())

@@ -75,9 +75,11 @@ const WorkerInfo = ({ close, job_search_id }) => {
 							</JobTags>
 						</ProfileInfo>
 					</RowLayout1>
-					<Temperature
-						data={Math.round(serverData?.manner_temperature)}
-					></Temperature>
+					<MoveLocation>
+						<Temperature
+							data={Math.round(serverData?.manner_temperature)}
+						></Temperature>
+					</MoveLocation>
 				</HeaderContainer>
 				<MainContainer>
 					<BasicInfo>
@@ -102,7 +104,7 @@ const WorkerInfo = ({ close, job_search_id }) => {
 						<LayoutForm>{serverData?.context}</LayoutForm>
 					</SelfIntro>
 				</MainContainer>
-				{/* <Button
+				<Button
 					mode="default"
 					textSize="16"
 					content="1:1 채팅하기"
@@ -110,11 +112,16 @@ const WorkerInfo = ({ close, job_search_id }) => {
 					height="50px"
 					fontWeight={400}
 					isIcon={false}
-				></Button> */}
+				></Button>
 			</Layout>
 		</Overlay>
 	);
 };
+
+const MoveLocation = styled.div`
+	position: absolute;
+	left: 80%;
+`;
 
 const Overlay = styled.div`
 	position: fixed;
@@ -150,9 +157,9 @@ const Layout = styled.div`
 const HeaderContainer = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 110px;
 	padding-bottom: 19px;
 	border-bottom: 1px solid #c3c3c3;
+	position: relative;
 `;
 const Img = styled.img``;
 
