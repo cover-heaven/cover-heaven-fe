@@ -72,7 +72,7 @@ const FindJobsDetail = () => {
 				});
 				setServerData(response.data);
 			} catch (err) {
-				// console.log('잘못 받아왔습니다');
+				console.log('잘못 받아왔습니다');
 			}
 		};
 		fetchData();
