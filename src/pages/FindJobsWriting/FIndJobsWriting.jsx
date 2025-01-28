@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import WorkingTime from '../../components/FindJobsWriting/WorkingTime';
-import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // 기본 스타일 가져오기
 import {
@@ -13,6 +12,7 @@ import {
 import TrashCan from '../../assets/icon/TrashCan.png';
 import { instance } from '../../api/instance';
 import { Navigate, useNavigate } from 'react-router-dom';
+import DaumPostcode from 'react-daum-postcode';
 
 // Styled Components
 const TitleBox = styled.div`
@@ -437,6 +437,10 @@ const FindJobsWriting = () => {
 		setSelectedTag(tag);
 	};
 
+	const handleComplete = (data) => {
+		setAddress(data.address); // 도로명 주소 저장
+	};
+
 	return (
 		<Layout>
 			<TitleContainter>
@@ -483,10 +487,11 @@ const FindJobsWriting = () => {
 			<AddressBox>
 				<P>주소</P>
 				<AddressInput>
-					<Input
+					<DaumPostcode
 						placeholder="상호명으로 주소를 검색하세요."
-						onChange={(e) => setAddress(e.target.value)}
+						onComplete={handleComplete}
 					/>
+					{address && <Input value={address}></Input>}
 					<Input placeholder="상세 주소를 작성해 주세요." />
 				</AddressInput>
 			</AddressBox>
