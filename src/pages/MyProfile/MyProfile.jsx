@@ -30,11 +30,11 @@ const jobIcons = {
 	default: '/images/default-icon.png' // 매칭되지 않을 경우 기본 아이콘
 };
 const MyProfile = () => {
-	const [profileData, setProfileData] = useState(null);
+	const [profileData, setProfileData] = useState();
 	const [jobOfferData, setJobOfferData] = useState();
 	const [jobSearchData, setJobSearchData] = useState();
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
+	const [error, setError] = useState();
 	const [status, setStatus] = useState(false);
 	const nav = useNavigate();
 
@@ -129,27 +129,6 @@ const MyProfile = () => {
 		}
 	};
 
-	const updateItem = async (id) => {
-		const headers = {
-			Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-		};
-		try {
-			const response = await instance.patch(`/job-offers/${id}`, {
-				headers
-			});
-			console.log('수정 성공!', response.data);
-		} catch (error) {
-			console.error('수정 실패:', error);
-		}
-	};
-
-	// if (loading) {
-	// 	return <div>로딩 중...</div>;
-	// }
-
-	// if (error) {
-	// 	return <div>{error}</div>;
-	// }
 	return (
 		<MainContainer>
 			<HeadSection>
@@ -228,6 +207,15 @@ const MyProfile = () => {
 									{profileData?.student_id.substring(2, 4)}학번)
 								</JobDepartment>
 							</NameAndDepartment>
+							<Img
+								src={TrashCan}
+								style={{
+									width: '25px',
+									position: 'absolute',
+									left: '92%',
+									pointer: 'cursor'
+								}}
+							></Img>
 						</JobItem>
 					</JobBox>
 				</Section>
@@ -248,16 +236,6 @@ const MyProfile = () => {
 										))}
 									</RowLayout2>
 								</RowLayout>
-								<Img
-									onClick={() => updateItem(data.job_offer_id)}
-									src={Edit}
-									style={{
-										width: '59px',
-										position: 'absolute',
-										left: '83%',
-										pointer: 'cursor'
-									}}
-								></Img>
 								<Img
 									onClick={() => deleteItem(data.job_offer_id)}
 									src={TrashCan}
@@ -483,6 +461,7 @@ const JobBox = styled.div`
 
 const JobItem = styled.div`
 	display: flex;
+	align-items: center;
 	gap: 10px;
 `;
 

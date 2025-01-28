@@ -13,6 +13,7 @@ import TrashCan from '../../assets/icon/TrashCan.png';
 import { instance } from '../../api/instance';
 import { Navigate, useNavigate } from 'react-router-dom';
 import DaumPostcode from 'react-daum-postcode';
+import { useRef, useEffect } from 'react';
 
 // Styled Components
 const TitleBox = styled.div`
