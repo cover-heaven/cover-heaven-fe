@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import {
 	Border_Primary,
 	Surface_Background,
@@ -19,6 +18,8 @@ import beer from '../../assets/icon/beer.png';
 import academy from '../../assets/icon/academy.png';
 import WarningModal from '../../components/MyProfile/WarningModal';
 import { useNavigate } from 'react-router-dom';
+import TrashCan from '../../assets/icon/TrashCan.png';
+import Edit from '../../assets/icon/edit.png';
 
 const jobIcons = {
 	카페: coffeeIcon,
@@ -58,6 +59,25 @@ const MyProfile = () => {
 	}, []);
 
 	useEffect(() => {
+		const fetchJobSearchData = async () => {
+			const headers = {
+				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+			};
+			try {
+				const response = await instance.get('/job-searches/my', {
+					headers
+				});
+				setJobSearchData(response.data);
+				setLoading(false);
+			} catch (err) {
+				setError('내 구직글 정보를 불러오는 데 실패했습니다.');
+				setLoading(true);
+			}
+		};
+		fetchJobSearchData();
+	}, []);
+
+	useEffect(() => {
 		const fetchJobOfferData = async () => {
 			const headers = {
 				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
@@ -74,46 +94,54 @@ const MyProfile = () => {
 				setLoading(true);
 			}
 		};
-
 		fetchJobOfferData();
 	}, []);
 
-	useEffect(() => {
-		const fetchJobSearchData = async () => {
-			const headers = {
-				Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-			};
-			try {
-				const response = await instance.get('/job-searches/my', {
-					headers
-				});
-				setJobSearchData(response.data);
-				setLoading(false);
-			} catch (err) {
-				setError('내 구인글글 정보를 불러오는 데 실패했습니다.');
-				setLoading(true);
-			}
-		};
-
-		fetchJobSearchData();
-	}, []);
 	const onChangeTrue = () => {
 		setStatus(true);
 		console.log(status);
 	};
+
 	const onChangeFalse = () => {
 		setStatus(false);
 	};
 
 	const logout = () => {
-		// 로컬 스토리지 전체 삭제
 		localStorage.removeItem('accessToken');
 		localStorage.removeItem('refreshToken');
 		nav('/login');
 	};
 
-	// 아이콘 매칭
-	const iconSrc = jobIcons[jobOfferData?.job_tag] || jobIcons.default;
+	const deleteItem = async (id) => {
+		const headers = {
+			Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+		};
+		try {
+			const response = await instance.delete(`/job-offers/${id}`, {
+				headers
+			});
+			console.log('삭제 성공!', response.data);
+			setJobOfferData((prevData) =>
+				prevData.filter((item) => item.job_offer_id !== id)
+			);
+		} catch (error) {
+			console.error('삭제 실패:', error);
+		}
+	};
+
+	const updateItem = async (id) => {
+		const headers = {
+			Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+		};
+		try {
+			const response = await instance.patch(`/job-offers/${id}`, {
+				headers
+			});
+			console.log('수정 성공!', response.data);
+		} catch (error) {
+			console.error('수정 실패:', error);
+		}
+	};
 
 	// if (loading) {
 	// 	return <div>로딩 중...</div>;
@@ -220,6 +248,26 @@ const MyProfile = () => {
 										))}
 									</RowLayout2>
 								</RowLayout>
+								<Img
+									onClick={() => updateItem(data.job_offer_id)}
+									src={Edit}
+									style={{
+										width: '59px',
+										position: 'absolute',
+										left: '83%',
+										pointer: 'cursor'
+									}}
+								></Img>
+								<Img
+									onClick={() => deleteItem(data.job_offer_id)}
+									src={TrashCan}
+									style={{
+										width: '25px',
+										position: 'absolute',
+										left: '92%',
+										pointer: 'cursor'
+									}}
+								></Img>
 							</AnnouncementItem>
 						))}
 					</AnnouncementBox>
@@ -265,8 +313,8 @@ const MainContainer = styled.div`
 
 const FixLocation = styled.div`
 	position: absolute;
-	left: 86.2%;
-	top: 19%;
+	left: 84.6%;
+	top: 20%;
 `;
 
 const HeadSection = styled.div`
@@ -495,6 +543,7 @@ const AnnouncementBox = styled.div`
 `;
 
 const AnnouncementItem = styled.div`
+	position: relative;
 	border-radius: 20px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
