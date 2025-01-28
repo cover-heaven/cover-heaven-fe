@@ -126,8 +126,10 @@ const MyProfile = () => {
 		<MainContainer>
 			<HeadSection>
 				<PageTitle>
-					<Title>마이페이지</Title>
-					<Highlight></Highlight>
+					<Title>
+						<Highlight />
+						마이페이지
+					</Title>
 				</PageTitle>
 				<PageSubTitle>
 					{profileData?.name} 님의 회원 정보를 확인해보세요.
@@ -277,8 +279,10 @@ const HeadSection = styled.div`
 `;
 
 const PageTitle = styled.div``;
-const Title = styled.div`
+
+const Title = styled.span`
 	font-size: 40px;
+	position: relative;
 `;
 
 const PageSubTitle = styled.div`
@@ -293,8 +297,11 @@ const PageSubTitle = styled.div`
 const Highlight = styled.div`
 	background-color: ${Surface_Primary};
 	opacity: 70%;
-	width: 200px;
 	height: 16px;
+	width: 100%;
+	height: 12px;
+	position: absolute;
+	top: 70%;
 `;
 
 const MainSection = styled.div`

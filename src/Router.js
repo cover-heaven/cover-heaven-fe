@@ -13,6 +13,7 @@ import SignUp from './pages/SignUp/SignUp';
 import MyProfile from './pages/MyProfile/MyProfile';
 import FindJobsDetail from './pages/FindJobsDetail/FindJobsDetail';
 import styled from 'styled-components';
+import ScrollToTop from './components/ScrollToTop';
 
 const Router = () => {
 	const location = useLocation();
@@ -21,6 +22,7 @@ const Router = () => {
 		<>
 			{!hideHeaderRoutes.includes(location.pathname) && <Header />}
 			<Content>
+				<ScrollToTop />
 				<Routes>
 					<Route path="/" element={<Main />} />
 					<Route path="/findjobslist" element={<FindJobsList />} />

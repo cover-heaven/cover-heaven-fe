@@ -94,7 +94,7 @@ const Input = styled.input`
 	}
 `;
 const InputBox = styled.input`
-	width: 80%;
+	width: 82%;
 	height: 49px;
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
@@ -239,7 +239,7 @@ const StyledRadio = styled.input`
 `;
 
 const TimeBox = styled.div`
-	width: 80%;
+	width: 100%;
 `;
 const TotalWage = styled.div`
 	text-align: right;
@@ -251,7 +251,9 @@ const TotalWage = styled.div`
 `;
 
 const StyledWrapper = styled.div`
+	box-sizing: border-box;
 	display: flex;
+	width: 100%;
 	flex-direction: column;
 	align-items: center;
 	h1 {
@@ -274,7 +276,7 @@ const DeleteBox = styled.img`
 
 // DatePicker에 커스텀 스타일 적용
 const StyledDatePicker = styled(DatePicker)`
-	width: 260px;
+	width: 100%;
 	height: 49px;
 	font-size: 16px;
 	border: 1px solid #e8e8e8;

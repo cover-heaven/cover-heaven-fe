@@ -157,11 +157,11 @@ const Layout = styled.div`
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
-	padding-left: 13%;
-	padding-top: 10%;
+	padding: 20px 33px 0 33px;
 	display: flex;
 	flex-direction: column;
 	gap: 8%;
+	position: relative;
 `;
 const InputBox = styled.input`
 	width: 40px;
@@ -170,9 +170,10 @@ const InputBox = styled.input`
 	background: #d9d9d9;
 `;
 const Button = styled.button`
-	width: 170px;
+	width: 140px;
 	height: 30px;
-	padding: 0px 51px;
+	position: absolute;
+	top: 77%;
 	border-radius: 10px;
 	color: white;
 	background: var(--surface-surface-primary, #ff5238);

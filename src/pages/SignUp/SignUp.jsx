@@ -312,7 +312,6 @@ const Layout = styled.div`
 	width: 100%;
 	height: auto;
 	padding: 0 calc(100 / 1512 * 100vw);
-	/* padding-top: 5%; */
 	gap: calc(100 / 1512 * 100vw);
 	position: relative;
 `;
