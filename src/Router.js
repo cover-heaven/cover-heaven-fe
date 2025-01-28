@@ -44,5 +44,5 @@ const Router = () => {
 export default Router;
 
 const Content = styled.div`
-	padding-top: 86px;
+	padding-top: 70px;
 `;

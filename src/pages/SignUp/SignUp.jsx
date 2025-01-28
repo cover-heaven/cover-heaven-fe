@@ -238,8 +238,8 @@ const SignUp = () => {
 								onChange={onChangeData}
 							/>
 						</div>
-						<div>
-							<div>학생증 인증</div>
+						<div className="student-card">
+							<div>학생증 인증 (이름, 학과, 학번이 보이는 사진) </div>
 							<input
 								name="sutdent_card"
 								type="file"
@@ -345,6 +345,11 @@ const SecondLayout = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+	.student-card {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
 `;
 const ThirdLayout = styled.div`
 	display: flex;
