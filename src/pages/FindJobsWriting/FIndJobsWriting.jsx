@@ -272,6 +272,7 @@ const StyledWrapper = styled.div`
 const DeleteBox = styled.img`
 	cursor: pointer;
 	width: 49px;
+	height: 49px;
 `;
 
 // DatePicker에 커스텀 스타일 적용
@@ -336,7 +337,14 @@ const FindJobsWriting = () => {
 					job_tag: selectedTag,
 					address: address,
 					work_detail: dateTimeInputs.map((input) => ({
-						work_date: input.date.toISOString().split('T')[0],
+						work_date: input.date
+							.toLocaleDateString('ko-KR', {
+								year: 'numeric',
+								month: '2-digit',
+								day: '2-digit'
+							})
+							.replace(/\. /g, '-')
+							.replace('.', ''), // ✅ 한국 시간대 적용
 						work_hour: input.timeData,
 						hourly_wage: input.hourlyWage
 					})),
@@ -550,7 +558,7 @@ const FindJobsWriting = () => {
 							<div>
 								<TotalWage>
 									일급&nbsp;
-									{(
+									{Math.round(
 										Number(input.workTime || 0) * Number(input.hourlyWage || 0)
 									).toLocaleString()}
 									원

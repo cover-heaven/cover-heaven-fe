@@ -341,11 +341,22 @@ const FindJobsList = () => {
 
 	// 공고일까지 남은 날짜 계산 함수
 	const dayLeftCalculator = (dateString) => {
-		const targetDate = new Date(dateString); // 입력된 날짜를 Date 객체로 변환
-		const currentDate = new Date(); // 현재 날짜
+		// 입력된 날짜를 한국 시간(UTC+9) 기준으로 변환
+		const targetDate = new Date(dateString);
 
-		const diffInMilliseconds = targetDate - currentDate; // 밀리초 단위로 차이 계산
-		const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24)); // 일수로 변환
+		// 현재 날짜를 한국 시간으로 설정
+		const currentDate = new Date();
+		const koreaTimeOffset = 9 * 60; // 한국 시간대 (UTC+9)
+
+		// 한국 시간 기준으로 날짜 보정
+		const currentUTC =
+			currentDate.getTime() + currentDate.getTimezoneOffset() * 60000;
+		const koreaCurrentDate = new Date(currentUTC + koreaTimeOffset * 60000);
+
+		// 차이 계산
+		const diffInMilliseconds = targetDate - koreaCurrentDate;
+		const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24)); // 일수 변환
+
 		return diffInDays;
 	};
 
@@ -353,7 +364,11 @@ const FindJobsList = () => {
 	const filteredData = () => {
 		return serverData
 			? serverData
-					.filter((data) => dayLeftCalculator(data.work_date) >= 0)
+					.filter((data) =>
+						data.work_detail.some(
+							(data) => dayLeftCalculator(data.work_date) >= 0
+						)
+					)
 					.filter((data) =>
 						searchData
 							? data.title.toLowerCase().includes(searchData.toLowerCase())
@@ -361,10 +376,10 @@ const FindJobsList = () => {
 					)
 					.filter((data) => (selectedJob ? data.job_tag === selectedJob : true))
 					.filter((data) => {
-						if (!selectedDates.length) return true; // 선택된 날짜가 없으면 모든 데이터를 반환
+						if (!selectedDates.length) return true;
 						const formattedWorkDates = data.work_date.map((date) =>
 							date.replace(/-/g, '')
-						); // 'YYYY-MM-DD' → 'YYYYMMDD'
+						);
 						return selectedDates.some((selectedDate) =>
 							formattedWorkDates.includes(selectedDate)
 						);

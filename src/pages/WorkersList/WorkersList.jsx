@@ -30,63 +30,6 @@ export const calculateAge = (birthDate) => {
 	return age;
 };
 
-const mockData1 = [
-	{
-		job_search_id: '1',
-		profile: '글로벌한국학과 23',
-		gender: '남성',
-		uer_name: '김동휘',
-		department: '글로벌한국학과',
-		student_id: '23학번',
-		birth_date: '1998-12-02',
-		manner_temperature: '55',
-		job_tag: ['학원', '과외', '카페']
-	},
-	{
-		job_search_id: '2',
-		profile: '경영학과 23',
-		gender: '남성',
-		uer_name: '이형빈',
-		department: '경영학과',
-		student_id: '24학번',
-		birth_date: '1992-12-02',
-		manner_temperature: '40',
-		job_tag: ['식당', '주점', '카페']
-	},
-	{
-		job_search_id: '3',
-		profile: '미국문화학과 19',
-		gender: '여성',
-		uer_name: '유민우',
-		department: '미국문화학과',
-		student_id: '19학번',
-		birth_date: '1995-12-02',
-		manner_temperature: '81',
-		job_tag: ['식당', '주점', '편의점']
-	},
-	{
-		job_search_id: '4',
-		profile: '컴퓨터공학과 24',
-		gender: '남성',
-		uer_name: '김현승',
-		department: '컴퓨터공학과',
-		student_id: '24학번',
-		birth_date: '2003-12-02',
-		manner_temperature: '42',
-		job_tag: ['식당', '편의점', '카페']
-	},
-	{
-		job_search_id: '5',
-		profile: '사진',
-		gender: '여성',
-		uer_name: '유서강',
-		department: '유럽문화학과',
-		student_id: '24학번',
-		birth_date: '2001-12-02',
-		manner_temperature: '90',
-		job_tag: ['식당', '주점', '카페']
-	}
-];
 const WorkersList = () => {
 	const [age, setAge] = useState('');
 	const [gender, setGender] = useState('');
@@ -207,8 +150,8 @@ const WorkersList = () => {
 };
 
 const Layout = styled.div`
-	width: 100vw;
-
+	width: 100%;
+	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	gap: 45px;

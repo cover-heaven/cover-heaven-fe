@@ -139,7 +139,7 @@ export default WorkingTime;
 
 const WorkTime = styled.div`
 	display: flex;
-	gap: 10%;
+	gap: 5%;
 `;
 const FirstContainer = styled.div`
 	display: flex;

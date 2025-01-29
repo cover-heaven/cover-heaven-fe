@@ -56,8 +56,7 @@ const HourlyWageContainer = styled.div`
 const TotalWageContainer = styled.div`
 	width: 16.5%;
 `;
-const DdayContainer = styled.div`
-`;
+const DdayContainer = styled.div``;
 
 const Img = styled.img`
 	width: 50px;
@@ -111,20 +110,29 @@ const FindJobsItem = ({ data }) => {
 		return acc + workTime * job.hourly_wage;
 	}, 0);
 
-	const dayLeftCalculator = (time) => {
-		const targetDate = new Date(time); // 목표 날짜
-		const currentDate = new Date(); // 현재 날짜
+	// 공고일까지 남은 날짜 계산 함수
+	const dayLeftCalculator = (dateString) => {
+		// 입력된 날짜를 한국 시간(UTC+9) 기준으로 변환
+		const targetDate = new Date(dateString);
 
-		// 밀리초 단위 차이 계산
-		const diffInMilliseconds = targetDate - currentDate;
+		// 현재 날짜를 한국 시간으로 설정
+		const currentDate = new Date();
+		const koreaTimeOffset = 9 * 60; // 한국 시간대 (UTC+9)
 
-		// 밀리초를 일수로 변환
-		const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
+		// 한국 시간 기준으로 날짜 보정
+		const currentUTC =
+			currentDate.getTime() + currentDate.getTimezoneOffset() * 60000;
+		const koreaCurrentDate = new Date(currentUTC + koreaTimeOffset * 60000);
+
+		// 차이 계산
+		const diffInMilliseconds = targetDate - koreaCurrentDate;
+		const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24)); // 일수 변환
+
 		return diffInDays;
 	};
+
 	const nav = useNavigate();
 
-	// 아이콘 매칭
 	const iconSrc = jobIcons[data.job_tag] || jobIcons.default;
 
 	return (
@@ -134,7 +142,7 @@ const FindJobsItem = ({ data }) => {
 				<div>{data.title}</div>
 				<RowLayout>
 					{data.work_detail?.map((detail, index) => (
-						<DateBox key={`${data.job_offer_id}-${index}`}>
+						<DateBox key={index}>
 							{detail.work_date.slice(5, 7)}/{detail.work_date.slice(8, 10)}
 						</DateBox>
 					))}
