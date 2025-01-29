@@ -9,7 +9,7 @@ import {
 	Text_Primary,
 	Text_Tertiary
 } from '../../styles/color';
-import TrashCan from '../../assets/icon/TrashCan.png';
+import deleteBox from '../../assets/icon/deleteBox.png';
 import { instance } from '../../api/instance';
 import { Navigate, useNavigate } from 'react-router-dom';
 import DaumPostcode from 'react-daum-postcode';
@@ -272,7 +272,6 @@ const StyledWrapper = styled.div`
 const DeleteBox = styled.img`
 	cursor: pointer;
 	width: 49px;
-	height: 49px;
 `;
 
 // DatePicker에 커스텀 스타일 적용
@@ -544,7 +543,7 @@ const FindJobsWriting = () => {
 									value={input.hourlyWage}
 								/>
 								<DeleteBox
-									src={TrashCan}
+									src={deleteBox}
 									onClick={() => onDelete(input.id)}
 								></DeleteBox>
 							</RowLayout>
