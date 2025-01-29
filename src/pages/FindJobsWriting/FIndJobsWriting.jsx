@@ -47,7 +47,7 @@ const AddressInput = styled.div`
 	width: 100%;
 `;
 const P = styled.div`
-	width: 120px;
+	width: 130px;
 	padding-right: 1%;
 	margin-top: 10px;
 	color: ${Text_Primary};
