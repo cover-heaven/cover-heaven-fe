@@ -354,7 +354,7 @@ const FindJobsList = () => {
 
 		// 차이 계산
 		const diffInMilliseconds = targetDate - koreaCurrentDate;
-		const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24)); // 일수 변환
+		const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24)); // 일수 변환
 
 		return diffInDays;
 	};
@@ -385,11 +385,10 @@ const FindJobsList = () => {
 					})
 					.filter((data) => {
 						if (!urgentFilter) return true; // 급구 필터가 활성화되지 않았으면 모든 데이터 반환
-
 						// work_detail의 각 날짜를 순회하며 확인
 						return data.work_detail.some((detail) => {
-							const daysLeft = dayLeftCalculator(detail.work_date); // 남은 일수 계산
-							return daysLeft <= 3; // 남은 일수가 3일 이하
+							const daysLeft = dayLeftCalculator(detail.work_date);
+							return daysLeft >= 0 && daysLeft <= 3;
 						});
 					})
 			: [];

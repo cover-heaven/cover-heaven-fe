@@ -126,7 +126,7 @@ const FindJobsItem = ({ data }) => {
 
 		// 차이 계산
 		const diffInMilliseconds = targetDate - koreaCurrentDate;
-		const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24)); // 일수 변환
+		const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24)); // 일수 변환
 
 		return diffInDays;
 	};
@@ -135,13 +135,19 @@ const FindJobsItem = ({ data }) => {
 
 	const iconSrc = jobIcons[data.job_tag] || jobIcons.default;
 
+	const filteredData = () => {
+		return data.work_detail.filter(
+			(data) => dayLeftCalculator(data.work_date) >= 0
+		);
+	};
+
 	return (
 		<Layout onClick={() => nav(`/findjobsdetail/${data.job_offer_id}`)}>
 			<Img src={iconSrc} alt={`${data.job_tag} icon`} />
 			<TitleContainer>
 				<div>{data.title}</div>
 				<RowLayout>
-					{data.work_detail?.map((detail, index) => (
+					{filteredData()?.map((detail, index) => (
 						<DateBox key={index}>
 							{detail.work_date.slice(5, 7)}/{detail.work_date.slice(8, 10)}
 						</DateBox>
@@ -161,7 +167,7 @@ const FindJobsItem = ({ data }) => {
 			</TotalWageContainer>
 			<DdayContainer>
 				<DdayText>
-					D - {dayLeftCalculator(data.work_detail[0]?.work_date)}
+					D - {dayLeftCalculator(filteredData()[0]?.work_date)}
 				</DdayText>
 			</DdayContainer>
 		</Layout>
