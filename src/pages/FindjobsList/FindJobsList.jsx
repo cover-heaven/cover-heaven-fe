@@ -183,108 +183,108 @@ const SelectedDate = styled.div`
 	}
 `;
 
-const mockData = [
-	{
-		job_offer_id: 4,
-		title: '광흥창 투썸 알바 급구',
-		store_name: '투썸 플레이스',
-		job_tag: '술집',
-		address: '서울시 마포구 광흥창역',
-		work_detail: [
-			{
-				work_date: '2025-01-09',
-				work_hour: '10:00-18:00',
-				hourly_wage: 15000
-			},
-			{
-				work_date: '2025-01-10',
-				work_hour: '10:00-18:00',
-				hourly_wage: 15000
-			}
-		],
-		work_date: ['2024-12-09', '2024-12-10']
-	},
-	{
-		job_offer_id: 3,
-		title: '광흥창 투썸 알바 급구',
-		store_name: '투썸 플레이스',
-		job_tag: '카페',
-		address: '서울시 마포구 광흥창역',
-		work_detail: [
-			{
-				work_date: '2025-01-07',
-				work_hour: '10:00-18:00',
-				hourly_wage: 12000
-			},
-			{
-				work_date: '2025-01-08',
-				work_hour: '10:00-18:00',
-				hourly_wage: 12000
-			}
-		],
-		work_date: ['2024-12-07', '2024-12-08']
-	},
-	{
-		job_offer_id: 2,
-		title: '수학 과외 알바 급구합니다',
-		store_name: '수학과외',
-		job_tag: '과외',
-		address: '서울시 서대구문구 연세로',
-		work_detail: [
-			{
-				work_date: '2025-01-05',
-				work_hour: '10:00-18:00',
-				hourly_wage: 12000
-			},
-			{
-				work_date: '2025-01-06',
-				work_hour: '10:00-18:00',
-				hourly_wage: 12000
-			}
-		],
-		work_date: ['2024-12-05', '2024-12-06']
-	},
-	{
-		job_offer_id: 1,
-		title: '고밥 알바 급구합니다',
-		store_name: '고기마니밥마니',
-		job_tag: '식당',
-		address: '서울시 마포구 백범로',
-		work_detail: [
-			{
-				work_date: '2025-01-03',
-				work_hour: '10:00-18:00',
-				hourly_wage: 12000
-			},
-			{
-				work_date: '2025-01-04',
-				work_hour: '10:00-18:00',
-				hourly_wage: 12000
-			}
-		],
-		work_date: ['2024-12-03', '2024-12-04']
-	},
-	{
-		job_offer_id: 0,
-		title: '신촌역 나무카페 알바 급구합니다',
-		store_name: '나무카페',
-		job_tag: '카페',
-		address: '서울시 서대구문구 연세로',
-		work_detail: [
-			{
-				work_date: '2025-01-01',
-				work_hour: '10:00-18:00',
-				hourly_wage: 12000
-			},
-			{
-				work_date: '2025-01-02',
-				work_hour: '10:00-18:00',
-				hourly_wage: 12000
-			}
-		],
-		work_date: ['2024-12-01', '2024-12-02']
-	}
-];
+// const mockData = [
+// 	{
+// 		job_offer_id: 4,
+// 		title: '광흥창 투썸 알바 급구',
+// 		store_name: '투썸 플레이스',
+// 		job_tag: '술집',
+// 		address: '서울시 마포구 광흥창역',
+// 		work_detail: [
+// 			{
+// 				work_date: '2025-01-09',
+// 				work_hour: '10:00-18:00',
+// 				hourly_wage: 15000
+// 			},
+// 			{
+// 				work_date: '2025-01-10',
+// 				work_hour: '10:00-18:00',
+// 				hourly_wage: 15000
+// 			}
+// 		],
+// 		work_date: ['2024-12-09', '2024-12-10']
+// 	},
+// 	{
+// 		job_offer_id: 3,
+// 		title: '광흥창 투썸 알바 급구',
+// 		store_name: '투썸 플레이스',
+// 		job_tag: '카페',
+// 		address: '서울시 마포구 광흥창역',
+// 		work_detail: [
+// 			{
+// 				work_date: '2025-01-07',
+// 				work_hour: '10:00-18:00',
+// 				hourly_wage: 12000
+// 			},
+// 			{
+// 				work_date: '2025-01-08',
+// 				work_hour: '10:00-18:00',
+// 				hourly_wage: 12000
+// 			}
+// 		],
+// 		work_date: ['2024-12-07', '2024-12-08']
+// 	},
+// 	{
+// 		job_offer_id: 2,
+// 		title: '수학 과외 알바 급구합니다',
+// 		store_name: '수학과외',
+// 		job_tag: '과외',
+// 		address: '서울시 서대구문구 연세로',
+// 		work_detail: [
+// 			{
+// 				work_date: '2025-01-05',
+// 				work_hour: '10:00-18:00',
+// 				hourly_wage: 12000
+// 			},
+// 			{
+// 				work_date: '2025-01-06',
+// 				work_hour: '10:00-18:00',
+// 				hourly_wage: 12000
+// 			}
+// 		],
+// 		work_date: ['2024-12-05', '2024-12-06']
+// 	},
+// 	{
+// 		job_offer_id: 1,
+// 		title: '고밥 알바 급구합니다',
+// 		store_name: '고기마니밥마니',
+// 		job_tag: '식당',
+// 		address: '서울시 마포구 백범로',
+// 		work_detail: [
+// 			{
+// 				work_date: '2025-01-03',
+// 				work_hour: '10:00-18:00',
+// 				hourly_wage: 12000
+// 			},
+// 			{
+// 				work_date: '2025-01-04',
+// 				work_hour: '10:00-18:00',
+// 				hourly_wage: 12000
+// 			}
+// 		],
+// 		work_date: ['2024-12-03', '2024-12-04']
+// 	},
+// 	{
+// 		job_offer_id: 0,
+// 		title: '신촌역 나무카페 알바 급구합니다',
+// 		store_name: '나무카페',
+// 		job_tag: '카페',
+// 		address: '서울시 서대구문구 연세로',
+// 		work_detail: [
+// 			{
+// 				work_date: '2025-01-01',
+// 				work_hour: '10:00-18:00',
+// 				hourly_wage: 12000
+// 			},
+// 			{
+// 				work_date: '2025-01-02',
+// 				work_hour: '10:00-18:00',
+// 				hourly_wage: 12000
+// 			}
+// 		],
+// 		work_date: ['2024-12-01', '2024-12-02']
+// 	}
+// ];
 
 const formatDate = (dateString) => {
 	const year = dateString.slice(2, 4); // 앞 두 자리 연도
@@ -312,9 +312,8 @@ const FindJobsList = () => {
 					headers
 				});
 				setServerData(response.data);
-				// console.log(response.data);
 			} catch (err) {
-				// console.log('실패');
+				console.log('실패');
 			}
 		};
 		fetchData();

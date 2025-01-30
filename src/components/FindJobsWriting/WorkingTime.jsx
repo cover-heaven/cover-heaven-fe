@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const WorkingTime = ({ setContent, upDateWorkingTime }) => {
+const WorkingTime = ({ isActiveOff, setContent, upDateWorkingTime }) => {
 	const [startHour, setStartHour] = useState('');
 	const [startMinute, setStartMinute] = useState('');
 	const [endHour, setEndHour] = useState('');
@@ -9,6 +9,7 @@ const WorkingTime = ({ setContent, upDateWorkingTime }) => {
 	const [hour, setHour] = useState(0);
 	const [minute, setMinute] = useState(0);
 	const [workTime, setWorkTime] = useState(0);
+	const [isVisible, setIsVisible] = useState(false);
 
 	const calculateWorkTime = (
 		newStartHour,
@@ -102,11 +103,12 @@ const WorkingTime = ({ setContent, upDateWorkingTime }) => {
 	const onCreate = () => {
 		setContent(false);
 		upDateWorkingTime(startHour, startMinute, endHour, endMinute);
+		isActiveOff();
 	};
 
 	return (
 		<Layout>
-			<div>근무시간</div>
+			<Title>근무시간</Title>
 			<FirstContainer>
 				<div>출근</div>
 				<div>
@@ -137,9 +139,16 @@ const WorkingTime = ({ setContent, upDateWorkingTime }) => {
 
 export default WorkingTime;
 
+const Title = styled.div``;
+
 const WorkTime = styled.div`
 	display: flex;
 	gap: 5%;
+	position: absolute;
+	top: 68%;
+	left: 66%;
+	transform: translate(-50%, -50%);
+	width: 200px;
 `;
 const FirstContainer = styled.div`
 	display: flex;
@@ -153,14 +162,14 @@ const SecondContainer = styled.div`
 `;
 const Layout = styled.div`
 	width: 100%;
-	height: 231px;
+	height: 268px;
 	border-radius: 15px;
 	border: 1px solid #e8e8e8;
 	background: #fff;
-	padding: 20px 33px 0 33px;
+	padding: 20px 30px 0 30px;
 	display: flex;
 	flex-direction: column;
-	gap: 8%;
+	gap: 11%;
 	position: relative;
 `;
 const InputBox = styled.input`
@@ -168,12 +177,13 @@ const InputBox = styled.input`
 	height: 30px;
 	border-radius: 5px;
 	background: #d9d9d9;
+	text-align: center;
 `;
 const Button = styled.button`
-	width: 140px;
+	width: 143px;
 	height: 30px;
 	position: absolute;
-	top: 77%;
+	top: 79%;
 	border-radius: 10px;
 	color: white;
 	background: var(--surface-surface-primary, #ff5238);

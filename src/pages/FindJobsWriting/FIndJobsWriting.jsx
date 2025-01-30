@@ -159,6 +159,7 @@ const ItemLayout = styled.div`
 	flex-direction: column;
 	width: 100%;
 	gap: 6px;
+	padding-bottom: ${({ isActive }) => (isActive ? '195px' : '0px')};
 `;
 const AddButton = styled.button`
 	width: 100%;
@@ -168,6 +169,11 @@ const AddButton = styled.button`
 	border: 1px solid var(--surface-surface-primary, #ff5238);
 	background: #fff;
 	color: #ff5238;
+	transition: all 0.1s ease-in-out;
+	&:hover {
+		background-color: #ff5238;
+		color: white;
+	}
 `;
 const MainTitle = styled.div`
 	/* display: flex;
@@ -241,6 +247,7 @@ const StyledRadio = styled.input`
 
 const TimeBox = styled.div`
 	width: 100%;
+	position: relative;
 `;
 const TotalWage = styled.div`
 	text-align: right;
@@ -257,6 +264,7 @@ const StyledWrapper = styled.div`
 	width: 100%;
 	flex-direction: column;
 	align-items: center;
+	padding-bottom: ${({ isActive }) => (isActive ? '195px' : '0px')};
 	h1 {
 		font-size: 24px;
 		margin-bottom: 16px;
@@ -288,6 +296,12 @@ const StyledDatePicker = styled(DatePicker)`
 	}
 `;
 
+const WorkingTimeLocation = styled.div`
+	width: 100%;
+	position: absolute;
+	top: 0;
+`;
+
 // Main Component
 const FindJobsWriting = () => {
 	const [dateTimeInputs, setDateTimeInputs] = useState([
@@ -306,7 +320,6 @@ const FindJobsWriting = () => {
 	const [address, setAddress] = useState('');
 	const [message, setMessage] = useState('');
 	const [selectedTag, setSelectedTag] = useState('');
-	const [workDetail, setWorkDetail] = useState([]);
 	const nav = useNavigate();
 
 	// 서버 전송
@@ -380,6 +393,7 @@ const FindJobsWriting = () => {
 	// 근무일자 삭제
 	const onDelete = (id) => {
 		setDateTimeInputs((prev) => prev.filter((input) => input.id !== id));
+		setIsActive(null);
 	};
 
 	// 특정 입력 항목 업데이트
@@ -398,6 +412,7 @@ const FindJobsWriting = () => {
 				input.id === id ? { ...input, content: true } : input
 			)
 		);
+		setIsActive(id);
 	};
 
 	// WorkingTime 닫기
@@ -447,6 +462,12 @@ const FindJobsWriting = () => {
 
 	const handleComplete = (data) => {
 		setAddress(data.address); // 도로명 주소 저장
+	};
+
+	const [isActive, setIsActive] = useState();
+
+	const isActiveOff = () => {
+		setIsActive(null);
 	};
 
 	return (
@@ -507,9 +528,9 @@ const FindJobsWriting = () => {
 				<P>근무 조건</P>
 				<ColumnLayout>
 					{dateTimeInputs.map((input) => (
-						<ItemLayout key={input.id}>
+						<ItemLayout key={input.id} isActive={isActive === input.id}>
 							<RowLayout>
-								<StyledWrapper>
+								<StyledWrapper onClick={() => setIsActive(input.id)}>
 									<StyledDatePicker
 										dateFormat="yyyy-MM-dd"
 										selected={input.date}
@@ -519,29 +540,34 @@ const FindJobsWriting = () => {
 								</StyledWrapper>
 								<TimeBox>
 									<Input
-										onClick={() => openWorkingTime(input.id)}
+										onClick={() => {
+											openWorkingTime(input.id);
+										}}
 										placeholder="00시 00분 - 00시 00분"
 										value={input.timeString}
 									/>
-									{input.content && (
-										<WorkingTime
-											upDateWorkingTime={(
-												startHour,
-												startMinute,
-												endHour,
-												endMinute
-											) =>
-												upDateWorkingTime(
-													input.id,
+									<WorkingTimeLocation>
+										{input.content && (
+											<WorkingTime
+												isActiveOff={isActiveOff}
+												upDateWorkingTime={(
 													startHour,
 													startMinute,
 													endHour,
 													endMinute
-												)
-											}
-											setContent={() => closeWorkingTime(input.id)}
-										/>
-									)}
+												) =>
+													upDateWorkingTime(
+														input.id,
+														startHour,
+														startMinute,
+														endHour,
+														endMinute
+													)
+												}
+												setContent={() => closeWorkingTime(input.id)}
+											/>
+										)}
+									</WorkingTimeLocation>
 								</TimeBox>
 								<InputBox
 									onChange={(e) =>

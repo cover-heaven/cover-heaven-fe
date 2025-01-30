@@ -38,17 +38,17 @@ const TitleContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding-left: 2%;
-	width: 33%;
-	gap: 3px;
+	width: 30%;
+	gap: 4px;
 	color: ${Text_Primary};
-	font-size: 20px;
+	font-size: 18px;
 	font-style: normal;
 	font-weight: 700;
 	line-height: normal;
 `;
 
 const AddressContainer = styled.div`
-	width: 21%;
+	width: 24%;
 `;
 const HourlyWageContainer = styled.div`
 	width: 16%;
