@@ -14,6 +14,7 @@ import MyProfile from './pages/MyProfile/MyProfile';
 import FindJobsDetail from './pages/FindJobsDetail/FindJobsDetail';
 import styled from 'styled-components';
 import ScrollToTop from './components/ScrollToTop';
+import Blocked from './pages/Blocked/Blocked';
 
 const Router = () => {
 	const location = useLocation();
@@ -35,6 +36,7 @@ const Router = () => {
 					<Route path="/myprofile" element={<MyProfile />} />
 					<Route path="/signup" element={<SignUp />} />
 					<Route path="/login" element={<Login />} />
+					<Route path="/blocked" element={<Blocked />} />
 				</Routes>
 			</Content>
 		</>

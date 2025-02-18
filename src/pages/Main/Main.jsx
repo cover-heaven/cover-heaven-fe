@@ -6,6 +6,7 @@ import Section2 from '../../components/Main/Section2';
 import Section3 from '../../components/Main/Section3';
 import Section4 from '../../components/Main/Section4';
 import Section5 from '../../components/Main/Section5';
+import { useNavigate } from 'react-router-dom';
 
 const calculateDistance = (mouseX, mouseY, dotX, dotY) => {
 	const dx = dotX - mouseX;
@@ -16,6 +17,7 @@ const calculateDistance = (mouseX, mouseY, dotX, dotY) => {
 const Main = () => {
 	const [dotList, setDotList] = useState([]);
 	const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const handleMouseMove = (event) => {
@@ -26,7 +28,7 @@ const Main = () => {
 		};
 		if (window.innerWidth < 1100) {
 			alert('모바일에서는 접속이 불가능합니다. PC에서 이용해 주세요.');
-			// navigate('/blocked'); // 접근 불가 페이지로 리디렉트
+			navigate('/blocked'); // 접근 불가 페이지로 리디렉트
 			return null; // 이 컴포넌트는 UI를 렌더링하지 않음
 		}
 
