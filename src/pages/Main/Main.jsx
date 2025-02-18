@@ -24,6 +24,11 @@ const Main = () => {
 				y: event.clientY + window.scrollY
 			});
 		};
+		if (window.innerWidth < 1100) {
+			alert('모바일에서는 접속이 불가능합니다. PC에서 이용해 주세요.');
+			// navigate('/blocked'); // 접근 불가 페이지로 리디렉트
+			return null; // 이 컴포넌트는 UI를 렌더링하지 않음
+		}
 
 		const delayDotRender = setTimeout(() => {
 			window.addEventListener('mousemove', handleMouseMove);
