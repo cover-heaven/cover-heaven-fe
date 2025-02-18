@@ -18,7 +18,7 @@ import Blocked from './pages/Blocked/Blocked';
 
 const Router = () => {
 	const location = useLocation();
-	const hideHeaderRoutes = ['/login', '/signup'];
+	const hideHeaderRoutes = ['/login', '/signup', '/blocked'];
 	return (
 		<>
 			{!hideHeaderRoutes.includes(location.pathname) && <Header />}
